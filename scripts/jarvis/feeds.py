@@ -70,6 +70,20 @@ class Fetcher:
             return Response(None, url, error=f"{type(exc).__name__}: {exc}"[:200])
 
 
+    def get_bytes(self, url: str, max_bytes: int) -> tuple[int | None, str, bytes]:
+        req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "image/avif,image/webp,image/*"})
+        try:
+            with urllib.request.urlopen(req, timeout=self.timeout, context=self.ctx) as resp:
+                data = resp.read(max_bytes + 1)
+                if len(data) > max_bytes:
+                    return resp.status, "", b""
+                return resp.status, resp.headers.get("Content-Type", ""), data
+        except urllib.error.HTTPError as exc:
+            return exc.code, "", b""
+        except Exception:
+            return None, "", b""
+
+
 class FixtureFetcher(Fetcher):
     """Serves feeds from fixtures/feeds/<source-id>.xml and articles from fixtures/articles.json."""
 
@@ -92,6 +106,12 @@ class FixtureFetcher(Fetcher):
         if art is None:
             return Response(404, url, error="HTTP 404")
         return Response(art.get("status", 200), url, art.get("html", ""))
+
+    def get_bytes(self, url: str, max_bytes: int):
+        img = self.articles.get(url)
+        if not img or "image_type" not in img:
+            return 404, "", b""
+        return 200, img["image_type"], b"\x89PNG fixture"
 
 
 def _parse_date(value: str | None) -> datetime | None:

@@ -10,6 +10,11 @@ on:
         description: "Rebuild today's edition even if it already exists"
         type: boolean
         default: false
+      refresh_images_date:
+        description: "Only look up publisher images for this existing edition (YYYY-MM-DD); skips generation"
+        type: string
+        required: false
+        default: ""
   push:
     branches: [main]
 
@@ -45,7 +50,11 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           JARVIS_MODEL: ${{ vars.JARVIS_MODEL }}
         run: |
-          python scripts/generate-news.py ${{ inputs.force && '--force' || '' }}
+          if [ -n "${{ inputs.refresh_images_date }}" ]; then
+            python scripts/generate-news.py --refresh-images "${{ inputs.refresh_images_date }}"
+          else
+            python scripts/generate-news.py ${{ inputs.force && '--force' || '' }}
+          fi
 
       - name: Validate before publishing
         run: python scripts/validate.py
@@ -56,11 +65,12 @@ jobs:
           git config user.name "JARVIS AI News Bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html news data assets/images/covers
+          if [ -d assets/images/news ]; then git add assets/images/news; fi
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "edition: ${{ steps.generate.outputs.date }}"
+          git commit -m "edition: ${{ steps.generate.outputs.date }}${{ inputs.refresh_images_date && ' (publisher images)' || '' }}"
           git pull --rebase origin main
           git push origin HEAD:main
 

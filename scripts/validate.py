@@ -83,15 +83,31 @@ def check(root: Path, cfg: dict, sources: dict, check_cron: bool = True) -> list
                 if not s["verification"].get("checks"):
                     errs.append(f"{tag}/{sid}: no verification checks recorded")
                 img = s["image"]
-                if img.get("type") == "generated":
-                    cover = root / img["src"]
+                kind = img.get("type")
+                fallback = img.get("fallback") or (img["src"] if kind == "generated" else None)
+                if kind not in ("generated", "publisher", "publisher-copy"):
+                    errs.append(f"{tag}/{sid}: unknown image type {kind}")
+                if not fallback:
+                    errs.append(f"{tag}/{sid}: no generated fallback cover recorded")
+                else:
+                    cover = root / fallback
                     if not cover.exists():
-                        errs.append(f"{tag}/{sid}: cover image missing {img['src']}")
+                        errs.append(f"{tag}/{sid}: cover image missing {fallback}")
                     else:
                         try:
                             ET.parse(cover)
                         except ET.ParseError as exc:
                             errs.append(f"{tag}/{sid}: cover SVG is not well-formed ({exc})")
+                if kind == "publisher":
+                    if not img["src"].startswith("https://"):
+                        errs.append(f"{tag}/{sid}: publisher image is not https")
+                    if not img.get("credit"):
+                        errs.append(f"{tag}/{sid}: publisher image has no credit")
+                if kind == "publisher-copy":
+                    if cfg["images"]["mode"] != "publisher-download":
+                        errs.append(f"{tag}/{sid}: downloaded publisher image present but download mode is off")
+                    if not (root / img["src"]).exists():
+                        errs.append(f"{tag}/{sid}: downloaded image missing {img['src']}")
         if not (root / "news" / f"{path.stem}.html").exists():
             errs.append(f"{tag}: news/{path.stem}.html missing")
 

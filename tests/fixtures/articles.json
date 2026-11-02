@@ -1,7 +1,7 @@
 {
  "https://www.bbc.com/news/articles/acme-open-model": {
   "status": 200,
-  "html": "<html><head><title>Acme AI open model</title><meta property=\"article:published_time\" content=\"2026-11-02T19:30:00Z\"><meta property=\"og:description\" content=\"Acme AI open model\"></head><body><nav>menu</nav><p>Acme AI has released an open-weights artificial intelligence model with 70bn parameters, the company said on Monday, making it one of the largest openly available systems.</p><p>The firm said the model matches larger rivals on coding benchmarks and is licensed for commercial use by businesses of any size.</p></body></html>"
+  "html": "<html><head><meta property=\"og:image\" content=\"/images/acme-hero.jpg\"><title>Acme AI open model</title><meta property=\"article:published_time\" content=\"2026-11-02T19:30:00Z\"><meta property=\"og:description\" content=\"Acme AI open model\"></head><body><nav>menu</nav><p>Acme AI has released an open-weights artificial intelligence model with 70bn parameters, the company said on Monday, making it one of the largest openly available systems.</p><p>The firm said the model matches larger rivals on coding benchmarks and is licensed for commercial use by businesses of any size.</p></body></html>"
  },
  "https://techcrunch.com/2026/11/02/republished-agents/": {
   "status": 200,
@@ -13,7 +13,7 @@
  },
  "https://deepmind.google/discover/blog/science-benchmark/": {
   "status": 200,
-  "html": "<html><head><title>Science benchmark</title><meta property=\"article:published_time\" content=\"2026-11-02T16:00:00Z\"><meta property=\"og:description\" content=\"Science benchmark\"></head><body><nav>menu</nav><p>Researchers introduce a benchmark of 1,200 problems designed to evaluate whether AI models can reason through scientific questions step by step.</p></body></html>"
+  "html": "<html><head><meta property=\"og:image\" content=\"https://deepmind.google/static/logo-default.png\"><title>Science benchmark</title><meta property=\"article:published_time\" content=\"2026-11-02T16:00:00Z\"><meta property=\"og:description\" content=\"Science benchmark\"></head><body><nav>menu</nav><p>Researchers introduce a benchmark of 1,200 problems designed to evaluate whether AI models can reason through scientific questions step by step.</p></body></html>"
  },
  "https://www.medianama.com/2026/11/223-meity-draft-ai-rules/": {
   "status": 200,
@@ -26,5 +26,8 @@
  "https://www.thehindu.com/sci-tech/technology/chennai-hospital-ai-triage/article1.ece": {
   "status": 403,
   "html": ""
+ },
+ "https://www.bbc.com/images/acme-hero.jpg": {
+  "image_type": "image/jpeg"
  }
 }

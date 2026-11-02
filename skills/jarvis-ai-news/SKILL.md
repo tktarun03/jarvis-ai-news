@@ -116,24 +116,44 @@ To find broken feeds, look at `feeds.failed` in the latest `data/DATE.json`. Eac
    - **Generate printed `SKIP: only N stories`:** check how many feeds failed (in the log line). If most feeds failed, suspect a network or GitHub outage and re-run later. If feeds are fine, the day was thin or the filters are rejecting too much: run locally and inspect the reasons in `rejected`.
    - **Validate failed:** the error message names the file and the story id. Fix the data or the code, then re-run.
    - **The configure-pages or deploy step failed:** Pages is not enabled. Set **Settings → Pages → Source: GitHub Actions**.
+   - **Images are all JARVIS covers:** the publishers may not expose `og:image`, or `images.mode` is `generated`. Check `image.type` in the JSON.
    - **Summaries are all `publisher-blurb`:** the `ANTHROPIC_API_KEY` secret is missing or invalid. Look for `summarizer HTTP 401` in `rejected`.
 2. Never "fix" a run by hand-writing stories without doing Procedure 2's verification, and never by loosening `validate.py`.
 
 ## Procedure 7: Change the design
 
 1. Edit `assets/css/app.css` (tokens on `:root`, dark mode under `prefers-color-scheme` and `[data-theme="dark"]`), `assets/js/app.js`, or `scripts/jarvis/render.py`.
-2. Keep the BasKar design language:
-   - ink plus one brass accent (`--accent`);
-   - Hanken Grotesk at thin display weights;
-   - hairline borders and 18px card radius;
-   - pill chips and tabs;
-   - a bottom tab bar and bottom-sheet story view;
-   - 44px minimum tap targets.
+2. Keep the "Lounge" design language (evolved from BasKar):
+   - warm charcoal and ivory backgrounds with soft light and faint grain;
+   - one champagne-brass accent (`--accent`);
+   - Fraunces serif for display text, Hanken Grotesk for body text, IBM Plex Mono for labels;
+   - hairline borders and 20px card radius;
+   - glass header and a floating glass tab bar;
+   - a full-bleed lead story per section, then ranked rows with thumbnails;
+   - bottom-sheet story view;
+   - 40px or larger tap targets.
 3. Keep pages readable without JavaScript: cards link straight to the publisher.
 4. If you changed `render.py`, run `--rerender`.
 5. Run `validate.py`, then preview with `python -m http.server`. Check 390px width and desktop, in both light and dark mode, plus the story sheet, filters, saved stories and the archive.
 
-## Procedure 8: Correct a published story
+## Procedure 8: Publisher images
+
+1. The mode is set in `scripts/config.json` → `images.mode`:
+   - `generated`: JARVIS covers only.
+   - `publisher-hotlink` (default): the publisher's `og:image`, loaded from their server, credited, with the JARVIS cover as fallback.
+   - `publisher-download`: copies images into the repo. Owner approval is required; see `AGENTS.md` rule 4.
+2. To add publisher images to an edition built without them (for example, the hand-curated launch edition), run `python scripts/generate-news.py --refresh-images DATE`. In GitHub, use **Run workflow** with `refresh_images_date` set. This needs network access to the publishers.
+3. In curated files, an optional `"image_url"` per story sets the publisher image directly. Use only the page's own `og:image`.
+4. Images are skipped when they are not https, are SVG, or look like a logo or placeholder. Broken images fall back to the cover in the browser automatically.
+
+## Procedure 9: Ship an app release
+
+1. Make the change (Procedure 7 for design).
+2. Add an entry at the top of `assets/releases.json` (`version`, `date`, `name`, `notes`) and set `current` to that version.
+3. Run `python scripts/generate-news.py --rerender`, then `python scripts/validate.py`.
+4. Commit with `feat: vX.Y.Z <name>`.
+
+## Procedure 10: Correct a published story
 
 1. Edit the story in `data/DATE.json`. Change only what is wrong.
 2. Add a `verification.checks` entry such as `"corrected YYYY-MM-DD: <what changed>"`.
@@ -153,5 +173,6 @@ To find broken feeds, look at `feeds.failed` in the latest `data/DATE.json`. Eac
 | Rebuild today | `python scripts/generate-news.py --force` |
 | Hand-verified edition | `python scripts/generate-news.py --curated scripts/sample/DATE.curated.json` |
 | Re-render all pages | `python scripts/generate-news.py --rerender` |
+| Publisher images for an edition | `python scripts/generate-news.py --refresh-images DATE` |
 | New schedule | edit `config.json`, then `python scripts/set-schedule.py` |
 | Preview | `python -m http.server 8000` |

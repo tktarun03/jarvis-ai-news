@@ -37,9 +37,9 @@
     "max_calls_per_run": 30
   },
   "images": {
-    "mode": "generated",
-    "use_publisher_images": false,
-    "note": "Publisher photos are copyrighted. Generated covers are original artwork. Set use_publisher_images true only if you have rights to hotlink og:image with credit."
+    "mode": "publisher-hotlink",
+    "max_download_bytes": 3000000,
+    "note": "generated = JARVIS covers only. publisher-hotlink = the publisher's own og:image loaded from their server with credit, generated cover as fallback (owner's choice, default). publisher-download = copies photos into this public repo; enable only if you hold the rights."
   },
   "categories": {
     "research": { "label": "Models & Research", "color": "#8EA4D2" },

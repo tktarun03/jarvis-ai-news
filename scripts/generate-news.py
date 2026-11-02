@@ -20,7 +20,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from jarvis.common import DEFAULT_ROOT, load_config, load_sources, parse_iso, utcnow  # noqa: E402
-from jarvis.pipeline import Skip, build_from_curated, rerender_all, run_daily  # noqa: E402
+from jarvis.pipeline import Skip, build_from_curated, refresh_images, rerender_all, run_daily  # noqa: E402
 
 
 def gh_output(**kv):
@@ -43,6 +43,7 @@ def main() -> int:
     ap.add_argument("--fixtures", type=Path, help="serve feeds/articles from a fixtures folder (offline)")
     ap.add_argument("--curated", type=Path, help="build from a hand-verified curated JSON file")
     ap.add_argument("--rerender", action="store_true", help="re-render every edition page from JSON")
+    ap.add_argument("--refresh-images", metavar="DATE", help="look up publisher images for an existing edition")
     args = ap.parse_args()
 
     root = args.root.resolve()
@@ -54,6 +55,12 @@ def main() -> int:
         if args.rerender:
             n = rerender_all(root, cfg)
             print(f"re-rendered {n} edition page(s)")
+            return 0
+        if args.refresh_images:
+            found, total = refresh_images(root, cfg, sources, args.refresh_images)
+            msg = f"Publisher images found for {found} of {total} stories in {args.refresh_images}."
+            print(msg)
+            gh_output(published="true" if found else "false", date=args.refresh_images, message=msg)
             return 0
         if args.curated:
             ed = build_from_curated(root, cfg, sources, args.curated, now, force=args.force)

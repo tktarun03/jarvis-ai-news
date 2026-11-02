@@ -1,0 +1,28 @@
+{
+  "current": "1.1.0",
+  "releases": [
+    {
+      "version": "1.1.0",
+      "date": "2026-11-02",
+      "name": "Lounge",
+      "notes": [
+        "Premium lounge design: warm charcoal and champagne-brass palette, Fraunces serif display, glass header and floating tab bar",
+        "Full-bleed lead story and ranked story list with thumbnails",
+        "Publisher images shown from the source with credit, falling back to the JARVIS cover",
+        "Refresh button: checks for a newer edition and shows when the next one is due",
+        "Initialising screen with edition boot sequence",
+        "About sheet with version history"
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-11-02",
+      "name": "Launch",
+      "notes": [
+        "Daily automated editions at 07:30 Doha with verification gate",
+        "Global and India sections, category filters, saved stories, archive",
+        "Launch edition No. 001 hand-verified against publishers"
+      ]
+    }
+  ]
+}

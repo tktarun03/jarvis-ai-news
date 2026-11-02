@@ -66,7 +66,15 @@ class PipelineTest(unittest.TestCase):
             self.assertEqual(s["summary_mode"], "publisher-blurb")
             self.assertEqual(s["key_insights"], [])
             self.assertIsNone(s["impact"])
-            self.assertTrue((self.root / s["image"]["src"]).exists())
+            self.assertTrue((self.root / s["image"]["fallback"]).exists())
+
+        # Publisher image: relative og:image resolved, hotlinked with credit; logo-like images ignored.
+        self.assertEqual(acme[0]["image"]["type"], "publisher")
+        self.assertEqual(acme[0]["image"]["src"], "https://www.bbc.com/images/acme-hero.jpg")
+        self.assertEqual(acme[0]["image"]["credit"], "Image: BBC News")
+        self.assertTrue((self.root / acme[0]["image"]["fallback"]).exists())
+        dm = [s for s in ed["stories"]["global"] if "deepmind" in s["source"]["url"]][0]
+        self.assertEqual(dm["image"]["type"], "generated")
 
         self.assertTrue((self.root / "news" / "2026-11-03.html").exists())
         home = (self.root / "index.html").read_text("utf-8")
@@ -91,6 +99,23 @@ class PipelineTest(unittest.TestCase):
         with self.assertRaises(Skip):
             run_daily(self.root, cfg, self.sources, NOW, fixtures=FIXTURES, log_fn=lambda *_: None)
         self.assertFalse((self.root / "data" / "2026-11-03.json").exists())
+
+
+class ImageModeTest(unittest.TestCase):
+    def test_download_mode_copies_image(self):
+        root = Path(tempfile.mkdtemp(prefix="jarvis-img-"))
+        try:
+            for sub in ("assets/css", "assets/js", "assets/images/brand"):
+                shutil.copytree(REPO / sub, root / sub)
+            cfg = json.loads(json.dumps(load_config(REPO)))
+            cfg["images"]["mode"] = "publisher-download"
+            ed = run_daily(root, cfg, load_sources(REPO), NOW, fixtures=FIXTURES, log_fn=lambda *_: None)
+            acme = [s for s in ed["stories"]["global"] if "acme" in s["source"]["url"]][0]
+            self.assertEqual(acme["image"]["type"], "publisher-copy")
+            self.assertTrue((root / acme["image"]["src"]).exists())
+            self.assertEqual(validate.check(root, cfg, load_sources(REPO), check_cron=False), [])
+        finally:
+            shutil.rmtree(root, ignore_errors=True)
 
 
 class GroundingTest(unittest.TestCase):
