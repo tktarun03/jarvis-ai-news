@@ -1,0 +1,38 @@
+{
+  "_comment": "trust: 3 = primary/official or top-tier newsroom, 2 = established trade press, 1 = useful but corroboration preferred. ai_only feeds skip the AI keyword filter. A failing feed is logged and skipped, never fatal.",
+  "feeds": [
+    { "id": "techcrunch-ai", "name": "TechCrunch", "region": "global", "trust": 2, "ai_only": true, "url": "https://techcrunch.com/category/artificial-intelligence/feed/" },
+    { "id": "verge-ai", "name": "The Verge", "region": "global", "trust": 2, "ai_only": true, "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml" },
+    { "id": "mittr-ai", "name": "MIT Technology Review", "region": "global", "trust": 3, "ai_only": true, "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed" },
+    { "id": "ars-ai", "name": "Ars Technica", "region": "global", "trust": 2, "ai_only": true, "url": "https://arstechnica.com/ai/feed/" },
+    { "id": "wired-ai", "name": "WIRED", "region": "global", "trust": 2, "ai_only": true, "url": "https://www.wired.com/feed/tag/ai/latest/rss" },
+    { "id": "guardian-ai", "name": "The Guardian", "region": "global", "trust": 3, "ai_only": true, "url": "https://www.theguardian.com/technology/artificialintelligence/rss" },
+    { "id": "bbc-tech", "name": "BBC News", "region": "global", "trust": 3, "ai_only": false, "url": "https://feeds.bbci.co.uk/news/technology/rss.xml" },
+    { "id": "venturebeat-ai", "name": "VentureBeat", "region": "global", "trust": 2, "ai_only": true, "url": "https://venturebeat.com/category/ai/feed/" },
+    { "id": "helpnet", "name": "Help Net Security", "region": "global", "trust": 2, "ai_only": false, "url": "https://www.helpnetsecurity.com/feed/" },
+    { "id": "openai-news", "name": "OpenAI", "region": "global", "trust": 3, "ai_only": true, "url": "https://openai.com/news/rss.xml" },
+    { "id": "google-ai", "name": "Google", "region": "global", "trust": 3, "ai_only": true, "url": "https://blog.google/technology/ai/rss/" },
+    { "id": "deepmind", "name": "Google DeepMind", "region": "global", "trust": 3, "ai_only": true, "url": "https://deepmind.google/blog/rss.xml" },
+    { "id": "huggingface", "name": "Hugging Face", "region": "global", "trust": 2, "ai_only": true, "url": "https://huggingface.co/blog/feed.xml" },
+    { "id": "nvidia-blog", "name": "NVIDIA", "region": "global", "trust": 3, "ai_only": false, "url": "https://blogs.nvidia.com/feed/" },
+    { "id": "microsoft-ai", "name": "Microsoft", "region": "global", "trust": 3, "ai_only": true, "url": "https://blogs.microsoft.com/ai/feed/" },
+
+    { "id": "medianama", "name": "MediaNama", "region": "india", "trust": 3, "ai_only": false, "url": "https://www.medianama.com/feed/" },
+    { "id": "inc42", "name": "Inc42", "region": "india", "trust": 2, "ai_only": false, "url": "https://inc42.com/feed/" },
+    { "id": "aim", "name": "Analytics India Magazine", "region": "india", "trust": 2, "ai_only": true, "url": "https://analyticsindiamag.com/feed/" },
+    { "id": "et-tech", "name": "The Economic Times", "region": "india", "trust": 3, "ai_only": false, "url": "https://economictimes.indiatimes.com/tech/rssfeeds/13357270.cms" },
+    { "id": "hindu-tech", "name": "The Hindu", "region": "india", "trust": 3, "ai_only": false, "url": "https://www.thehindu.com/sci-tech/technology/feeder/default.rss" },
+    { "id": "ie-tech", "name": "The Indian Express", "region": "india", "trust": 3, "ai_only": false, "url": "https://indianexpress.com/section/technology/feed/" },
+    { "id": "mint-tech", "name": "Mint", "region": "india", "trust": 3, "ai_only": false, "url": "https://www.livemint.com/rss/technology" },
+    { "id": "bs-tech", "name": "Business Standard", "region": "india", "trust": 3, "ai_only": false, "url": "https://www.business-standard.com/rss/technology-108.rss" },
+    { "id": "yourstory", "name": "YourStory", "region": "india", "trust": 2, "ai_only": false, "url": "https://yourstory.com/feed" },
+    { "id": "elets-cio", "name": "Elets CIO", "region": "india", "trust": 1, "ai_only": false, "url": "https://cio.eletsonline.com/feed/" }
+  ],
+  "extra_trusted_domains": [
+    "thenationalnews.com", "howtogeek.com", "irishnews.com", "unite.ai", "convergence-now.com",
+    "reuters.com", "apnews.com", "bloomberg.com", "ft.com", "cnbc.com", "pib.gov.in", "meity.gov.in", "trai.gov.in", "gov.uk"
+  ],
+  "blocked_patterns": [
+    "AI Forecast", "sponsored", "partner content", "advertorial", "press release distribution"
+  ]
+}

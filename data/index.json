@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "latest": "2026-11-02",
+  "updated_at": "2026-11-02T18:45:00Z",
+  "editions": [
+    {
+      "date": "2026-11-02",
+      "number": 1,
+      "counts": {
+        "global": 5,
+        "india": 5
+      },
+      "top_headline": "Abu Dhabi signs OpenAI deals to run government services on UAE-hosted AI",
+      "html": "news/2026-11-02.html",
+      "json": "data/2026-11-02.json",
+      "generated_at": "2026-11-02T18:45:00Z"
+    }
+  ]
+}

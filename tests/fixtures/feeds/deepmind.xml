@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Google DeepMind</title>
+<entry><title>A new benchmark for scientific reasoning</title><link rel="alternate" href="https://deepmind.google/discover/blog/science-benchmark/"/><published>2026-11-02T16:00:00Z</published><summary>Researchers introduce a benchmark of 1,200 problems for evaluating AI models on scientific reasoning.</summary></entry>
+<entry><title>Future-dated post</title><link rel="alternate" href="https://deepmind.google/discover/blog/future/"/><published>2026-11-05T16:00:00Z</published><summary>Scheduled AI post.</summary></entry>
+</feed>

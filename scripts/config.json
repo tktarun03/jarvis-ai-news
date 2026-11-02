@@ -1,0 +1,54 @@
+{
+  "site": {
+    "name": "JARVIS AI NEWS",
+    "short_name": "JARVIS",
+    "tagline": "The day in AI, verified.",
+    "base_url": "https://tktarun03.github.io/jarvis-ai-news/",
+    "publisher": "Arunkumar Thamilarasu",
+    "signature": "Published by Arunkumar Thamilarasu",
+    "agent_credit": "JARVIS is an AI agent created by Arunkumar Thamilarasu."
+  },
+  "schedule": {
+    "timezone": "Asia/Qatar",
+    "local_time": "07:30",
+    "note": "Run scripts/set-schedule.py after changing local_time or timezone; it rewrites the UTC cron in .github/workflows/daily-news.yml."
+  },
+  "edition": {
+    "lookback_hours": 24,
+    "max_global": 10,
+    "max_india": 10,
+    "min_stories_to_publish": 3,
+    "max_per_source": 3,
+    "dedupe_memory_days": 45,
+    "title_similarity_threshold": 0.55
+  },
+  "verification": {
+    "check_links": true,
+    "request_timeout_seconds": 20,
+    "max_feed_vs_article_date_drift_hours": 48,
+    "accept_blocked_status_for_trust_at_least": 2,
+    "future_tolerance_minutes": 15
+  },
+  "summarizer": {
+    "provider": "anthropic",
+    "model": "claude-haiku-5-5",
+    "env_key": "ANTHROPIC_API_KEY",
+    "max_source_chars": 12000,
+    "max_calls_per_run": 30
+  },
+  "images": {
+    "mode": "generated",
+    "use_publisher_images": false,
+    "note": "Publisher photos are copyrighted. Generated covers are original artwork. Set use_publisher_images true only if you have rights to hotlink og:image with credit."
+  },
+  "categories": {
+    "research": { "label": "Models & Research", "color": "#8EA4D2" },
+    "products": { "label": "Products & Launches", "color": "#D4B47C" },
+    "business": { "label": "Business & Funding", "color": "#7FB89A" },
+    "policy": { "label": "Policy & Regulation", "color": "#C2A3D6" },
+    "infrastructure": { "label": "Chips & Infrastructure", "color": "#E09A6B" },
+    "safety": { "label": "Safety & Security", "color": "#E07A6E" },
+    "applications": { "label": "Applications", "color": "#6FB7C4" },
+    "startups": { "label": "Startups", "color": "#B5C46F" }
+  }
+}

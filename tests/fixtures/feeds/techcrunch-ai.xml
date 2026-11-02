@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>TechCrunch AI</title>
+<item><title>Acme AI launches open-weights model with 70 billion parameters</title><link>https://techcrunch.com/2026/11/02/acme-ai-open-weights-70b/?utm_source=rss</link><pubDate>Mon, 02 Nov 2026 18:10:00 +0000</pubDate><description>Acme AI released an open-weights model with 70 billion parameters under a permissive licence, saying it matches larger rivals on coding benchmarks.</description></item>
+<item><title>Robotics startup Gearbox raises $40 million Series B for warehouse robots</title><link>https://techcrunch.com/2026/11/02/gearbox-series-b/</link><pubDate>Mon, 02 Nov 2026 12:00:00 +0000</pubDate><description>Gearbox raised $40 million in a Series B to expand its AI warehouse robots to 12 new sites.</description></item>
+<item><title>Old story from last week about chatbots</title><link>https://techcrunch.com/2026/10/25/old-chatbots/</link><pubDate>Sun, 25 Oct 2026 10:00:00 +0000</pubDate><description>An older AI chatbot story outside the window.</description></item>
+<item><title>Republished explainer on AI agents</title><link>https://techcrunch.com/2026/11/02/republished-agents/</link><pubDate>Mon, 02 Nov 2026 09:00:00 +0000</pubDate><description>An AI agents explainer whose article page says it was first published in August.</description></item>
+<item><title>Link that no longer exists about AI chips</title><link>https://techcrunch.com/2026/11/02/deleted-ai-chips/</link><pubDate>Mon, 02 Nov 2026 08:00:00 +0000</pubDate><description>An AI chips story whose page returns 404.</description></item>
+<item><title>Aggregator link about generative AI</title><link>https://some-aggregator.example/ai-story</link><pubDate>Mon, 02 Nov 2026 07:00:00 +0000</pubDate><description>A generative AI story pointing to an untrusted domain.</description></item>
+</channel></rss>
