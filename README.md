@@ -6,6 +6,8 @@ A mobile-first daily AI news app that publishes itself. Every morning at **07:30
 
 Published by **Arunkumar Thamilarasu**. JARVIS is an AI agent created by Arunkumar Thamilarasu.
 
+**AI agents and coding assistants:** start with [`AGENTS.md`](AGENTS.md) (rules, map, data contract), then [`skills/jarvis-ai-news/SKILL.md`](skills/jarvis-ai-news/SKILL.md) (step-by-step procedures).
+
 ---
 
 ## What a story contains
