@@ -123,18 +123,20 @@ To find broken feeds, look at `feeds.failed` in the latest `data/DATE.json`. Eac
 ## Procedure 7: Change the design
 
 1. Edit `assets/css/app.css` (tokens on `:root`, dark mode under `prefers-color-scheme` and `[data-theme="dark"]`), `assets/js/app.js`, or `scripts/jarvis/render.py`.
-2. Keep the "Lounge" design language (evolved from BasKar):
-   - warm charcoal and ivory backgrounds with soft light and faint grain;
-   - one champagne-brass accent (`--accent`);
-   - Fraunces serif for display text, Hanken Grotesk for body text, IBM Plex Mono for labels;
-   - hairline borders and 20px card radius;
-   - glass header and a floating glass tab bar;
-   - a full-bleed lead story per section, then ranked rows with thumbnails;
-   - bottom-sheet story view;
+2. Keep the v1.5 "Reader" design language:
+   - white and light-grey surfaces with one indigo accent (`--accent`); four reading themes on `data-theme`: `light`, `sepia`, `dim`, `dark`;
+   - Plus Jakarta Sans throughout, bold (700–800) headlines with tight tracking;
+   - 26px image cards with the headline over the photo, 18–22px radius elsewhere;
+   - Home: greeting and daily brief, underline region tabs (Top stories, Global, India, My topics), a swipeable top-stories card with page dots, then "Explore Global/India" thumbnail rows;
+   - bottom tabs: Home, Explore (search, source circles, category tabs), Saved, Archive, Profile (publisher card, topic picker, settings, about);
+   - reader: photo on top, white panel sliding over it, bottom bar with Save, Read source and a reading-progress ring;
+   - "Aa" Display card: brightness, dark reading theme, font size (`--read-scale`), follow-device theme, theme colour swatches;
+   - source badges are coloured monograms; never use publisher logos;
    - 40px or larger tap targets.
+   - Keep the IDs that `assets/js/brief.js` uses (`brief-title`, `brief-greeting`, `listen-btn`, `pause-btn`, `stop-btn`, `voice-status`, `news-update`, `push-btn`, `push-status`).
 3. Keep pages readable without JavaScript: cards link straight to the publisher.
 4. If you changed `render.py`, run `--rerender`.
-5. Run `validate.py`, then preview with `python -m http.server`. Check 390px width and desktop, in both light and dark mode, plus the story sheet, filters, saved stories and the archive.
+5. Run `validate.py`, then preview with `python -m http.server`. Check 390px width and desktop in the light, sepia and dark themes, plus the reader, Display card, Explore filters, My topics, saved stories and the archive.
 
 ## Procedure 8: Publisher images
 
@@ -145,6 +147,11 @@ To find broken feeds, look at `feeds.failed` in the latest `data/DATE.json`. Eac
 2. To add publisher images to an edition built without them (for example, the hand-curated launch edition), run `python scripts/generate-news.py --refresh-images DATE`. In GitHub, use **Run workflow** with `refresh_images_date` set. This needs network access to the publishers.
 3. In curated files, an optional `"image_url"` per story sets the publisher image directly. Use only the page's own `og:image`.
 4. Images are skipped when they are not https, are SVG, or look like a logo or placeholder. Broken images fall back to the cover in the browser automatically.
+5. **Illustrative stock photos (Pixabay)** are set in `config.json` → `images.stock`:
+   - `role: fallback` (default): used only when no publisher image was found;
+   - `role: primary`: used for every story.
+
+   They need the `PIXABAY_API_KEY` Actions secret. Photos are downloaded to `assets/images/stock/pixabay-<id>.jpg` and reused across editions; queries are cached for 24 hours in `data/stock-library.json`. `--refresh-images DATE` also fills stock photos. Never change the queries to include company, product or person names, and never remove the "Illustrative" credit.
 
 ## Procedure 9: Ship an app release
 

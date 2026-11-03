@@ -16,7 +16,7 @@ Published by **Arunkumar Thamilarasu**. JARVIS is an AI agent created by Arunkum
 |---|---|
 | Headline, summary | Claude, written only from the publisher's text (or the publisher's own blurb when no API key is set) |
 | Key insights (≤3), real-world impact | Claude, grounded in the publisher's text; left empty rather than guessed |
-| Image | The publisher's own `og:image`, shown from the publisher's server with credit. Falls back to an original JARVIS cover. Mode is set in `config.json` → `images.mode` |
+| Image | The publisher's own `og:image` (shown from the publisher's server, credited); otherwise a royalty-free Pixabay photo stored in `assets/images/stock/`, labelled **Illustrative**; otherwise an original JARVIS cover. Set in `config.json` → `images` |
 | Source link, publication date | Publisher feed, link checked, date confirmed on the article page where available |
 | Also reported by | Other trusted outlets covering the same story (merged, not duplicated) |
 | How this was checked | Every check the pipeline ran, shown on the story sheet |
@@ -39,9 +39,10 @@ Every edition's JSON keeps a `rejected` list with the reason for each story that
 
 1. **Enable Pages:** repo **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 2. **Add the summariser key (recommended):** **Settings → Secrets and variables → Actions → New repository secret**, name `ANTHROPIC_API_KEY`. Optional repository *variable* `JARVIS_MODEL` overrides the model in `scripts/config.json`.
+   **Add the image key (recommended):** create a free Pixabay account, copy your key from pixabay.com/api/docs, and add it as the secret `PIXABAY_API_KEY`. Without it, stories without a publisher image show JARVIS covers.
    Without the key the site still publishes daily, using each publisher's own summary, with insights and impact marked unavailable.
 3. **Run it once now:** **Actions → Daily AI News → Run workflow**.
-4. **Optional, to add publisher images to the launch edition:** **Run workflow** with `refresh_images_date` = `2026-11-02`.
+4. **Optional, to add images to an existing edition (publisher photos, or Pixabay illustrative photos once `PIXABAY_API_KEY` is set):** **Run workflow** with `refresh_images_date` = that date, e.g. `2026-11-02`.
 
 The key is read only from the Actions secret, sent only to the Anthropic API, and never logged or written to the repo.
 
@@ -125,6 +126,7 @@ jarvis-ai-news/
 - **Sources:** add a feed to `scripts/sources.json` (`region`: `global` or `india`, `trust`: 1–3, `ai_only` for AI-only feeds). A broken feed is logged and skipped; it never fails the run.
 - **Counts and window:** `scripts/config.json` → `edition`.
 - **Signature:** `scripts/config.json` → `site`. Run `--rerender` to apply it to past pages.
+- **Illustrative stock photos:** `images.stock.role` = `fallback` (default: only when no publisher image) or `primary` (every story). Photos are reused across editions to keep the repo small.
 - **Images:** `images.mode` = `publisher-hotlink` (default), `generated`, or `publisher-download`. Download mode copies copyrighted photos into a public repo, so enable it only if you hold the rights. To add images to an existing edition, run `python scripts/generate-news.py --refresh-images DATE`, or use **Run workflow** with `refresh_images_date`.
 - **Version history:** `assets/releases.json` is shown in the app's About sheet. Add an entry for every release.
 

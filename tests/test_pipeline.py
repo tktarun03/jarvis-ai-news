@@ -22,6 +22,7 @@ NOW = parse_iso("2026-11-03T04:30:00Z")  # 07:30 in Doha
 class PipelineTest(unittest.TestCase):
     def setUp(self):
         os.environ.pop("ANTHROPIC_API_KEY", None)
+        os.environ.pop("PIXABAY_API_KEY", None)
         self.root = Path(tempfile.mkdtemp(prefix="jarvis-test-"))
         for sub in ("assets/css", "assets/js", "assets/images/brand"):
             shutil.copytree(REPO / sub, self.root / sub)
@@ -117,6 +118,41 @@ class ImageModeTest(unittest.TestCase):
             self.assertTrue((root / acme["image"]["src"]).exists())
             self.assertEqual(validate.check(root, cfg, load_sources(REPO), check_cron=False), [])
         finally:
+            shutil.rmtree(root, ignore_errors=True)
+
+
+class StockImageTest(unittest.TestCase):
+    def test_stock_fallback_downloads_labelled_images(self):
+        root = Path(tempfile.mkdtemp(prefix="jarvis-stock-"))
+        os.environ["PIXABAY_API_KEY"] = "test-key"
+        try:
+            for sub in ("assets/css", "assets/js", "assets/images/brand"):
+                shutil.copytree(REPO / sub, root / sub)
+            shutil.copy(REPO / "manifest.webmanifest", root / "manifest.webmanifest")
+            cfg, sources = load_config(REPO), load_sources(REPO)
+            ed = run_daily(root, cfg, sources, NOW, fixtures=FIXTURES, log_fn=lambda *_: None)
+            stories = ed["stories"]["global"] + ed["stories"]["india"]
+            kinds = {s["image"]["type"] for s in stories}
+            # The BBC story keeps its real publisher image; stories without one get an illustrative stock photo.
+            acme = [s for s in stories if "acme" in s["source"]["url"]][0]
+            self.assertEqual(acme["image"]["type"], "publisher")
+            stock = [s for s in stories if s["image"]["type"] == "stock"]
+            self.assertTrue(stock and kinds <= {"publisher", "stock"})
+            ids = [s["image"]["stock_id"] for s in stock]
+            self.assertEqual(len(ids), len(set(ids)))           # no photo repeated in one edition
+            self.assertNotIn("102", ids)                         # people-tagged hit skipped
+            for s in stock:
+                self.assertTrue((root / s["image"]["src"]).exists())
+                self.assertTrue(s["image"]["src"].startswith("assets/images/stock/pixabay-"))
+                self.assertIn("Illustrative", s["image"]["credit"])
+                self.assertTrue(s["image"]["credit_url"].startswith("https://pixabay.com/"))
+                self.assertTrue((root / s["image"]["fallback"]).exists())
+            lib = load_json(root / "data" / "stock-library.json")
+            self.assertTrue(lib["queries"] and set(ids) <= set(lib["images"]))
+            self.assertNotIn("test-key", json.dumps(lib) + json.dumps(ed))  # key never stored
+            self.assertEqual(validate.check(root, cfg, sources, check_cron=False), [])
+        finally:
+            os.environ.pop("PIXABAY_API_KEY", None)
             shutil.rmtree(root, ignore_errors=True)
 
 

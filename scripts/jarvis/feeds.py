@@ -97,6 +97,9 @@ class FixtureFetcher(Fetcher):
         self.feed_map[url] = source_id
 
     def get(self, url: str, accept: str = "*/*") -> Response:
+        if url.startswith("https://pixabay.com/api/"):
+            path = self.fixtures / "pixabay.json"
+            return Response(200, url, path.read_text("utf-8")) if path.exists() else Response(404, url, error="HTTP 404")
         if url in self.feed_map:
             path = self.fixtures / "feeds" / f"{self.feed_map[url]}.xml"
             if path.exists():
@@ -108,6 +111,8 @@ class FixtureFetcher(Fetcher):
         return Response(art.get("status", 200), url, art.get("html", ""))
 
     def get_bytes(self, url: str, max_bytes: int):
+        if url.startswith("https://cdn.pixabay.com/"):
+            return 200, "image/jpeg", b"\xff\xd8\xff fixture jpeg"
         img = self.articles.get(url)
         if not img or "image_type" not in img:
             return 404, "", b""

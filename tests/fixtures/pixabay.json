@@ -1,0 +1,55 @@
+{
+ "total": 7,
+ "totalHits": 7,
+ "hits": [
+  {
+   "id": 101,
+   "pageURL": "https://pixabay.com/photos/server-data-101/",
+   "user": "alpha",
+   "tags": "server, data center, network",
+   "webformatURL": "https://cdn.pixabay.com/photo/a/101_640.jpg"
+  },
+  {
+   "id": 102,
+   "pageURL": "https://pixabay.com/photos/businessman-102/",
+   "user": "beta",
+   "tags": "businessman, office, laptop",
+   "webformatURL": "https://cdn.pixabay.com/photo/a/102_640.jpg"
+  },
+  {
+   "id": 103,
+   "pageURL": "https://pixabay.com/photos/chip-103/",
+   "user": "gamma",
+   "tags": "chip, circuit, technology",
+   "webformatURL": "https://cdn.pixabay.com/photo/a/103_640.jpg"
+  },
+  {
+   "id": 104,
+   "pageURL": "https://pixabay.com/photos/abstract-104/",
+   "user": "delta",
+   "tags": "abstract, network, digital",
+   "webformatURL": "https://cdn.pixabay.com/photo/a/104_640.jpg"
+  },
+  {
+   "id": 105,
+   "pageURL": "https://pixabay.com/photos/code-105/",
+   "user": "epsilon",
+   "tags": "code, programming, screen",
+   "webformatURL": "https://cdn.pixabay.com/photo/a/105_640.jpg"
+  },
+  {
+   "id": 106,
+   "pageURL": "https://pixabay.com/photos/lights-106/",
+   "user": "zeta",
+   "tags": "lights, technology, blue",
+   "webformatURL": "https://cdn.pixabay.com/photo/a/106_640.jpg"
+  },
+  {
+   "id": 107,
+   "pageURL": "https://pixabay.com/photos/globe-107/",
+   "user": "eta",
+   "tags": "globe, earth, digital",
+   "webformatURL": "https://cdn.pixabay.com/photo/a/107_640.jpg"
+  }
+ ]
+}

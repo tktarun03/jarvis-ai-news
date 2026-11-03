@@ -85,7 +85,7 @@ def check(root: Path, cfg: dict, sources: dict, check_cron: bool = True) -> list
                 img = s["image"]
                 kind = img.get("type")
                 fallback = img.get("fallback") or (img["src"] if kind == "generated" else None)
-                if kind not in ("generated", "publisher", "publisher-copy"):
+                if kind not in ("generated", "publisher", "publisher-copy", "stock"):
                     errs.append(f"{tag}/{sid}: unknown image type {kind}")
                 if not fallback:
                     errs.append(f"{tag}/{sid}: no generated fallback cover recorded")
@@ -103,6 +103,13 @@ def check(root: Path, cfg: dict, sources: dict, check_cron: bool = True) -> list
                         errs.append(f"{tag}/{sid}: publisher image is not https")
                     if not img.get("credit"):
                         errs.append(f"{tag}/{sid}: publisher image has no credit")
+                if kind == "stock":
+                    if not (root / img["src"]).exists():
+                        errs.append(f"{tag}/{sid}: stock image missing {img['src']}")
+                    if "Illustrative" not in img.get("credit", "") or "Pixabay" not in img.get("credit", ""):
+                        errs.append(f"{tag}/{sid}: stock image must be credited 'Illustrative · <photographer> / Pixabay'")
+                    if not str(img.get("credit_url", "")).startswith("https://pixabay.com/"):
+                        errs.append(f"{tag}/{sid}: stock image needs its Pixabay page link")
                 if kind == "publisher-copy":
                     if cfg["images"]["mode"] != "publisher-download":
                         errs.append(f"{tag}/{sid}: downloaded publisher image present but download mode is off")

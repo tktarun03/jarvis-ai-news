@@ -30,8 +30,14 @@ These protect the site's credibility. Do not weaken them, even when asked to "ju
 2. **Never invent sources, URLs, dates, quotes or figures.** A story needs a real, reachable URL on a trusted domain and a real publication date.
 3. **Never republish a story.** Deduplication uses `data/seen.json` (45 days) and cross-edition checks in `validate.py`.
 4. **Images follow `config.json` → `images.mode`, set by the owner.** The default is `publisher-hotlink`: the publisher's own `og:image` is shown from the publisher's server, credited `Image: <Publisher>`, with the generated cover (`scripts/jarvis/covers.py`) as the fallback. `publisher-download` copies photos into this public repo, which redistributes copyrighted images. Do not enable it unless the owner confirms they hold the rights. Never use screenshots of publisher pages, and never strip an image's credit.
+   **Illustrative stock photos** (`images.stock`, Pixabay, downloaded into `assets/images/stock/` as Pixabay's API terms require) fill in when there is no publisher image (`role: fallback`), or replace publisher images (`role: primary`). They are never photos of the event, so:
+   - they must be credited `Illustrative · <photographer> / Pixabay` with a link to the Pixabay page (the validator checks this);
+   - search queries use generic topic words only, never company, product or person names (`scripts/jarvis/stock.py`);
+   - hits tagged with people are skipped;
+   - never use Unsplash for this (its API terms require hotlinking).
+   The key is the `PIXABAY_API_KEY` Actions secret; without it stock photos are skipped.
 5. **Paraphrase; don't copy.** Summaries must be in your own words. No quote longer than 10 words, and at most one quote per story.
-6. **Never commit secrets.** `ANTHROPIC_API_KEY` lives only in GitHub Actions secrets. Never print it, log it, or write it to a file.
+6. **Never commit secrets.** `ANTHROPIC_API_KEY` and `PIXABAY_API_KEY` live only in GitHub Actions secrets. Never print it, log it, or write it to a file.
 7. **`scripts/validate.py` must pass before any commit that touches `data/`, `news/`, `index.html` or `assets/`.** If it fails, fix the cause. Do not edit the validator to make it pass.
 8. **Keep the signature.** Every page must show `Published by Arunkumar Thamilarasu` and `JARVIS is an AI agent created by Arunkumar Thamilarasu.` (set in `scripts/config.json` → `site`).
 9. **Fewer stories beats unverified stories.** If fewer than `min_stories_to_publish` (3) pass, the run publishes nothing. That is correct behaviour, not a bug.
@@ -64,7 +70,10 @@ Exit codes: `generate-news.py` returns 0 on publish or on an intentional skip, a
 | `data/YYYY-MM-DD.json` | One edition per day (source of truth for the pages) | Only to correct an error, then `--rerender` |
 | `data/index.json` | Archive manifest, newest first | No |
 | `data/seen.json` | Dedupe memory: `{urls: {normalizedUrl: date}, titles: {fingerprint: date}}` | No |
-| `assets/css/app.css` | Design tokens and components (BasKar design language) | Yes |
+| `assets/css/app.css` | Design tokens and components (v1.5 "Reader" design language; see SKILL.md Procedure 7) | Yes |
+| `assets/images/stock/` | Downloaded Pixabay illustrative photos, shared and reused across editions | No |
+| `data/stock-library.json` | Pixabay 24-hour query cache and per-photo usage (for reuse and credits) | No |
+| `scripts/jarvis/stock.py` | Illustrative stock photo search, safeguards and download | Yes, carefully |
 | `assets/js/app.js` | Progressive enhancement: tabs, filters, sheet, saved, archive, theme | Yes |
 | `assets/images/covers/DATE/ID.svg` | Generated covers (also the fallback for publisher images) | No |
 | `assets/images/news/DATE/` | Downloaded publisher images (download mode only) | No |
@@ -97,7 +106,8 @@ Every story object in `data/DATE.json` → `stories.global[]` / `stories.india[]
 - `image`: `{type, src, alt, credit, fallback}`, where `type` is one of:
   - `generated`: `src` is a local SVG;
   - `publisher`: `src` is the publisher's https URL, with `credit_url` and `original_url`;
-  - `publisher-copy`: `src` is a local copy, allowed only in download mode.
+  - `publisher-copy`: `src` is a local copy, allowed only in download mode;
+  - `stock`: `src` is a local Pixabay photo, with `credit` (`Illustrative · …`), `credit_url`, `provider`, `stock_id`, `license` and `query`.
 
   `fallback` is always a local generated SVG.
 - `corroboration`: `[{name, url}]`, the other outlets that covered the same story.

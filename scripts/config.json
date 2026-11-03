@@ -39,16 +39,50 @@
   "images": {
     "mode": "publisher-hotlink",
     "max_download_bytes": 3000000,
-    "note": "generated = JARVIS covers only. publisher-hotlink = the publisher's own og:image loaded from their server with credit, generated cover as fallback (owner's choice, default). publisher-download = copies photos into this public repo; enable only if you hold the rights."
+    "note": "generated = JARVIS covers only. publisher-hotlink = the publisher's own og:image loaded from their server with credit, generated cover as fallback (owner's choice, default). publisher-download = copies photos into this public repo; enable only if you hold the rights.",
+    "stock": {
+      "enabled": true,
+      "provider": "pixabay",
+      "role": "fallback",
+      "env_key": "PIXABAY_API_KEY",
+      "folder": "assets/images/stock",
+      "reuse_after_days": 3,
+      "max_requests_per_run": 40,
+      "note": "Royalty-free illustrative photos, downloaded into the repo as Pixabay's API requires. role=fallback: used when no publisher image is found; role=primary: used for every story instead of hotlinked publisher images. Needs the PIXABAY_API_KEY Actions secret; without it this is skipped."
+    }
   },
   "categories": {
-    "research": { "label": "Models & Research", "color": "#8EA4D2" },
-    "products": { "label": "Products & Launches", "color": "#D4B47C" },
-    "business": { "label": "Business & Funding", "color": "#7FB89A" },
-    "policy": { "label": "Policy & Regulation", "color": "#C2A3D6" },
-    "infrastructure": { "label": "Chips & Infrastructure", "color": "#E09A6B" },
-    "safety": { "label": "Safety & Security", "color": "#E07A6E" },
-    "applications": { "label": "Applications", "color": "#6FB7C4" },
-    "startups": { "label": "Startups", "color": "#B5C46F" }
+    "research": {
+      "label": "Models & Research",
+      "color": "#8EA4D2"
+    },
+    "products": {
+      "label": "Products & Launches",
+      "color": "#D4B47C"
+    },
+    "business": {
+      "label": "Business & Funding",
+      "color": "#7FB89A"
+    },
+    "policy": {
+      "label": "Policy & Regulation",
+      "color": "#C2A3D6"
+    },
+    "infrastructure": {
+      "label": "Chips & Infrastructure",
+      "color": "#E09A6B"
+    },
+    "safety": {
+      "label": "Safety & Security",
+      "color": "#E07A6E"
+    },
+    "applications": {
+      "label": "Applications",
+      "color": "#6FB7C4"
+    },
+    "startups": {
+      "label": "Startups",
+      "color": "#B5C46F"
+    }
   }
 }
