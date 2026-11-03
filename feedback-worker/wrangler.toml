@@ -1,0 +1,10 @@
+# Deployed by .github/workflows/deploy-feedback.yml (Actions → "Deploy feedback Worker" → Run workflow).
+name = "jarvis-feedback"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[vars]
+REPO = "tktarun03/jarvis-ai-news"
+ALLOWED_ORIGINS = "https://tktarun03.github.io"
+# Secret (never here): GITHUB_TOKEN, set by the deploy workflow from the FEEDBACK_GITHUB_TOKEN Actions secret.

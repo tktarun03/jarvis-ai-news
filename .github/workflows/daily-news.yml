@@ -15,6 +15,10 @@ on:
         type: string
         required: false
         default: ""
+      deploy_only:
+        description: "Only republish the site (no edition build); used by the feedback Worker deploy"
+        type: boolean
+        default: false
   push:
     branches: [main]
 
@@ -22,6 +26,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
+  issues: read
 
 concurrency:
   group: jarvis-daily-news
@@ -60,7 +65,7 @@ jobs:
 
       - name: Generate today's edition
         id: generate
-        if: github.event_name != 'push'
+        if: github.event_name != 'push' && !inputs.deploy_only
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           JARVIS_MODEL: ${{ vars.JARVIS_MODEL }}
@@ -77,6 +82,11 @@ jobs:
 
       - name: Validate before publishing
         run: python scripts/validate.py
+
+      - name: Update rating summary
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/feedback-summary.py
 
       - name: Commit and push the edition
         if: steps.generate.outputs.published == 'true'

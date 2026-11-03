@@ -103,6 +103,8 @@ Exit codes: `generate-news.py` returns 0 on publish or on an intentional skip, a
 | `scripts/jarvis/aiimages.py` | AI-generated generic scenes: fixed prompt table, generation, reuse | Yes, carefully (prompts stay generic) |
 | `assets/images/ai/` | AI-generated scene library, reused across editions | No |
 | `data/ai-image-library.json` | AI scene library: prompt, model, variant and last use per image | No |
+| `feedback-worker/` | Cloudflare Worker that turns in-app ratings into GitHub issues (`node feedback-worker/test.mjs` tests it offline) | Yes, carefully |
+| `data/feedback.json` | Rating summary (counts only, never feedback text), written by `scripts/feedback-summary.py` on every workflow run | No |
 | `assets/js/app.js` | Progressive enhancement: tabs, filters, sheet, saved, archive, theme | Yes |
 | `assets/images/covers/DATE/ID.svg` | Generated covers (also the fallback for publisher images) | No |
 | `assets/images/news/DATE/` | Downloaded publisher images (download mode only) | No |
@@ -160,6 +162,20 @@ If you change this contract, update `render.py`, `app.js`, `validate.py`, the te
 - **Change the run time:** edit `schedule.local_time` in `config.json`, then run `scripts/set-schedule.py`. Never hand-edit the cron line; the validator checks it against the config.
 - **Change limits:** `config.json` → `edition`.
 - **Correct a published story:** edit that `data/DATE.json`, run `--rerender`, run `validate.py`, and commit with a message saying what was corrected and why.
+
+## Feedback and ratings
+
+Profile → **Rate & give feedback** collects 1–5 stars, an optional comment and an optional name. Every rating becomes a **public** GitHub issue labelled `feedback` (and `rating-N` when it comes through the Worker). `config.json` → `feedback.endpoint` decides the route:
+
+- **Empty (default):** the app opens the issue form `.github/ISSUE_TEMPLATE/feedback.yml` with the answers pre-filled. The person needs a GitHub account.
+- **Set:** the app posts to the feedback Worker (`feedback-worker/worker.js`), which files the issue itself, so no account is needed. The Worker holds the GitHub token; the site never does. Guards: origin check, size and field limits, honeypot, about 5 posts per visitor per hour. If spam gets through, add Cloudflare Turnstile.
+
+One-time Worker setup (owner):
+1. Create a fine-grained GitHub token: only this repository, permission **Issues: Read and write**. Save it as the Actions secret `FEEDBACK_GITHUB_TOKEN`.
+2. The Cloudflare token must be allowed to edit Workers (**Account → Workers Scripts → Edit**). Either add that to `CLOUDFLARE_API_TOKEN` or save a separate token as `CLOUDFLARE_DEPLOY_TOKEN`. The Cloudflare account needs a workers.dev subdomain (Workers & Pages → once, in the dashboard).
+3. Actions → **Deploy feedback Worker** → Run workflow. It deploys, sets the secret, writes the URL into `feedback.endpoint`, commits, and republishes the site (`daily-news.yml` with `deploy_only`).
+
+To moderate, label an issue `spam`, `invalid` or `duplicate`: `scripts/feedback-summary.py` leaves it out of the average. Never publish feedback text on the site, and never put a GitHub token in `assets/` or `config.json`.
 
 ## Version history
 

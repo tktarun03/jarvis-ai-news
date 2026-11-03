@@ -489,8 +489,21 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
 .share-h { font-size: 15px; font-weight: 700; line-height: 1.35; color: var(--ink); }
 .share-u { font-size: 12px; color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .share-note { display: flex; flex-direction: column; gap: 8px; }
-.share-note textarea { font: inherit; font-size: 16px; line-height: 1.45; color: var(--ink); background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; resize: vertical; min-height: 64px; }
-.share-note textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.share-note textarea, .share-note input { font: inherit; font-size: 16px; line-height: 1.45; color: var(--ink); background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; resize: vertical; min-height: 64px; }
+.share-note textarea:focus, .share-note input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.share-note input { min-height: 0; resize: none; }
+.stars { display: flex; justify-content: center; gap: 6px; margin-top: -4px; }
+.star { width: 50px; height: 50px; border: 0; background: none; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; color: var(--faint); cursor: pointer; transition: transform .15s var(--ease), color .15s ease; }
+.star .ic { width: 36px; height: 36px; stroke-width: 1.6; }
+.star.on { color: #F5A524; }
+.star.on .ic path { fill: currentColor; }
+.star:active { transform: scale(.88); }
+.star:focus-visible { outline: 2px solid var(--accent); }
+.star-word { text-align: center; font-weight: 700; font-size: 15px; color: var(--ink); margin-top: -10px; min-height: 22px; }
+.hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.rt-note { margin-top: -6px; line-height: 1.45; }
+#rt-send { width: 100%; min-height: 48px; font-size: 15px; }
+#rt-send:disabled { opacity: .45; cursor: default; }
 .share-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .share-acts .pill-btn { width: 100%; white-space: nowrap; padding: 0 14px; }
 .share-acts .solo { grid-column: 1 / -1; }

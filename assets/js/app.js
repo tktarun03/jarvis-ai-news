@@ -24,6 +24,7 @@
     close: '<path d="M6 6l12 12M18 6L6 18"/>',
     chat: '<path d="M4.5 19.5l1.2-3.6A7.8 7.8 0 1 1 8.6 18.6z"/><path d="M9.2 9.4c.2 1.9 1.9 3.9 4.2 4.6l1-1 1.6.8-.4 1.3c-3.2.3-6.8-3-7-6.2l1.3-.4.7 1.6z"/>',
     copy: '<rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/>',
+    star: '<path d="m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>',
     more: '<circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/>',
     back: '<path d="M15 5l-7 7 7 7"/>',
     share: '<path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12.5V19a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 19v-6.5"/>',
@@ -86,10 +87,11 @@
     toastSticky = !!opts.sticky;
     toastEl.classList.remove('leaving'); toastEl.style.transform = '';
     toastEl.innerHTML = '<span class="toast-msg">' + esc(msg) + '</span>' +
-      (action ? '<a class="toast-act" href="' + esc(action.href) + '">' + esc(action.label) + '</a>' : '') +
+      (action ? '<a class="toast-act" href="' + esc(action.href || '#') + '"' + (action.external ? ' target="_blank" rel="noopener"' : '') + '>' + esc(action.label) + '</a>' : '') +
       '<button class="toast-x" type="button" aria-label="Dismiss notification">' + icon('close') + '</button>';
     toastEl.hidden = false; toastEl.style.animation = 'none'; void toastEl.offsetWidth; toastEl.style.animation = '';
     $('.toast-x', toastEl).addEventListener('click', hideToast);
+    if (action && action.fn) $('.toast-act', toastEl).addEventListener('click', function (e) { e.preventDefault(); hideToast(); action.fn(); });
     armToast(opts.duration || (action ? 6000 : 3200));
   }
   toastEl.addEventListener('mouseenter', function () { clearTimeout(toastT); });
@@ -512,11 +514,12 @@
     }
     if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { toast(done); }, fallback); else fallback();
   }
-  function share(s) {
-    var el = openFloat('Share story',
-      '<div class="share-prev"><p class="share-k">' + esc(CATS[s.category].label) + ' · ' + esc(s.source.name) + '</p><p class="share-h">' + esc(s.headline) + '</p><p class="share-u">' + esc(shareUrl(s).replace(/^https?:\/\//, '')) + '</p></div>' +
-      '<label class="share-note"><span class="opt-lbl">Your note <span class="hint">(optional, added above the story)</span></span>' +
-      '<textarea id="sh-note" rows="2" maxlength="400" placeholder="e.g. Saw this and thought of you"></textarea></label>' +
+  // One share sheet for stories and for the app. o: {title, kicker, heading, url, message(note), placeholder, noteHint}
+  function openShareSheet(o) {
+    var el = openFloat(o.title,
+      '<div class="share-prev"><p class="share-k">' + esc(o.kicker) + '</p><p class="share-h">' + esc(o.heading) + '</p><p class="share-u">' + esc(o.url.replace(/^https?:\/\//, '')) + '</p></div>' +
+      '<label class="share-note"><span class="opt-lbl">Your note <span class="hint">(' + esc(o.noteHint) + ')</span></span>' +
+      '<textarea id="sh-note" rows="2" maxlength="400" placeholder="' + esc(o.placeholder) + '"></textarea></label>' +
       '<div class="share-acts">' +
       '<a class="pill-btn wa" id="sh-wa" href="#" target="_blank" rel="noopener">' + icon('chat') + '<span>WhatsApp</span></a>' +
       '<button class="pill-btn' + (navigator.share ? '' : ' solo') + '" type="button" id="sh-copy">' + icon('copy') + '<span>Copy message</span></button>' +
@@ -524,18 +527,101 @@
       '<button class="pill-btn ghost" type="button" id="sh-link">' + icon('external') + '<span>Copy link only</span></button>' +
       '</div>');
     var note = $('#sh-note', el), wa = $('#sh-wa', el);
-    function msg() { return shareMessage(s, note.value); }
+    function msg() { return o.message(note.value); }
     function syncWa() { wa.href = 'https://wa.me/?text=' + encodeURIComponent(msg()); }
     note.addEventListener('input', syncWa);
     syncWa();
     wa.addEventListener('click', function () { setTimeout(closeFloat, 300); });
     $('#sh-copy', el).addEventListener('click', function () { copyText(msg(), 'Message copied. Paste it in WhatsApp.'); });
-    $('#sh-link', el).addEventListener('click', function () { copyText(shareUrl(s), 'Link copied'); });
+    $('#sh-link', el).addEventListener('click', function () { copyText(o.url, 'Link copied'); });
     if ($('#sh-more', el)) $('#sh-more', el).addEventListener('click', function () {
       // Link inside the text: some apps (WhatsApp on iOS) drop `text` when `url` is passed separately.
-      navigator.share({ title: s.headline, text: msg() }).then(function () { closeFloat(); }, function () { });
+      navigator.share({ title: o.heading, text: msg() }).then(function () { closeFloat(); }, function () { });
     });
   }
+  function share(s) {
+    openShareSheet({ title: 'Share story', kicker: CATS[s.category].label + ' · ' + s.source.name, heading: s.headline, url: shareUrl(s),
+      noteHint: 'optional, added above the story', placeholder: 'e.g. Saw this and thought of you', message: function (n) { return shareMessage(s, n); } });
+  }
+
+  /* ---------- share the app ---------- */
+  function appMessage(note) {
+    var lines = [];
+    if (note) lines.push(note.trim(), '');
+    lines.push('*' + SITE.name + '*: ' + (SITE.tagline || ''), '',
+      'The day’s top AI stories from around the world and India, every morning at ' + (SCHED.local_time || '07:30') + ' Doha time. Each one is checked against its source, with why it matters.',
+      '', 'Free, no sign-up. Open it and add it to your home screen:', SITE.base_url);
+    return lines.join('\n');
+  }
+  function shareApp() {
+    openShareSheet({ title: 'Share JARVIS', kicker: 'Daily AI news app · free', heading: SITE.name + ': ' + (SITE.tagline || ''), url: SITE.base_url,
+      noteHint: 'optional, added above the invite', placeholder: 'e.g. I read this every morning, try it', message: appMessage });
+  }
+  $('#share-app-btn').addEventListener('click', shareApp);
+
+  /* ---------- rating & feedback → GitHub issues (via the feedback Worker, or the GitHub issue form) ---------- */
+  var FB = DATA.feedback || {};
+  var RATE_WORDS = ['', 'Not useful', 'Needs work', 'It’s okay', 'Really good', 'Love it'];
+  function issueFormUrl(r, text, name) {
+    return 'https://github.com/' + FB.repo + '/issues/new?template=feedback.yml' +
+      '&title=' + encodeURIComponent('Feedback: ' + r + '★' + (text ? ' · ' + clip(text, 50) : '')) +
+      '&rating=' + encodeURIComponent(r + ' - ' + RATE_WORDS[r].replace('’', "'")) + '&message=' + encodeURIComponent(text) +
+      '&name=' + encodeURIComponent(name) + '&page=' + encodeURIComponent(location.pathname + ' · v' + RELEASES.current);
+  }
+  function openRate() {
+    var direct = !!FB.endpoint, prev = store.get('jarvis_rating', null);
+    var el = openFloat('Rate JARVIS',
+      '<div class="stars" role="radiogroup" aria-label="Rating">' + [1, 2, 3, 4, 5].map(function (n) {
+        return '<button type="button" class="star" role="radio" aria-checked="false" data-star="' + n + '" aria-label="' + n + ' of 5, ' + esc(RATE_WORDS[n]) + '">' + icon('star') + '</button>';
+      }).join('') + '</div><p class="star-word" id="rt-word">Tap a star</p>' +
+      '<label class="share-note"><span class="opt-lbl">What should we improve? <span class="hint">(optional)</span></span>' +
+      '<textarea id="rt-msg" rows="3" maxlength="1000" placeholder="Missing topics, a wrong fact, design, speed…"></textarea></label>' +
+      '<label class="share-note"><span class="opt-lbl">Your name <span class="hint">(optional)</span></span><input id="rt-name" type="text" maxlength="60" autocomplete="name"></label>' +
+      '<input id="rt-hp" class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+      '<button class="pill-btn primary" type="button" id="rt-send" disabled>' + (direct ? 'Send feedback' : 'Continue on GitHub') + '</button>' +
+      '<p class="hint rt-note">' + (direct
+        ? 'Posted publicly as an issue on the project’s GitHub page. Only what you type here is sent: no email, no location. Please don’t include private details.'
+        : 'Opens a GitHub form with your answers filled in. It needs a free GitHub account, and the feedback is public.') + '</p>');
+    var rating = 0, send = $('#rt-send', el);
+    function setStar(n) {
+      rating = n;
+      $$('[data-star]', el).forEach(function (b) { var k = +b.dataset.star; b.classList.toggle('on', k <= n); b.setAttribute('aria-checked', k === n ? 'true' : 'false'); });
+      $('#rt-word', el).textContent = RATE_WORDS[n]; send.disabled = false;
+    }
+    $$('[data-star]', el).forEach(function (b) { b.addEventListener('click', function () { setStar(+b.dataset.star); }); });
+    if (prev && prev.rating) setStar(prev.rating);
+    send.addEventListener('click', function () {
+      if (!rating) return;
+      var text = $('#rt-msg', el).value.trim(), name = $('#rt-name', el).value.trim(), url = issueFormUrl(rating, text, name);
+      function done() { store.set('jarvis_rating', { rating: rating, at: new Date().toISOString() }); closeFloat(); }
+      if (!direct) { window.open(url, '_blank', 'noopener'); done(); toast('Thanks! Press “Create” on GitHub to post it.'); return; }
+      send.disabled = true; send.textContent = 'Sending…';
+      fetch(FB.endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rating: rating, message: text, name: name, website: $('#rt-hp', el).value, page: location.pathname, version: RELEASES.current }) })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function () { done(); toast('Thank you! Your feedback was sent.'); })
+        .catch(function () {
+          send.disabled = false; send.textContent = 'Send feedback';
+          toast('Could not send right now.', { label: 'Use GitHub', href: url, external: true }, { duration: 9000 });
+        });
+    });
+  }
+  $('#rate-btn').addEventListener('click', openRate);
+  fetch(BASE + 'data/feedback.json', { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (f) {
+    if (!f || !f.count) return;
+    $('#rate-sub').textContent = '★ ' + f.average.toFixed(1) + ' · ' + f.count + ' rating' + (f.count === 1 ? '' : 's');
+  }).catch(function () { });
+  // One gentle nudge, once, after JARVIS has been opened on 3 different days.
+  (function () {
+    var today = new Date().toISOString().slice(0, 10), days = store.get('jarvis_days', []) || [];
+    if (days.indexOf(today) < 0) { days.push(today); store.set('jarvis_days', days.slice(-10)); }
+    if (days.length < 3 || store.get('jarvis_rating', null) || store.get('jarvis_rate_nudged', false)) return;
+    setTimeout(function () {
+      if (floatEl || $('.reader-wrap', sheetRoot) || !toastEl.hidden) return;
+      store.set('jarvis_rate_nudged', true);
+      toast('Enjoying JARVIS? Rate it in 10 seconds.', { label: 'Rate', fn: openRate }, { sticky: true });
+    }, 25000);
+  })();
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-qshare]');
     if (!b) return;

@@ -1,6 +1,17 @@
 {
-  "current": "1.8.0",
+  "current": "1.9.0",
   "releases": [
+    {
+      "version": "1.9.0",
+      "date": "2026-11-03",
+      "name": "Share & rate",
+      "notes": [
+        "Share JARVIS itself: Profile → Share JARVIS sends a ready-made invite to WhatsApp, with an optional note of your own.",
+        "Sharing the home page now shows an app preview (name, what it does, the share card) instead of one day's edition.",
+        "Rate JARVIS from 1 to 5 stars and say what to improve: Profile → Rate & give feedback. Feedback becomes a public GitHub issue on the project.",
+        "The average rating appears in Profile once ratings come in. A single, one-time reminder to rate appears after you've opened JARVIS on three different days."
+      ]
+    },
     {
       "version": "1.8.0",
       "date": "2026-11-03",

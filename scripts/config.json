@@ -101,5 +101,11 @@
       "label": "Startups",
       "color": "#B5C46F"
     }
+  },
+  "feedback": {
+    "_doc": "Ratings and feedback become GitHub issues labelled 'feedback'. endpoint: URL of the feedback Worker (feedback-worker/); empty = the app opens the GitHub issue form instead (needs a GitHub account). Set by .github/workflows/deploy-feedback.yml.",
+    "repo": "tktarun03/jarvis-ai-news",
+    "endpoint": "",
+    "label": "feedback"
   }
 }

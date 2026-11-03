@@ -1,0 +1,37 @@
+name: Rate JARVIS / feedback
+description: Rate JARVIS AI NEWS and tell us what to improve. Feedback here is public.
+title: "Feedback: "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for trying **JARVIS AI NEWS**. This form is public, so please don't include personal details.
+  - type: dropdown
+    id: rating
+    attributes:
+      label: Rating
+      description: How useful is JARVIS for you?
+      options:
+        - "5 - Love it"
+        - "4 - Really good"
+        - "3 - It's okay"
+        - "2 - Needs work"
+        - "1 - Not useful"
+    validations:
+      required: true
+  - type: textarea
+    id: message
+    attributes:
+      label: What should we improve?
+      description: Optional. Missing topics, wrong facts, design, speed, anything.
+  - type: input
+    id: name
+    attributes:
+      label: Your name
+      description: Optional.
+  - type: input
+    id: page
+    attributes:
+      label: Page and app version
+      description: Filled in by the app.

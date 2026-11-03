@@ -35,6 +35,7 @@ ICONS = {
     "sun": '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/>',
     "moon": '<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/>',
     "share": '<path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12.5V19a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 19v-6.5"/>',
+    "star": '<path d="m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>',
 }
 
 # Animated liquid-sphere logo (pure CSS, see .orb in app.css). Static versions live in assets/images/brand/.
@@ -187,7 +188,8 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 
     data_json = json.dumps({
         "edition": edition, "categories": cfg["categories"], "base": base,
-        "site": {k: site[k] for k in ("name", "signature", "agent_credit", "base_url", "publisher")},
+        "site": {k: site[k] for k in ("name", "tagline", "signature", "agent_credit", "base_url", "publisher")},
+        "feedback": {k: cfg.get("feedback", {}).get(k, "") for k in ("repo", "endpoint")},
         "schedule": cfg["schedule"], "releases": RELEASES,
         "latest": editions_index[0]["date"] if editions_index else date,
         "badges": {s["source"]["name"]: [monogram(s["source"]["name"]), badge_color(s["source"]["name"])] for s in g + i},
@@ -195,6 +197,12 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
     title = f"{site['name']} · {long_date(date)}"
     desc = f"{total} verified AI stories ({len(g)} global, {len(i)} India) for {long_date(date)}."
     canonical = f"{site['base_url']}news/{date}.html"
+    og_title, og_desc, og_url = title, desc, canonical
+    if base == "":  # the home page is what people share as "the app"
+        og_title = f"{site['name']}: {site['tagline']}"
+        og_desc = (f"Up to {cfg['edition']['max_global']} global and {cfg['edition']['max_india']} India AI stories every morning at "
+                   f"{cfg['schedule']['local_time']} Doha, each checked against its source. Free, no sign-up.")
+        og_url = site["base_url"]
     tabs = [("home", "Home"), ("explore", "Explore"), ("saved", "Saved"), ("archive", "Archive"), ("profile", "Profile")]
     tabbar = "".join(f'<button class="tab" type="button" data-tab="{k}" aria-pressed="{"true" if k == "home" else "false"}">'
                      f'{icon(k)}<span class="tab-lbl">{lbl}</span></button>' for k, lbl in tabs)
@@ -222,8 +230,11 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 <meta name="description" content="{escape(desc)}">
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="website">
-<meta property="og:title" content="{escape(title)}">
-<meta property="og:description" content="{escape(desc)}">
+<meta property="og:title" content="{escape(og_title)}">
+<meta property="og:description" content="{escape(og_desc)}">
+<meta property="og:url" content="{escape(og_url)}">
+<meta property="og:site_name" content="{escape(site['name'])}">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:image" content="{site['base_url']}assets/images/brand/og.png">
 <meta name="generator" content="JARVIS AI NEWS {ASSET_VERSION}">
 <meta name="author" content="{escape(publisher)}">
@@ -332,6 +343,12 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
             <button class="pill-btn dark" type="button" id="topic-btn">{icon('plus')}<span>Add topic</span></button>
           </div>
           <svg class="topic-art" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="60" cy="60" r="38"/><circle cx="60" cy="60" r="26" stroke-dasharray="2 6" opacity=".6"/><path d="M60 34l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="currentColor" stroke="none" opacity=".85"/><path d="M98 22l2 6 6 2-6 2-2 6-2-6-6-2 6-2zM20 88l1.5 4.5L26 94l-4.5 1.5L20 100l-1.5-4.5L14 94l4.5-1.5z" fill="currentColor" stroke="none" opacity=".6"/></g></svg>
+        </div>
+
+        <p class="set-head">Share &amp; feedback</p>
+        <div class="card list">
+          {setting_row('share', '#1DA851', 'Share JARVIS', 'Send the app to a friend on WhatsApp', 'id="share-app-btn"')}
+          {setting_row('star', '#F5A524', 'Rate &amp; give feedback', '<span id="rate-sub">Tell us what to improve</span>', 'id="rate-btn"')}
         </div>
 
         <p class="set-head">App settings</p>
