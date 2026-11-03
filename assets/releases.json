@@ -1,6 +1,17 @@
 {
-  "current": "1.1.1",
+  "current": "1.2.0",
   "releases": [
+    {
+      "version": "1.2.0",
+      "date": "2026-11-03",
+      "name": "Editorial",
+      "notes": [
+        "New newspaper-inspired layout with a bold JARVIS masthead, paper backgrounds, fine dividers and a red accent.",
+        "Image-first lead stories, compact thumbnail rows and side-by-side Global and India sections on desktop.",
+        "Retains dark mode, story sheets, saved stories, filters and archive.",
+        "Clarifies editor-verified labels and the curated edition note."
+      ]
+    },
     {
       "version": "1.1.1",
       "date": "2026-11-02",

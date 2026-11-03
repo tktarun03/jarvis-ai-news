@@ -90,7 +90,7 @@
     var next = cur === 'auto' ? 'light' : cur === 'light' ? 'dark' : 'auto';
     if (next === 'auto') { root.removeAttribute('data-theme'); try { localStorage.removeItem('jarvis_theme'); } catch (e) { } }
     else { root.setAttribute('data-theme', next); try { localStorage.setItem('jarvis_theme', next); } catch (e) { } }
-    toast('Theme: ' + (next === 'auto' ? 'match device' : next === 'light' ? 'day lounge' : 'night lounge'));
+    toast('Theme: ' + (next === 'auto' ? 'match device' : next === 'light' ? 'light' : 'dark'));
   });
 
   /* ---------- relative times (fresh editions, last 24h only) ---------- */
@@ -254,7 +254,7 @@
     var credit = im.type !== 'generated' ? '<span class="credit">' + esc(im.credit) + '</span>' : '';
     var insights = (s.key_insights || []).length
       ? '<ol class="insights">' + s.key_insights.map(function (x, i) { return '<li><span class="n">' + (i + 1) + '.</span><span>' + esc(x) + '</span></li>'; }).join('') + '</ol>'
-      : '<p class="unavailable">Key insights are only published when they can be checked against the publisher\'s text. This story carries the publisher\'s own summary.</p>';
+      : '<p class="unavailable">Key insights are only published when they can be checked against the publisher\'s text. Read the source for the full reporting.</p>';
     var impact = s.impact ? '<p class="impact">' + esc(s.impact) + '</p>' : '<p class="unavailable">No impact statement: the source did not support one.</p>';
     var also = (s.corroboration || []).length
       ? '<div class="block"><p class="eyebrow block-title">Also reported by</p><div class="also">' + s.corroboration.map(function (c) { return '<a href="' + esc(c.url) + '" target="_blank" rel="noopener">' + esc(c.name) + '</a>'; }).join('') + '</div></div>' : '';
@@ -349,3 +349,4 @@
     openStory(initial[1], false);
   }
 })();
+

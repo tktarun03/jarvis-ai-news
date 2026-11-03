@@ -64,7 +64,7 @@ def _meta(s: dict, cat: dict, zone, rank: int | None = None) -> str:
 
 def _detail(s: dict) -> str:
     n = len(s.get("key_insights") or [])
-    return f"{n} insight{'s' if n != 1 else ''}" if n else "Publisher summary"
+    return f"{n} insight{'s' if n != 1 else ''}" if n else ("Editor-verified" if s.get("summary_mode") == "editor-verified" else "Source summary")
 
 
 def _hero(s: dict, cfg: dict, base: str, zone) -> str:
@@ -73,7 +73,7 @@ def _hero(s: dict, cfg: dict, base: str, zone) -> str:
     return f"""
 <article class="story hero" id="s-{s['id']}" data-id="{s['id']}" data-region="{s['region']}" data-category="{s['category']}">
   <figure class="hero-media" data-img data-kind="{s['image']['type']}">{img_tag(s, base, eager=True)}</figure>
-  <div class="hero-shade"></div>
+  
   <button class="save-btn on-image" type="button" data-save="{s['id']}" aria-pressed="false" aria-label="Save story">{icon('saved')}</button>
   <div class="hero-body">
     <span class="badge"><span class="dot" style="--c:{cat['color']}"></span>Lead · {escape(cat['label'])}</span>
@@ -135,8 +135,7 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
     window_note = f"Covering {fmt_local(win['start'], zone)} → {fmt_local(win['end'], zone)} Doha time"
     sample_note = ""
     if edition.get("edition_type") == "launch-sample":
-        sample_note = ('<p class="note"><span class="note-mark">Launch edition</span> Stories were hand-verified against their publishers, '
-                       'over a wider window than the daily 24 hours. Daily editions are produced automatically.</p>')
+        sample_note = ('<p class="note"><span class="note-mark">Editor’s edition</span> Selected and checked against publisher sources.</p>')
     mode_counts: dict[str, int] = {}
     for s in g + i:
         mode_counts[s["summary_mode"]] = mode_counts.get(s["summary_mode"], 0) + 1
@@ -169,15 +168,15 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 <meta property="og:title" content="{escape(title)}">
 <meta property="og:description" content="{escape(desc)}">
 <meta property="og:image" content="{site['base_url']}assets/images/brand/og.png">
-<meta name="theme-color" content="#F6F3EE" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0B0A09" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FAFAF8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111211" media="(prefers-color-scheme: dark)">
 <meta name="generator" content="JARVIS AI NEWS {ASSET_VERSION}">
 <meta name="author" content="{escape(site['publisher'])}">
 <link rel="icon" href="{base}assets/images/brand/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{base}assets/images/brand/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&amp;family=Hanken+Grotesk:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&amp;family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="{base}assets/css/app.css?v={ASSET_VERSION}">
 <script>try{{var t=localStorage.getItem('jarvis_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);if(sessionStorage.getItem('jarvis_booted')==='1')document.documentElement.classList.add('booted');}}catch(e){{}}</script>
 </head>
@@ -209,9 +208,10 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
     <main class="col">
       <section class="masthead" data-pane="news">
         <p class="eyebrow" id="greet">Nº {num} · {escape(long_date(date))}</p>
-        <h1 class="h-display">Today in <em>AI</em></h1>
+        <h1 class="mast-logo">JARVIS<span class="edition-dot" aria-hidden="true">.</span><span class="sr-only"> AI News</span></h1>
+        <div class="mast-deck"><p>Artificial intelligence.<br class="mobile-break"> A clearer perspective.</p><span class="edition-label">THE DAILY AI EDITION</span></div>
         <div class="stats">
-          <div class="stat"><span class="num">{total}</span><span class="stat-lbl">Verified stories</span></div>
+          <div class="stat"><span class="num">{total}</span><span class="stat-lbl">verified stories</span></div>
           <div class="stat"><span class="num">{len(g)}</span><span class="stat-lbl">Global</span></div>
           <div class="stat"><span class="num">{len(i)}</span><span class="stat-lbl">India</span></div>
         </div>
@@ -240,7 +240,7 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
       </section>
 
       <footer class="sig">
-        <div class="sig-mark">{MARK_SVG}</div>
+        <div class="footer-wordmark" aria-hidden="true">JARVIS<span>.</span></div>
         <p class="sig-line">{escape(site['signature'])}</p>
         <p class="sig-credit">{escape(site['agent_credit'])}</p>
         <p class="fine">Summaries are written only from each publisher's own text and checked against it; open the source before relying on a story. Images are shown from their publishers with credit; JARVIS covers stand in where none is available.</p>
@@ -258,3 +258,4 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 </body>
 </html>
 """
+
