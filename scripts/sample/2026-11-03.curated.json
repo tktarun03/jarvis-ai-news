@@ -1,0 +1,197 @@
+{
+  "_comment": "Edition 3 Nov 2026, built by Claude because the scheduled run had not fired. Every story was opened on the publisher's page on 2026-11-03 and its publication time read from page metadata. Summaries are paraphrased; every figure appears in the cited page. Window: the 24 hours before the build.",
+  "edition_date": "2026-11-03",
+  "edition_type": "curated",
+  "window": { "start": "2026-11-02T05:00:00Z", "end": "2026-11-03T05:00:00Z" },
+  "stories": {
+    "global": [
+      {
+        "headline": "Anthropic says an unreleased Claude model built working exploit chains in five major platforms",
+        "source_title": "Anthropic's Claude AI found ways to hack Chrome, Android, Windows and Linux",
+        "source_name": "MediaNama",
+        "url": "https://www.medianama.com/2026/11/223-anthropic-claude-ai-hacks-chrome-android-windows-linux/",
+        "published_at": "2026-11-02T06:03:00Z",
+        "category": "safety",
+        "trust": 3,
+        "summary": "Anthropic's Frontier Red Team says an unreleased internal Claude research model built complete, multi-step exploit chains against Chrome, Safari, Android, Windows and Linux after initial prompting. Anthropic says it reported every flaw to the vendors and describes only issues that have been fixed.",
+        "key_insights": [
+          "Google assigned 62 CVEs to the Chrome issues, patched as of Chrome 156; 13 involved sandbox escapes.",
+          "The Linux flaw allowed zero-click remote root access via multipath TCP and has been fixed upstream and backported.",
+          "The findings come from Anthropic's own post and have not been verified by an independent party."
+        ],
+        "impact": "AI-assisted vulnerability discovery is now finding serious browser and OS flaws; users are protected only once they install the patched versions.",
+        "tags": ["security", "anthropic", "vulnerabilities"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 2 Nov 2026, 06:03 UTC", "based on Anthropic's Frontier Red Team post; not independently verified", "trusted domain checked against scripts/sources.json"]
+      },
+      {
+        "headline": "New York Times and three US papers sue Brave over AI use of their journalism",
+        "source_title": "Brave Faces Two Publisher Lawsuits Over AI Use of News Content",
+        "source_name": "Unite.AI",
+        "url": "https://www.unite.ai/brave-faces-two-publisher-lawsuits-over-ai-use-of-news-content/",
+        "published_at": "2026-11-03T01:02:03Z",
+        "category": "policy",
+        "trust": 2,
+        "summary": "The New York Times Company and the publishers of the New York Daily News, Chicago Tribune and Orlando Sentinel filed separate federal complaints against Brave Software on 2 November. They allege Brave copied and distributed their journalism through its search index, AI services and browser without permission.",
+        "key_insights": [
+          "Each complaint brings five counts, including copyright infringement and circumvention of access controls under the DMCA.",
+          "The three newspapers' complaint was filed in the Southern District of New York.",
+          "No response from Brave was reported; the Times says two earlier letters to CEO Brendan Eich went unanswered."
+        ],
+        "impact": "Brave's AI search and browser features now face a legal challenge from major US publishers; the outcome could shape how AI answer services use news content.",
+        "tags": ["copyright", "publishers", "brave"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 2 Nov 2026, 20:02 US Eastern (3 Nov, 01:02 UTC)", "trusted domain checked against scripts/sources.json"]
+      },
+      {
+        "headline": "OpenAI pledges its compute campuses will cut power use when grids are strained",
+        "source_title": "OpenAI Launches Grid Protectors Program for Compute Campuses",
+        "source_name": "Unite.AI",
+        "url": "https://www.unite.ai/openai-launches-grid-protectors-program-for-compute-campuses/",
+        "published_at": "2026-11-02T15:22:03Z",
+        "category": "infrastructure",
+        "trust": 2,
+        "summary": "OpenAI launched a Grid Protectors Program under which its future compute campuses will reduce electricity use when grids are under strain, starting in Georgia. The first site, a planned campus in Effingham County, has an agreement for up to 1,000 megawatts of flexible demand response.",
+        "key_insights": [
+          "OpenAI says it will cover the full infrastructure and electric-service costs for the Georgia pilot.",
+          "How much demand is cut, how quickly and for how long will be set with utilities and regulators, and will vary by location.",
+          "OpenAI may use on-site generation, batteries and power controls where appropriate."
+        ],
+        "impact": "Utilities and regulators weighing large AI data centres gain a working model for flexible demand, which could ease pressure on local grids.",
+        "tags": ["energy", "data centres", "openai"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 2 Nov 2026, 10:22 US Eastern (15:22 UTC)", "trusted domain checked against scripts/sources.json"]
+      },
+      {
+        "headline": "Salesforce agrees to buy Cresta for voice AI in customer service",
+        "source_title": "Salesforce Agrees to Buy Cresta for Voice-Led Customer Service AI",
+        "source_name": "Unite.AI",
+        "url": "https://www.unite.ai/salesforce-agrees-to-buy-cresta-for-voice-led-customer-service-ai/",
+        "published_at": "2026-11-03T01:33:04Z",
+        "category": "business",
+        "trust": 2,
+        "summary": "Salesforce signed a definitive agreement on 2 November to acquire Cresta, whose platform combines autonomous voice agents, live assistance for human staff and conversation analysis. The deal value was not disclosed.",
+        "key_insights": [
+          "Salesforce describes Cresta as a voice-first operating system for customer experience.",
+          "Closing is expected in the first quarter of Salesforce's fiscal 2028, subject to regulatory approvals."
+        ],
+        "impact": "If the deal closes, Salesforce customers could get voice agents and live agent assistance inside its platform.",
+        "tags": ["acquisition", "voice agents", "salesforce"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 2 Nov 2026, 20:33 US Eastern (3 Nov, 01:33 UTC)", "deal value not disclosed by the source", "trusted domain checked against scripts/sources.json"]
+      },
+      {
+        "headline": "Anthropic open-sources FlashProve to prove which model weights produced an answer",
+        "source_title": "Anthropic Releases FlashProve for Cryptographic AI Inference Proofs",
+        "source_name": "Unite.AI",
+        "url": "https://www.unite.ai/anthropic-releases-flashprove-for-cryptographic-ai-inference-proofs/",
+        "published_at": "2026-11-03T04:44:05Z",
+        "category": "research",
+        "trust": 2,
+        "summary": "Anthropic released FlashProve, an open-source research prototype that uses cryptographic proofs to show a model's response came from committed weights without revealing those weights. It is licensed under Apache 2.0 and labelled an unmaintained research artifact.",
+        "key_insights": [
+          "Reported proof generation reaches 110 tokens per second for Meta's Llama 4 Maverick.",
+          "Proving a 24-request batch took about 223 seconds on one H100; CPU verification took about 17 seconds.",
+          "No independent security audit has been done, and proving used about 72 times the per-GPU time of FP8 inference."
+        ],
+        "impact": "Auditors and customers could one day check that a provider served the model it claimed; for now the cost and lack of audit make it a research step.",
+        "tags": ["cryptography", "verification", "open source"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 2 Nov 2026, 23:44 US Eastern (3 Nov, 04:44 UTC)", "trusted domain checked against scripts/sources.json"]
+      },
+      {
+        "headline": "Israel's 42AI exits stealth with $62.5M to model how brokerage clients behave",
+        "source_title": "42AI Secures $62.5M in Seed Funding for Behavioral World Model",
+        "source_name": "Unite.AI",
+        "url": "https://www.unite.ai/42ai-secures-62-5m-in-seed-funding-for-behavioral-world-model/",
+        "published_at": "2026-11-02T17:19:02Z",
+        "category": "startups",
+        "trust": 2,
+        "summary": "Israel-based 42AI came out of stealth with $62.5 million in seed funding for a behavioral world model that estimates how individual clients may act as circumstances change. The company works with financial brokerages.",
+        "key_insights": [
+          "CEO Amit Gal-Or said the money came from the founders and Infinity Group over three years, not entirely from outside investors.",
+          "Gal-Or said 42AI works with 10 large brokerages but gave no revenue figure."
+        ],
+        "impact": null,
+        "tags": ["funding", "fintech", "israel"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 2 Nov 2026, 12:19 US Eastern (17:19 UTC)", "funding source per the CEO; no impact claim made", "trusted domain checked against scripts/sources.json"]
+      }
+    ],
+    "india": [
+      {
+        "headline": "OpenAI says India is now ChatGPT's largest market by weekly users",
+        "source_title": "ChatGPT India Largest Market, Says OpenAI MD",
+        "source_name": "Elets CIO",
+        "url": "https://cio.eletsonline.com/artificial-intelligence/chatgpt-india-largest-market/76671/",
+        "published_at": "2026-11-03T02:56:01Z",
+        "category": "products",
+        "trust": 1,
+        "summary": "OpenAI India managing director Prabhjeet Singh told The Economic Times that India is now ChatGPT's largest market by weekly active users, and that the user base has doubled since January 2026. The figures are OpenAI's own claim.",
+        "key_insights": [
+          "Singh said OpenAI plans deeper localisation, Hindi and vernacular voice features, and UPI-linked payment announcements in the coming weeks.",
+          "Earlier market estimates put India's ChatGPT user base at about 100 million; Sam Altman had previously called India its second-largest."
+        ],
+        "impact": "Indian users can expect more Hindi and regional-language voice features and UPI payments if OpenAI's planned announcements go ahead.",
+        "tags": ["chatgpt", "openai", "users"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 3 Nov 2026, 02:56 UTC", "relays OpenAI India MD's interview with The Economic Times; user figures are OpenAI's claim", "bylined news report, not an AI forecast"]
+      },
+      {
+        "headline": "IndiaMART puts its data behind logins to hold off Google AI search and AI agents",
+        "source_title": "IndiaMART moves content behind logins to defend its data moat against Search and AI agents",
+        "source_name": "MediaNama",
+        "url": "https://www.medianama.com/2026/11/223-indiamart-restricts-google-search-ai-access/",
+        "image_url": "https://www.medianama.com/wp-content/uploads/2024/05/IndiaMART.jpg",
+        "published_at": "2026-11-02T06:42:49Z",
+        "category": "business",
+        "trust": 3,
+        "summary": "IndiaMART has moved content behind logins, blocked unrestricted scraping and restricted its data from Google Search and AI agents, MediaNama reported from the company's Q2 FY27 analyst call. CEO Dinesh Agarwal said the company is willing to give up 10-20% of unique business enquiries to protect its data.",
+        "key_insights": [
+          "Unique business enquiries were 27 million in July–September, down 14% year on year.",
+          "Agarwal blamed Google AI Overviews, which he said now appear on 50% of searches or more.",
+          "IndiaMART is open to licensing redacted, non-personal data for AI training only if it earns revenue."
+        ],
+        "impact": "Buyers may find fewer IndiaMART listings through Google and AI assistants as large Indian platforms start guarding their data from AI search.",
+        "tags": ["indiamart", "data", "ai search"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 2 Nov 2026, 06:42 UTC", "figures from the company's Q2 FY27 analyst call as reported", "trusted domain checked against scripts/sources.json"]
+      },
+      {
+        "headline": "Google brings Dreambeans AI story app to India in 13 languages",
+        "source_title": "Google Dreambeans India Launch in 13 Languages",
+        "source_name": "Elets CIO",
+        "url": "https://cio.eletsonline.com/artificial-intelligence/google-dreambeans-india-launch/76674/",
+        "published_at": "2026-11-03T03:59:45Z",
+        "category": "products",
+        "trust": 1,
+        "summary": "Google launched Dreambeans, an experimental AI app that turns a user's own digital activity into personalised illustrated stories, in India, its first market outside the United States. It supports 13 Indian languages alongside English on Android and iOS.",
+        "key_insights": [
+          "With permission, the app draws on services such as Calendar, Gmail and Photos.",
+          "Languages include Hindi, Punjabi, Tamil, Telugu and Bengali; users pick one language at a time.",
+          "No pricing was stated."
+        ],
+        "impact": "Indian users get an early look at Google's personal-story AI in their own languages, which means granting it access to personal Google data.",
+        "tags": ["google", "languages", "consumer ai"],
+        "corroboration": [],
+        "checks": ["publisher page opened and read on 2026-11-03", "publication time confirmed in page metadata: 3 Nov 2026, 03:59 UTC", "bylined news report, not an AI forecast"]
+      }
+    ]
+  },
+  "rejected": [
+    { "title": "Anthropic S-1: $17B Q3 revenue and a quarterly loss", "reason": "same event as the Anthropic revenue story already published on 2 Nov (no republication)" },
+    { "title": "Abu Dhabi signs four OpenAI deals", "reason": "same event cluster as the ADNOC–G42–OpenAI story published on 2 Nov" },
+    { "title": "TRAI draft would make telcos answerable for vendor AI", "reason": "already published in an earlier version of the 2 Nov edition" },
+    { "title": "Palantir Q3: US commercial revenue up 148%", "reason": "CNBC page could not be opened from the build environment to verify" },
+    { "title": "Oracle files to raise $20B in stock and bonds for AI", "reason": "CNBC page could not be opened from the build environment to verify" },
+    { "title": "Squarespace lays off 19% of staff amid AI shift", "reason": "TechCrunch page could not be opened from the build environment; syndicated copies are not on the trusted list" },
+    { "title": "OpenAI sets a shared ChatGPT and Codex allowance from December", "reason": "stale: first announced on 31 Oct and recirculated" },
+    { "title": "Broccoli AI raises $52M led by Khosla Ventures", "reason": "outside window (published 1 Nov 2026)" },
+    { "title": "CERT-In advisory on AI agents", "reason": "stale: advisory issued on 15 Oct 2026; article recirculates it" },
+    { "title": "Goldman Sachs limits AI coding tools to engineers", "reason": "Bloomberg report is paywalled; could not verify on the publisher page" },
+    { "title": "Meta weighs a $20B+ bond for AI spending", "reason": "Bloomberg report is paywalled; could not verify on the publisher page" },
+    { "title": "Meituan launches LongCat-2.5 model", "reason": "source not on the trusted list (owner approval needed to add)" },
+    { "title": "SUSE cuts 10% of staff citing AI", "reason": "source not on the trusted list (owner approval needed to add)" },
+    { "title": "Google runs Gemma 4 on a satellite TPU", "reason": "Google page could not be opened to confirm its publication date" }
+  ]
+}

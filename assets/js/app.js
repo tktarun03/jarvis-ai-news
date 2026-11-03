@@ -420,7 +420,7 @@
       '<dt>Generated</dt><dd>' + esc(new Date(ED.generated_at).toLocaleString('en-GB', { timeZone: TZ, day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })) + ' Doha</dd>' +
       '<dt>Next edition</dt><dd>' + esc(SCHED.local_time || '07:30') + ' Doha · in ' + fmtDuration(minutesToNextEdition()) + '</dd>' +
       (ED.produced_by ? '<dt>Produced by</dt><dd>' + esc(ED.produced_by.agent) + ' · ' + esc(ED.produced_by.method) + '</dd>' : '') +
-      '<dt>Summaries</dt><dd>' + (ED.edition_type === 'launch-sample' ? 'Hand-verified' : sumOn ? 'AI, grounded in source' : 'Publisher’s own') + '</dd>' +
+      '<dt>Summaries</dt><dd>' + (ED.edition_type !== 'daily' ? 'Hand-verified' : sumOn ? 'AI, grounded in source' : 'Publisher’s own') + '</dd>' +
       '<dt>Images</dt><dd>' + esc(Object.keys(kinds).map(function (k) { return kinds[k] + ' ' + (names[k] || k); }).join(' · ')) + '</dd>' +
       '<dt>Edition log</dt><dd><a href="https://github.com/tktarun03/jarvis-ai-news/commits/main/data/' + esc(ED.edition_date) + '.json" target="_blank" rel="noopener">Change history</a></dd></dl>' +
       '<p class="r-h">Version history</p><ol class="timeline">' + rels + '</ol>', true);

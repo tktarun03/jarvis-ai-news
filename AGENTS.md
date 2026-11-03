@@ -127,7 +127,7 @@ Every story object in `data/DATE.json` → `stories.global[]` / `stories.india[]
   - `editor-verified`: a hand-curated story.
 - `verification`: `{link_status, date_source, checks: [...]}`. `checks` must not be empty.
 
-Edition-level fields: `schema_version`, `edition_date`, `edition_number`, `edition_type` (`daily` | `launch-sample`), `timezone`, `generated_at`, `window {start, end}`, `publisher`, `summarizer`, `counts`, `stories`, `rejected [{title, url?, reason}]`, `feeds {ok, failed}`.
+Edition-level fields: `schema_version`, `edition_date`, `edition_number`, `edition_type` (`daily` | `curated` | `launch-sample`), `produced_by {agent, method}`, `timezone`, `generated_at`, `window {start, end}`, `publisher`, `summarizer`, `counts`, `stories`, `rejected [{title, url?, reason}]`, `feeds {ok, failed}`.
 
 If you change this contract, update `render.py`, `app.js`, `validate.py`, the tests, and this section together, and bump `schema_version`.
 

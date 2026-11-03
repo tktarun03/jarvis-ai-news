@@ -1,8 +1,20 @@
 {
   "schema_version": 1,
-  "latest": "2026-11-02",
-  "updated_at": "2026-11-02T19:14:35Z",
+  "latest": "2026-11-03",
+  "updated_at": "2026-11-03T05:00:19Z",
   "editions": [
+    {
+      "date": "2026-11-03",
+      "number": 2,
+      "counts": {
+        "global": 6,
+        "india": 3
+      },
+      "top_headline": "Anthropic says an unreleased Claude model built working exploit chains in five major platforms",
+      "html": "news/2026-11-03.html",
+      "json": "data/2026-11-03.json",
+      "generated_at": "2026-11-03T05:00:19Z"
+    },
     {
       "date": "2026-11-02",
       "number": 1,
