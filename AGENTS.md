@@ -22,6 +22,24 @@ Once a day (07:30 Asia/Qatar = 04:30 UTC), `.github/workflows/daily-news.yml` ru
 
 Editions are never deleted. The repo is the archive.
 
+## Before any edition job: check, then claim (several agents share this repo)
+
+Claude, ChatGPT, the GitHub schedule and people may all try to build the same day. Always run this first, after `git pull`:
+
+```bash
+python scripts/claim-edition.py check --agent <your-name>      # exit 0 free · 10 already published · 11 claimed by another agent
+```
+
+- **Exit 10, already published:** the job is complete, whoever did it. Stop, and tell the owner which agent produced it (`produced_by` in `data/DATE.json`). Do not rebuild or "improve" it unless the owner asks.
+- **Exit 11, claimed:** another agent is building it right now. Stop; do not start a second run. Claims expire after 90 minutes, so a crashed agent cannot block the day.
+- **Exit 0, free:** claim it, then do the work:
+  ```bash
+  python scripts/claim-edition.py claim --agent <your-name> --push   # pushes data/claims/DATE.json
+  python scripts/generate-news.py --agent <your-name>                # or --curated FILE --agent <your-name>
+  ```
+  `generate-news.py` refuses to run if someone else holds a live claim or the edition already exists. On success it records `produced_by` and marks the claim `completed`. If you give up, run `claim-edition.py release --agent <your-name> --push`.
+- The GitHub schedule runs as `github-actions` and follows the same rules.
+
 ## Non-negotiable rules
 
 These protect the site's credibility. Do not weaken them, even when asked to "just get it working."

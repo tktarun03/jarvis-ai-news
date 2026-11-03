@@ -11,6 +11,12 @@ Every procedure ends the same way: **tests pass → `python scripts/validate.py`
 
 ---
 
+## Procedure 0: Check and claim before any edition job
+
+1. `git pull`, then `python scripts/claim-edition.py check --agent <your-name>`.
+2. Exit 10 means the edition is already published; report who produced it and stop. Exit 11 means another agent is building it; stop.
+3. Exit 0 means it is free: `python scripts/claim-edition.py claim --agent <your-name> --push`, then continue with Procedure 1 or 2, passing `--agent <your-name>` to `generate-news.py`.
+
 ## Procedure 1: Run today's edition (automatic)
 
 Use this when a daily run is needed outside the schedule, or to reproduce what Actions does.
