@@ -1,4 +1,4 @@
-/* JARVIS AI NEWS v1.5 "Reader" — progressive enhancement for the static edition pages.
+/* JARVIS AI NEWS v1.6 — progressive enhancement for the static edition pages.
    Without JS every card links straight to its publisher. brief.js (voice, greeting, update banner,
    push) runs alongside and owns #brief-*, #listen/pause/stop-btn, #voice-status, #news-update, #push-*. */
 (function () {
@@ -64,13 +64,51 @@
     return n ? n + ' insight' + (n === 1 ? '' : 's') : (s.summary_mode === 'editor-verified' ? 'Editor-verified' : 'Source summary');
   }
 
-  /* ---------- toast ---------- */
-  var toastEl = $('#toast'), toastT;
-  function toast(msg, action) {
-    toastEl.innerHTML = '<span>' + esc(msg) + '</span>' + (action ? '<a class="toast-act" href="' + esc(action.href) + '">' + esc(action.label) + '</a>' : '');
-    toastEl.hidden = false; toastEl.style.animation = 'none'; void toastEl.offsetWidth; toastEl.style.animation = '';
-    clearTimeout(toastT); toastT = setTimeout(function () { toastEl.hidden = true; }, action ? 6000 : 2400);
+  /* ---------- no pinch-zoom (owner's choice). Readers can still enlarge text with Aa → Font size. ---------- */
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) { document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false }); });
+  document.addEventListener('touchmove', function (e) { if (e.touches.length > 1 || (e.scale && e.scale !== 1)) e.preventDefault(); }, { passive: false });
+  document.addEventListener('wheel', function (e) { if (e.ctrlKey) e.preventDefault(); }, { passive: false }); // trackpad pinch
+
+  /* ---------- toast: one at a time, slides up from the bottom, close button, swipe down to dismiss ---------- */
+  var toastEl = $('#toast'), toastT = null, toastSticky = false;
+  function hideToast() {
+    clearTimeout(toastT);
+    if (toastEl.hidden || toastEl.classList.contains('leaving')) return;
+    toastEl.classList.add('leaving');
+    setTimeout(function () { toastEl.hidden = true; toastEl.classList.remove('leaving'); toastEl.style.transform = ''; }, 220);
   }
+  function armToast(ms) { clearTimeout(toastT); if (!toastSticky) toastT = setTimeout(hideToast, ms); }
+  function toast(msg, action, opts) {
+    opts = opts || {};
+    toastSticky = !!opts.sticky;
+    toastEl.classList.remove('leaving'); toastEl.style.transform = '';
+    toastEl.innerHTML = '<span class="toast-msg">' + esc(msg) + '</span>' +
+      (action ? '<a class="toast-act" href="' + esc(action.href) + '">' + esc(action.label) + '</a>' : '') +
+      '<button class="toast-x" type="button" aria-label="Dismiss notification">' + icon('close') + '</button>';
+    toastEl.hidden = false; toastEl.style.animation = 'none'; void toastEl.offsetWidth; toastEl.style.animation = '';
+    $('.toast-x', toastEl).addEventListener('click', hideToast);
+    armToast(opts.duration || (action ? 6000 : 3200));
+  }
+  toastEl.addEventListener('mouseenter', function () { clearTimeout(toastT); });
+  toastEl.addEventListener('mouseleave', function () { armToast(2000); });
+  (function () {
+    var y0 = null;
+    toastEl.addEventListener('touchstart', function (e) { y0 = e.touches[0].clientY; clearTimeout(toastT); }, { passive: true });
+    toastEl.addEventListener('touchmove', function (e) { if (y0 === null) return; var dy = Math.max(0, e.touches[0].clientY - y0); toastEl.style.transform = 'translate(-50%, ' + dy + 'px)'; }, { passive: true });
+    toastEl.addEventListener('touchend', function (e) {
+      var dy = e.changedTouches[0].clientY - (y0 === null ? 0 : y0); y0 = null;
+      if (dy > 40) hideToast(); else { toastEl.style.transform = ''; armToast(2000); }
+    });
+  })();
+  window.JARVIS = { toast: toast, hideToast: hideToast };
+
+  /* ---------- live Doha clock in the header chip ---------- */
+  var clockEl = $('#live-clock');
+  function tickClock() {
+    if (!clockEl) return;
+    try { clockEl.textContent = new Date().toLocaleString('en-GB', { timeZone: TZ, weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }) + ' · Doha'; } catch (e) { }
+  }
+  tickClock(); setInterval(tickClock, 30000);
 
   /* ---------- display settings: theme, auto, brightness, font size ---------- */
   var root = document.documentElement;
@@ -142,6 +180,7 @@
     try { sessionStorage.setItem('jarvis_tab', name); } catch (e) { }
   }
   $$('.tab').forEach(function (b) { b.addEventListener('click', function () { showTab(b.dataset.tab); }); });
+  $('#search-btn').addEventListener('click', function () { showTab('explore'); setTimeout(function () { $('#explore-q').focus({ preventScroll: true }); }, 80); });
 
   /* ---------- home: region tabs, my topics, carousel ---------- */
   var slidesEl = $('#slides'), dotsEl = $('#pdots');
@@ -450,7 +489,7 @@
     e.preventDefault();
     openStory(card.dataset.id, true);
   });
-  document.addEventListener('keydown', function (e) { if (e.key !== 'Escape') return; if (floatEl) closeFloat(); else closeStory(); });
+  document.addEventListener('keydown', function (e) { if (e.key !== 'Escape') return; if (floatEl) closeFloat(); else if ($('.reader-wrap', sheetRoot)) closeStory(); else hideToast(); });
   window.addEventListener('popstate', function () {
     var m = location.hash.match(/^#s-([0-9a-f]{12})$/);
     if (m) openStory(m[1], false); else closeStory(true);

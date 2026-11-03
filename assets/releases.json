@@ -1,6 +1,18 @@
 {
-  "current": "1.5.1",
+  "current": "1.6.0",
   "releases": [
+    {
+      "version": "1.6.0",
+      "date": "2026-11-03",
+      "name": "Modern header",
+      "notes": [
+        "New home header: live Doha date chip, large greeting and a gradient brief card with story counts and Listen controls.",
+        "Search button in the top bar opens Explore with the search box focused.",
+        "All notifications are bottom toasts that slide up, with a close button, swipe-down to dismiss and pause on hover; news updates stay until closed.",
+        "Pinch and double-tap zoom are turned off; use Aa → Font size to enlarge text.",
+        "Responsive pass for 320px phones, large phones, landscape and tablets."
+      ]
+    },
     {
       "version": "1.5.1",
       "date": "2026-11-03",

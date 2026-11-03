@@ -133,7 +133,11 @@ To find broken feeds, look at `feeds.failed` in the latest `data/DATE.json`. Eac
    - "Aa" Display card: brightness, dark reading theme, font size (`--read-scale`), follow-device theme, theme colour swatches;
    - source badges are coloured monograms; never use publisher logos;
    - 40px or larger tap targets.
-   - Keep the IDs that `assets/js/brief.js` uses (`brief-title`, `brief-greeting`, `listen-btn`, `pause-btn`, `stop-btn`, `voice-status`, `news-update`, `push-btn`, `push-status`).
+   - Home header (v1.6): live Doha date chip (`#live-clock`), large greeting (`#greet-hello`, set by brief.js), and a gradient brief card (`--card-a`/`--card-b` per theme) with counts and Listen controls; the top bar has search, refresh and the theme switch.
+   - Notifications: always use `window.JARVIS.toast(message, action?, {sticky?, duration?})`. Toasts slide up from the bottom, have a close button and can be swiped down. Do not add top banners or browser alerts.
+   - Pinch and double-tap zoom are disabled at the owner's request (viewport meta, `touch-action: pan-x pan-y`, and gesture handlers in app.js). Keep inputs at 16px or larger so iOS does not zoom on focus, and keep Aa → Font size working as the readability alternative.
+   - Check 320, 360, 390 and 430px widths, phone landscape, 768px and 1440px for horizontal overflow.
+   - Keep the IDs that `assets/js/brief.js` uses (`greet-hello`, `brief-title`, `brief-greeting`, `listen-btn`, `pause-btn`, `stop-btn`, `voice-status`, `news-update`, `push-btn`, `push-status`).
 3. Keep pages readable without JavaScript: cards link straight to the publisher.
 4. If you changed `render.py`, run `--rerender`.
 5. Run `validate.py`, then preview with `python -m http.server`. Check 390px width and desktop in the light, sepia and dark themes, plus the reader, Display card, Explore filters, My topics, saved stories and the archive.

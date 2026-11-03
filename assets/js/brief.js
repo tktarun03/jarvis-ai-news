@@ -15,7 +15,9 @@
   }
   function updateGreeting() {
     byId('brief-title').textContent = isToday() ? 'Today’s brief' : 'Edition brief';
-    byId('brief-greeting').textContent = greeting() + '. ' + (isToday() ? 'Here’s your AI update for today.' : 'Here’s your AI update for ' + new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(new Date(ed.edition_date + 'T12:00:00Z')) + '.');
+    var hello = byId('greet-hello');
+    if (hello) hello.textContent = greeting();
+    byId('brief-greeting').textContent = (hello ? '' : greeting() + '. ') + (isToday() ? 'Here’s your AI update for today.' : 'Here’s your AI update for ' + new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: tz }).format(new Date(ed.edition_date + 'T12:00:00Z')) + '.');
   }
   updateGreeting();
   document.addEventListener('visibilitychange', function () { if (!document.hidden) updateGreeting(); });
@@ -61,7 +63,7 @@
   } else { status.textContent = 'Read-aloud is not supported in this browser. Try Safari or Chrome.'; }
 
   /* Poll only visible pages. This banner is not a substitute for background push. */
-  var checking = false;
+  var checking = false, shownUpdate = null;
   async function checkNews() {
     if (document.hidden || checking) return; checking = true;
     try {
@@ -70,9 +72,15 @@
       var idx = await response.json();
       var latest = (idx.editions || []).find(function (e) { return e.date === idx.latest; });
       if (latest && (idx.latest > ed.edition_date || (idx.latest === ed.edition_date && latest.generated_at !== ed.generated_at))) {
-        var banner = byId('news-update'); banner.textContent = 'A news update is available.';
-        var link = document.createElement('a'); link.textContent = 'Read update'; link.href = base + 'index.html?update=' + encodeURIComponent(latest.generated_at);
-        banner.appendChild(link); banner.hidden = false;
+        var href = base + 'index.html?update=' + encodeURIComponent(latest.generated_at);
+        if (window.JARVIS && window.JARVIS.toast) {
+          // One sticky bottom toast per update; the reader can close it.
+          if (shownUpdate !== latest.generated_at) { shownUpdate = latest.generated_at; window.JARVIS.toast('A news update is available.', { label: 'Read update', href: href }, { sticky: true }); }
+        } else {
+          var banner = byId('news-update'); banner.textContent = 'A news update is available.';
+          var link = document.createElement('a'); link.textContent = 'Read update'; link.href = href;
+          banner.appendChild(link); banner.hidden = false;
+        }
       }
     } catch (e) { /* Keep the current edition usable offline. */ } finally { checking = false; }
   }

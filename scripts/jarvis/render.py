@@ -210,7 +210,7 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>{escape(title)}</title>
 <meta name="theme-color" content="#F5F6FA">
 <link rel="manifest" href="{base}manifest.webmanifest">
@@ -236,7 +236,9 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
   <div class="scroller" id="scroller">
     <header class="top" id="top">
       <a class="brand" href="{base}index.html" aria-label="{escape(site['name'])} home">{MARK_SVG}<span class="brand-name">JARVIS</span></a>
+      <span class="top-title" aria-hidden="true">Nº {num} · {datetime.strptime(date, "%Y-%m-%d").strftime("%d %b")}</span>
       <div class="head-actions">
+        <button class="icon-btn" type="button" id="search-btn" aria-label="Search stories" title="Search">{icon('explore')}</button>
         <button class="icon-btn" type="button" id="refresh-btn" aria-label="Refresh page and news" title="Refresh">{icon('refresh')}</button>
         <button class="switch theme-switch" type="button" id="theme-btn" role="switch" aria-checked="false" aria-label="Dark mode"><span class="knob">{icon('sun', 'ic k-sun')}{icon('moon', 'ic k-moon')}</span></button>
       </div>
@@ -244,17 +246,28 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
     <main class="col">
 
       <div class="pane" data-pane="home">
-        <section class="greet">
-          <p class="eyebrow">Nº {num} · {escape(long_date(date))}</p>
-          <h1 class="greet-title" id="brief-title">Today’s brief</h1>
-          <p class="greet-sub" id="brief-greeting">Here’s your verified AI update for {escape(long_date(date))}.</p>
-          <div class="brief-actions">
-            <button class="pill-btn primary" id="listen-btn" type="button" disabled>{icon('play')}<span>Listen to headlines</span></button>
-            <button class="pill-btn" id="pause-btn" type="button" hidden>Pause</button>
-            <button class="pill-btn" id="stop-btn" type="button" hidden>Stop</button>
+        <section class="hero-head">
+          <div class="hh-row">
+            <p class="date-chip"><span class="live-dot"></span><span id="live-clock">{escape(long_date(date))}</span></p>
+            <span class="ed-chip">Nº {num}</span>
           </div>
-          <p class="brief-status" id="voice-status" role="status">Enable JavaScript to listen.</p>
-          <p class="window-note"><span class="live-dot"></span><b>{total}</b> verified · {len(g)} Global · {len(i)} India · {escape(window_note)}</p>
+          <h1 class="hh-hello" id="greet-hello">Hello, Boss</h1>
+          <p class="hh-sub" id="brief-greeting">Here’s your verified AI update for {escape(long_date(date))}.</p>
+          <div class="brief-card">
+            <svg class="bc-deco" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="currentColor"><circle cx="100" cy="100" r="96" stroke-width="1.5"/><circle cx="100" cy="100" r="66" stroke-width="1.5" stroke-dasharray="2 7" stroke-linecap="round"/><circle cx="100" cy="100" r="36" stroke-width="1.5"/></g><path d="M100 78l6 16 16 6-16 6-6 16-6-16-16-6 16-6z" fill="currentColor"/></svg>
+            <div class="bc-top"><span class="bc-label" id="brief-title">Today’s brief</span><span class="bc-window">{escape(window_note)}</span></div>
+            <div class="bc-stats">
+              <div><b>{total}</b><span>Stories</span></div>
+              <div><b>{len(g)}</b><span>Global</span></div>
+              <div><b>{len(i)}</b><span>India</span></div>
+            </div>
+            <div class="brief-actions">
+              <button class="pill-btn light" id="listen-btn" type="button" disabled>{icon('play')}<span>Listen to headlines</span></button>
+              <button class="pill-btn glass" id="pause-btn" type="button" hidden>Pause</button>
+              <button class="pill-btn glass" id="stop-btn" type="button" hidden>Stop</button>
+            </div>
+            <p class="brief-status" id="voice-status" role="status">Enable JavaScript to listen.</p>
+          </div>
         </section>
 
         <aside class="update-banner" id="news-update" role="status" hidden></aside>
