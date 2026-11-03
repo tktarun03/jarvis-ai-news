@@ -6,7 +6,7 @@
   var byId = function (id) { return document.getElementById(id); };
   function greeting() {
     var hour = +new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', hourCycle: 'h23' }).format(new Date());
-    return hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    return hour < 12 ? 'Good morning, Boss' : hour < 17 ? 'Good afternoon, Boss' : 'Good evening, Boss';
   }
   function isToday() {
     var parts = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
@@ -26,7 +26,7 @@
     active = false; paused = false; listen.disabled = false; pause.hidden = stop.hidden = true;
     pause.textContent = 'Pause'; status.textContent = message;
   }
-  function stopVoice() { generation++; synth.cancel(); resetVoice('Ready to read the headlines and summaries.'); }
+  function stopVoice() { generation++; synth.cancel(); resetVoice('Ready to read the headlines.'); }
   function speakNext(token) {
     if (token !== generation || !active) return;
     if (!queue.length) { resetVoice('Brief finished.'); return; }
@@ -38,21 +38,18 @@
     synth.speak(current);
   }
   if (synth && window.SpeechSynthesisUtterance) {
-    listen.disabled = false; status.textContent = 'Headlines & summaries · Device voice';
+    listen.disabled = false; status.textContent = 'Headlines only · Device voice';
     listen.addEventListener('click', function () {
       generation++; synth.cancel(); active = true; paused = false; listen.disabled = true;
       pause.hidden = stop.hidden = false; pause.textContent = 'Pause'; status.textContent = 'Reading your brief…';
-      queue = [greeting() + '. Here is your JARVIS AI News brief for ' + ed.edition_date + '.'];
+      queue = [greeting() + '. Here are your JARVIS AI News headlines for ' + ed.edition_date + '.'];
       ['global','india'].forEach(function (region) {
         if (!ed.stories[region].length) return;
-        queue.push(region === 'india' ? 'From India.' : 'Around the world.');
         ed.stories[region].forEach(function (story) {
           queue.push(story.headline + '.');
-          // Short utterances avoid long-speech timeouts on mobile browsers.
-          (story.summary.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [story.summary]).forEach(function (sentence) { queue.push(sentence); });
         });
       });
-      queue.push('That is your brief. Open a story to read its publisher source.'); speakNext(generation);
+      speakNext(generation);
     });
     pause.addEventListener('click', function () {
       if (!active) return;
