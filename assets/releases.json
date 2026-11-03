@@ -1,6 +1,16 @@
 {
-  "current": "1.7.0",
+  "current": "1.7.1",
   "releases": [
+    {
+      "version": "1.7.1",
+      "date": "2026-11-03",
+      "name": "Soft blob",
+      "notes": [
+        "New logo: a soft, translucent colour blob (blue, aqua and a violet edge) that slowly drifts, reshapes and turns.",
+        "No glass rim or flare; it moves faster while the brief is read aloud and stays still with Reduce Motion.",
+        "Matching still blob for the browser icon, home-screen icon and share card."
+      ]
+    },
     {
       "version": "1.7.0",
       "date": "2026-11-03",
