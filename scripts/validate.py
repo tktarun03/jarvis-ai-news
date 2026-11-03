@@ -3,7 +3,7 @@
 
 Checks every dated edition: schema, limits, https links on trusted domains, publication dates
 inside the edition window, unique ids, no story repeated across editions, files present for
-every image and page, archive index consistent, local links in HTML resolve, signature present,
+every image and page, a share page per story with a raster preview image, archive index consistent, local links in HTML resolve, signature present,
 and the workflow cron matches scripts/config.json.
 """
 from __future__ import annotations
@@ -20,6 +20,8 @@ from jarvis.common import (DATE_RE, DEFAULT_ROOT, domain_allowed, domain_of, loa
                            load_sources, normalize_url, parse_iso)
 from jarvis.aiimages import SCENES as ai_scenes, build_prompt as ai_prompt  # noqa: E402
 from jarvis.pipeline import allowed_domains  # noqa: E402
+from jarvis.share import share_path  # noqa: E402
+from html import escape  # noqa: E402
 
 REQ_STORY = ["id", "rank", "headline", "summary", "key_insights", "impact", "category", "source",
              "published_at", "image", "summary_mode", "verification", "region"]
@@ -119,6 +121,27 @@ def check(root: Path, cfg: dict, sources: dict, check_cron: bool = True) -> list
                         errs.append(f"{tag}/{sid}: stock image must be credited 'Illustrative · <photographer> / Pixabay'")
                     if not str(img.get("credit_url", "")).startswith("https://pixabay.com/"):
                         errs.append(f"{tag}/{sid}: stock image needs its Pixabay page link")
+                sp = root / share_path(ed["edition_date"], sid)
+                if not sp.exists():
+                    errs.append(f"{tag}/{sid}: share page {share_path(ed['edition_date'], sid)} missing")
+                else:
+                    stext = sp.read_text("utf-8")
+                    if f'<meta property="og:title" content="{escape(s["headline"])}">' not in stext:
+                        errs.append(f"{tag}/{sid}: share page title does not match the headline")
+                    m = re.search(r'<meta property="og:image" content="([^"]+)"', stext)
+                    if not m:
+                        errs.append(f"{tag}/{sid}: share page has no og:image")
+                    else:
+                        og = m.group(1)
+                        base = cfg["site"]["base_url"]
+                        if not og.startswith("https://"):
+                            errs.append(f"{tag}/{sid}: share image is not an absolute https URL")
+                        elif og.startswith(base):
+                            local = og[len(base):]
+                            if local.lower().endswith(".svg"):
+                                errs.append(f"{tag}/{sid}: share image is SVG (link previews cannot show it)")
+                            if not (root / local).exists():
+                                errs.append(f"{tag}/{sid}: share image missing {local}")
                 if kind == "publisher-copy":
                     if cfg["images"]["mode"] != "publisher-download":
                         errs.append(f"{tag}/{sid}: downloaded publisher image present but download mode is off")
@@ -130,6 +153,9 @@ def check(root: Path, cfg: dict, sources: dict, check_cron: bool = True) -> list
     for page in (root / "news").glob("*.html"):
         if DATE_RE.match(page.stem) and not (root / "data" / f"{page.stem}.json").exists():
             errs.append(f"news/{page.name}: no matching data JSON")
+    for folder in (root / "news").iterdir() if (root / "news").exists() else []:
+        if folder.is_dir() and DATE_RE.match(folder.name) and not (root / "data" / f"{folder.name}.json").exists():
+            errs.append(f"news/{folder.name}/: share pages with no matching data JSON")
 
     idx = load_json(root / "data" / "index.json")
     if data_files:
@@ -151,7 +177,7 @@ def check(root: Path, cfg: dict, sources: dict, check_cron: bool = True) -> list
                 errs.append("index.html does not show the latest edition")
 
     sig = cfg["site"]["signature"]
-    pages = [root / "index.html"] + sorted((root / "news").glob("*.html"))
+    pages = [root / "index.html"] + sorted((root / "news").glob("*.html")) + sorted((root / "news").glob("*/*.html"))
     for page in pages:
         if not page.exists():
             continue

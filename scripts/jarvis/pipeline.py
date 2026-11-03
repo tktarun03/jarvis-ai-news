@@ -14,6 +14,7 @@ from .images import find_publisher_image, publisher_image
 from .aiimages import AIImagePicker
 from .stock import StockPicker
 from .render import render_edition
+from .share import write_share_pages
 from .summarize import Summarizer
 
 SCHEMA_VERSION = 1
@@ -168,6 +169,7 @@ def write_outputs(root: Path, edition: dict, cfg: dict, now: datetime) -> None:
     entries = _update_archive(root, edition)
     _update_seen(root, edition, cfg["edition"]["dedupe_memory_days"], now)
     write_text(p["html"], render_edition(edition, entries, cfg, zone, base="../"))
+    write_share_pages(root, edition, cfg)
     latest = load_json(root / "data" / f"{entries[0]['date']}.json")
     write_text(root / "index.html", render_edition(latest, entries, cfg, zone, base=""))
 
@@ -180,6 +182,7 @@ def rerender_all(root: Path, cfg: dict) -> int:
     for e in entries:
         ed = load_json(root / "data" / f"{e['date']}.json")
         write_text(root / "news" / f"{e['date']}.html", render_edition(ed, entries, cfg, zone, base="../"))
+        write_share_pages(root, ed, cfg)
     if entries:
         write_text(root / "index.html", render_edition(load_json(root / "data" / f"{entries[0]['date']}.json"), entries, cfg, zone, base=""))
     return len(entries)

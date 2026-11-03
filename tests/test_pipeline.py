@@ -1,6 +1,7 @@
 """Offline end-to-end tests: fixture feeds -> verify -> dedupe -> render -> validate. No network needed."""
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -82,6 +83,25 @@ class PipelineTest(unittest.TestCase):
         self.assertTrue((self.root / "news" / "2026-11-03.html").exists())
         home = (self.root / "index.html").read_text("utf-8")
         self.assertIn("Published by Arunkumar Thamilarasu", home)
+        self.assertEqual(validate.check(self.root, self.cfg, self.sources, check_cron=False), [])
+
+    def test_share_pages(self):
+        ed = self.run_once()
+        base = self.cfg["site"]["base_url"]
+        for s in ed["stories"]["global"] + ed["stories"]["india"]:
+            page = self.root / "news" / "2026-11-03" / f"{s['id']}.html"
+            self.assertTrue(page.exists(), s["id"])
+            html = page.read_text("utf-8")
+            self.assertIn(f'<meta property="og:url" content="{base}news/2026-11-03/{s["id"]}.html">', html)
+            self.assertIn(f"location.replace('../2026-11-03.html#s-{s['id']}')", html)
+            self.assertIn("Published by Arunkumar Thamilarasu", html)
+            image = re.search(r'<meta property="og:image" content="([^"]+)"', html).group(1)
+            self.assertFalse(image.endswith(".svg"), "link previews cannot show SVG")
+        # a forced rebuild that drops a story also drops its share page
+        stale = self.root / "news" / "2026-11-03" / "000000000000.html"
+        stale.write_text("x", "utf-8")
+        self.run_once(force=True)
+        self.assertFalse(stale.exists())
         self.assertEqual(validate.check(self.root, self.cfg, self.sources, check_cron=False), [])
 
     def test_idempotent_and_no_duplicates_next_day(self):

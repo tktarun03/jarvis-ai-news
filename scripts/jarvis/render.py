@@ -34,6 +34,7 @@ ICONS = {
     "plus": '<path d="M12 5v14M5 12h14"/>',
     "sun": '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/>',
     "moon": '<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/>',
+    "share": '<path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12.5V19a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 19v-6.5"/>',
 }
 
 # Animated liquid-sphere logo (pure CSS, see .orb in app.css). Static versions live in assets/images/brand/.
@@ -110,6 +111,7 @@ def _slide(s: dict, cfg: dict, base: str, zone, n: int) -> str:
 <article class="story slide" {_attrs(s)} data-slide="{n}">
   <figure class="slide-media" data-img data-kind="{s['image']['type']}">{img_tag(s, base, eager=(n == 0))}</figure>
   <button class="bm" type="button" data-save="{s['id']}" aria-pressed="false" aria-label="Save story">{icon('saved')}</button>
+  <button class="bm bm-share" type="button" data-qshare="{s['id']}" aria-label="Share story">{icon('share')}</button>
   {credit}
   <div class="slide-body">
     <span class="slide-kicker"><span class="dot" style="--c:{cat['color']}"></span>{region} · {escape(cat['label'])}</span>
@@ -129,6 +131,7 @@ def row_html(s: dict, cfg: dict, base: str, zone) -> str:
     <p class="src-line">{source_badge(s['source']['name'], 'sm')}<span class="src-name">{escape(s['source']['name'])}</span></p>
     <h3 class="row-title"><a class="story-link" href="{escape(s['source']['url'])}" rel="noopener" target="_blank">{escape(s['headline'])}</a></h3>
     <p class="row-meta">{_time(s, zone)}<span class="sep">·</span><span>{escape(cat['label'])}</span><span class="sep">·</span><span>{_detail(s)}</span>
+      <button class="save-btn share-btn" type="button" data-qshare="{s['id']}" aria-label="Share story">{icon('share')}</button>
       <button class="save-btn" type="button" data-save="{s['id']}" aria-pressed="false" aria-label="Save story">{icon('saved')}</button></p>
   </div>
 </article>"""

@@ -1,6 +1,17 @@
 {
-  "current": "1.7.2",
+  "current": "1.8.0",
   "releases": [
+    {
+      "version": "1.8.0",
+      "date": "2026-11-03",
+      "name": "Share",
+      "notes": [
+        "Share any story to WhatsApp: a share button on every card and in the reader opens a share card with an optional note of your own.",
+        "The message carries the headline, a short summary, why it matters, the source and a link; you can still edit it in WhatsApp before sending.",
+        "Each story now has its own link with its own preview (headline, summary and picture) in WhatsApp, Telegram, X and iMessage.",
+        "Copy message, copy link only, or send to any other app."
+      ]
+    },
     {
       "version": "1.7.2",
       "date": "2026-11-03",

@@ -22,6 +22,9 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   var PATHS = {
     close: '<path d="M6 6l12 12M18 6L6 18"/>',
+    chat: '<path d="M4.5 19.5l1.2-3.6A7.8 7.8 0 1 1 8.6 18.6z"/><path d="M9.2 9.4c.2 1.9 1.9 3.9 4.2 4.6l1-1 1.6.8-.4 1.3c-3.2.3-6.8-3-7-6.2l1.3-.4.7 1.6z"/>',
+    copy: '<rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/>',
+    more: '<circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/>',
     back: '<path d="M15 5l-7 7 7 7"/>',
     share: '<path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12.5V19a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 19v-6.5"/>',
     external: '<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 18.5v-11A1.5 1.5 0 0 1 5.5 6H10"/>',
@@ -485,12 +488,60 @@
     setTimeout(function () { sheetRoot.innerHTML = ''; if (readerFocus && readerFocus.focus) readerFocus.focus({ preventScroll: true }); }, 190);
     if (!fromPop && location.hash.indexOf('#s-') === 0) { try { history.back(); } catch (e) { } }
   }
-  function share(s) {
-    var url = location.href.split('#')[0].split('?')[0] + '#s-' + s.id;
-    if (navigator.share) { navigator.share({ title: s.headline, text: s.summary, url: url }).catch(function () { }); return; }
-    if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function () { toast('Link copied'); }, function () { toast(url); }); }
-    else toast(url);
+  /* ---------- share: per-story link (news/DATE/ID.html carries the preview) + editable message ---------- */
+  function shareUrl(s) { return (SITE.base_url || '') + 'news/' + ED.edition_date + '/' + s.id + '.html'; }
+  function clip(t, n) { t = String(t || '').replace(/\s+/g, ' ').trim(); if (t.length <= n) return t; t = t.slice(0, n - 1); return t.slice(0, Math.max(t.lastIndexOf(' '), n * .6)).replace(/[,;:—-]+$/, '') + '…'; }
+  function sentences(t, n) { // whole sentences up to n chars; the first sentence always survives
+    var parts = String(t || '').replace(/\s+/g, ' ').trim().match(/[^.!?]+[.!?]+(?=\s|$)|[^.!?]+$/g) || [], out = '';
+    for (var i = 0; i < parts.length; i++) { var next = (out + ' ' + parts[i].trim()).trim(); if (out && next.length > n) break; out = next; }
+    return clip(out, n + 120);
   }
+  function shareMessage(s, note) {
+    var lines = [];
+    if (note) lines.push(note.trim(), '');
+    lines.push('*' + s.headline + '*', '', sentences(s.summary, 300));
+    if (s.impact) lines.push('', '_Why it matters:_ ' + sentences(s.impact, 220));
+    lines.push('', 'Source: ' + s.source.name, shareUrl(s), '', '— via ' + (SITE.name || 'JARVIS AI NEWS'));
+    return lines.join('\n');
+  }
+  function copyText(text, done) {
+    function fallback() {
+      var ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px';
+      document.body.appendChild(ta); ta.select(); var ok = false; try { ok = document.execCommand('copy'); } catch (e) { } ta.remove();
+      toast(ok ? done : 'Could not copy. Long-press to copy instead.');
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(function () { toast(done); }, fallback); else fallback();
+  }
+  function share(s) {
+    var el = openFloat('Share story',
+      '<div class="share-prev"><p class="share-k">' + esc(CATS[s.category].label) + ' · ' + esc(s.source.name) + '</p><p class="share-h">' + esc(s.headline) + '</p><p class="share-u">' + esc(shareUrl(s).replace(/^https?:\/\//, '')) + '</p></div>' +
+      '<label class="share-note"><span class="opt-lbl">Your note <span class="hint">(optional, added above the story)</span></span>' +
+      '<textarea id="sh-note" rows="2" maxlength="400" placeholder="e.g. Saw this and thought of you"></textarea></label>' +
+      '<div class="share-acts">' +
+      '<a class="pill-btn wa" id="sh-wa" href="#" target="_blank" rel="noopener">' + icon('chat') + '<span>WhatsApp</span></a>' +
+      '<button class="pill-btn' + (navigator.share ? '' : ' solo') + '" type="button" id="sh-copy">' + icon('copy') + '<span>Copy message</span></button>' +
+      (navigator.share ? '<button class="pill-btn" type="button" id="sh-more">' + icon('more') + '<span>More apps</span></button>' : '') +
+      '<button class="pill-btn ghost" type="button" id="sh-link">' + icon('external') + '<span>Copy link only</span></button>' +
+      '</div>');
+    var note = $('#sh-note', el), wa = $('#sh-wa', el);
+    function msg() { return shareMessage(s, note.value); }
+    function syncWa() { wa.href = 'https://wa.me/?text=' + encodeURIComponent(msg()); }
+    note.addEventListener('input', syncWa);
+    syncWa();
+    wa.addEventListener('click', function () { setTimeout(closeFloat, 300); });
+    $('#sh-copy', el).addEventListener('click', function () { copyText(msg(), 'Message copied. Paste it in WhatsApp.'); });
+    $('#sh-link', el).addEventListener('click', function () { copyText(shareUrl(s), 'Link copied'); });
+    if ($('#sh-more', el)) $('#sh-more', el).addEventListener('click', function () {
+      // Link inside the text: some apps (WhatsApp on iOS) drop `text` when `url` is passed separately.
+      navigator.share({ title: s.headline, text: msg() }).then(function () { closeFloat(); }, function () { });
+    });
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-qshare]');
+    if (!b) return;
+    e.preventDefault(); e.stopPropagation();
+    if (STORIES[b.dataset.qshare]) share(STORIES[b.dataset.qshare]);
+  }, true);
   document.addEventListener('click', function (e) {
     var card = e.target.closest('.story[data-id]');
     if (!card || !STORIES[card.dataset.id]) return;

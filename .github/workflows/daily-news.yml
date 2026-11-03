@@ -87,6 +87,7 @@ jobs:
           if [ -d assets/images/news ]; then git add assets/images/news; fi
           if [ -d assets/images/stock ]; then git add assets/images/stock; fi
           if [ -d assets/images/ai ]; then git add assets/images/ai; fi
+          if [ -d assets/images/share ]; then git add assets/images/share; fi
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
