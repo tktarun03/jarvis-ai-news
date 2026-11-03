@@ -1,6 +1,16 @@
 {
-  "current": "1.6.0",
+  "current": "1.6.1",
   "releases": [
+    {
+      "version": "1.6.1",
+      "date": "2026-11-03",
+      "name": "Light orb",
+      "notes": [
+        "New logo: an animated glass orb with a rotating colour swirl, a drifting light ball and a soft lens flare.",
+        "A large orb glows on the brief card, and the orb speeds up and pulses while the brief is read aloud.",
+        "Static orb for the browser icon, home-screen icon and social card; motion stops when Reduce Motion is on."
+      ]
+    },
     {
       "version": "1.6.0",
       "date": "2026-11-03",

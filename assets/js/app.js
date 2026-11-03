@@ -102,6 +102,14 @@
   })();
   window.JARVIS = { toast: toast, hideToast: hideToast };
 
+  /* ---------- orb reacts while the brief is read aloud (brief.js shows #pause-btn while speaking) ---------- */
+  (function () {
+    var pause = $('#pause-btn'); if (!pause || !window.MutationObserver) return;
+    function sync() { document.documentElement.classList.toggle('speaking', !pause.hidden && pause.textContent.trim() === 'Pause'); }
+    new MutationObserver(sync).observe(pause, { attributes: true, attributeFilter: ['hidden'], childList: true, characterData: true, subtree: true });
+    sync();
+  })();
+
   /* ---------- live Doha clock in the header chip ---------- */
   var clockEl = $('#live-clock');
   function tickClock() {

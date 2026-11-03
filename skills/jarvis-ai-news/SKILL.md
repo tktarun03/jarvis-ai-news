@@ -133,6 +133,7 @@ To find broken feeds, look at `feeds.failed` in the latest `data/DATE.json`. Eac
    - "Aa" Display card: brightness, dark reading theme, font size (`--read-scale`), follow-device theme, theme colour swatches;
    - source badges are coloured monograms; never use publisher logos;
    - 40px or larger tap targets.
+   - Logo (v1.6.1): the animated glass orb (`MARK_SVG`/`ORB_LG` in render.py, `.orb` in app.css): rotating swirl, drifting light ball, cross lens flare. Animate only transform and opacity; it must stay still under reduced motion and speeds up while the brief is read (`html.speaking`). Static copies for icons are `assets/images/brand/favicon.svg`, `apple-touch-icon.png` and `og.png`. Keep it original; do not copy other assistants' orbs.
    - Home header (v1.6): live Doha date chip (`#live-clock`), large greeting (`#greet-hello`, set by brief.js), and a gradient brief card (`--card-a`/`--card-b` per theme) with counts and Listen controls; the top bar has search, refresh and the theme switch.
    - Notifications: always use `window.JARVIS.toast(message, action?, {sticky?, duration?})`. Toasts slide up from the bottom, have a close button and can be swiped down. Do not add top banners or browser alerts.
    - Pinch and double-tap zoom are disabled at the owner's request (viewport meta, `touch-action: pan-x pan-y`, and gesture handlers in app.js). Keep inputs at 16px or larger so iOS does not zoom on focus, and keep Aa → Font size working as the readability alternative.

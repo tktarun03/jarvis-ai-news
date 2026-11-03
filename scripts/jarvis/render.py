@@ -36,9 +36,11 @@ ICONS = {
     "moon": '<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/>',
 }
 
-MARK_SVG = ('<svg class="mark" viewBox="0 0 44 44" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4">'
-            '<circle cx="22" cy="22" r="19"/><circle cx="22" cy="22" r="12.5" stroke-dasharray="1.6 3.8" stroke-linecap="round" opacity=".55"/></g>'
-            '<path d="M22 13l2.6 6.4 6.4 2.6-6.4 2.6-2.6 6.4-2.6-6.4-6.4-2.6 6.4-2.6z" fill="var(--accent)"/></svg>')
+# Animated glass orb logo (pure CSS, see .orb in app.css). Static versions live in assets/images/brand/.
+MARK_SVG = ('<span class="mark orb" aria-hidden="true"><span class="orb-swirl"></span><span class="orb-blob"></span>'
+            '<span class="orb-core"></span></span>')
+ORB_LG = ('<span class="orb orb-lg" aria-hidden="true"><span class="orb-swirl"></span><span class="orb-blob"></span>'
+          '<span class="orb-core"></span></span>')
 
 # Monogram colours for source badges (no publisher logos are used).
 BADGE_COLORS = ["#2F6FEB", "#E5484D", "#12A594", "#F76B15", "#8E4EC6", "#0091FF", "#D6409F", "#3E9B4F", "#AB6400", "#5B5BD6"]
@@ -254,7 +256,7 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
           <h1 class="hh-hello" id="greet-hello">Hello, Boss</h1>
           <p class="hh-sub" id="brief-greeting">Here’s your verified AI update for {escape(long_date(date))}.</p>
           <div class="brief-card">
-            <svg class="bc-deco" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="currentColor"><circle cx="100" cy="100" r="96" stroke-width="1.5"/><circle cx="100" cy="100" r="66" stroke-width="1.5" stroke-dasharray="2 7" stroke-linecap="round"/><circle cx="100" cy="100" r="36" stroke-width="1.5"/></g><path d="M100 78l6 16 16 6-16 6-6 16-6-16-16-6 16-6z" fill="currentColor"/></svg>
+            {ORB_LG}
             <div class="bc-top"><span class="bc-label" id="brief-title">Today’s brief</span><span class="bc-window">{escape(window_note)}</span></div>
             <div class="bc-stats">
               <div><b>{total}</b><span>Stories</span></div>
