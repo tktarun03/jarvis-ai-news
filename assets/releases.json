@@ -1,6 +1,16 @@
 {
-  "current": "1.6.1",
+  "current": "1.7.0",
   "releases": [
+    {
+      "version": "1.7.0",
+      "date": "2026-11-03",
+      "name": "Minimal",
+      "notes": [
+        "White background and a quieter, minimal look: thin dividers instead of shadows, one indigo accent and lighter type.",
+        "The brief card is now a simple white card with plain counts; the greeting drops its gradient.",
+        "Smaller top-story cards and thumbnails; the animated orb stays small in the header."
+      ]
+    },
     {
       "version": "1.6.1",
       "date": "2026-11-03",

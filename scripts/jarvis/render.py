@@ -214,7 +214,7 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>{escape(title)}</title>
-<meta name="theme-color" content="#F5F6FA">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="manifest" href="{base}manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="description" content="{escape(desc)}">
@@ -256,7 +256,6 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
           <h1 class="hh-hello" id="greet-hello">Hello, Boss</h1>
           <p class="hh-sub" id="brief-greeting">Here’s your verified AI update for {escape(long_date(date))}.</p>
           <div class="brief-card">
-            {ORB_LG}
             <div class="bc-top"><span class="bc-label" id="brief-title">Today’s brief</span><span class="bc-window">{escape(window_note)}</span></div>
             <div class="bc-stats">
               <div><b>{total}</b><span>Stories</span></div>

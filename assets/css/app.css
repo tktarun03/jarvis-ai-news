@@ -3,21 +3,21 @@
    the image, thumbnail rows, underline tabs, a reader that slides a white panel over the photo, and an
    "Aa" display card with four reading themes (light, sepia, dim, dark). Colours are tokens on :root. */
 :root {
-  --bg: #F5F6FA;
+  --bg: #FFFFFF;
   --surface: #FFFFFF;
-  --surface-2: #F0F1F6;
+  --surface-2: #F5F5F7;
   --ink: #14151A;
   --ink-2: #474A55;
   --muted: #8A8E9B;
   --faint: #BABDC7;
-  --line: #ECEDF2;
+  --line: #EEEEF1;
   --accent: #4F4BD6;
   --accent-ink: #FFFFFF;
   --accent-soft: #EEEDFC;
   --warm: #F2B47E;
   --warm-ink: #2B1A0A;
   --scrim: rgba(18, 19, 28, 0.42);
-  --shadow: 0 18px 44px rgba(26, 28, 52, 0.10);
+  --shadow: none;
   --shadow-lg: 0 30px 80px rgba(26, 28, 52, 0.22);
   --font: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --radius: 26px;
@@ -483,3 +483,45 @@ input[type=range]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* ===== v1.7 Minimal: white page, hairlines instead of shadows, one accent, quieter type ===== */
+.hh-hello { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--ink);
+  font-size: clamp(26px, 7.2vw, 34px); font-weight: 700; letter-spacing: -0.03em; margin-top: 2px; }
+.hh-sub { font-size: 14.5px; color: var(--muted); }
+.date-chip { background: none; box-shadow: none; padding: 0; min-height: 0; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.ed-chip { background: none; padding: 0; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.brief-card { background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: none; border-radius: 20px; padding: 18px; gap: 16px; }
+.bc-top { padding-right: 0; }
+.bc-label { color: var(--accent); font-size: 11.5px; letter-spacing: .1em; }
+.bc-window { color: var(--muted); }
+.bc-stats { gap: 0; }
+.bc-stats div { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; border-radius: 0; padding: 0 0 0 14px; border-left: 1px solid var(--line); }
+.bc-stats div:first-child { padding-left: 0; border-left: 0; }
+.bc-stats b { font-size: 24px; font-weight: 700; color: var(--ink); }
+.bc-stats span { color: var(--muted); font-weight: 500; }
+.brief-card .pill-btn.light { background: var(--accent); color: var(--accent-ink); min-height: 40px; font-size: 13.5px; }
+.brief-card .pill-btn.glass { background: none; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.brief-card .brief-status { color: var(--muted); font-size: 12px; }
+.slide { min-height: clamp(300px, 46vh, 400px); border-radius: 20px; box-shadow: none; }
+.slides { border-radius: 20px; }
+.slide-title { font-size: 21px; font-weight: 700; }
+.slide-kicker { font-weight: 600; }
+.sec-title { font-size: 17px; font-weight: 700; }
+.row-title { font-weight: 600; }
+.thumb { width: 92px; height: 92px; border-radius: 14px; }
+.row { grid-template-columns: 92px minmax(0, 1fr); }
+.card { box-shadow: none; border: 1px solid var(--line); border-radius: 18px; }
+.topic-card { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+.topic-art { color: var(--accent); opacity: .55; width: 84px; height: 84px; }
+.topic-text { font-weight: 600; }
+.avatar { background: var(--accent-soft); color: var(--accent); box-shadow: none; font-weight: 700; }
+.pane-title { font-weight: 700; font-size: 24px; }
+.orb { box-shadow: 0 1px 6px rgba(79, 75, 214, .22); }
+.bm { box-shadow: none; }
+.utabs button { font-weight: 500; }
+.utabs button[aria-pressed="true"] { font-weight: 600; }
+.search { background: var(--surface-2); box-shadow: none; }
+.tabbar { border-top-color: var(--line); }
+.tab { font-weight: 500; }
+@media (max-width: 360px) { .thumb { width: 82px; height: 82px; } .row { grid-template-columns: 82px minmax(0, 1fr); } .bc-stats b { font-size: 21px; } }
+@media (min-width: 760px) { .hh-hello { font-size: 36px; } .slide { min-height: 420px; } }

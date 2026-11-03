@@ -122,7 +122,7 @@
   var root = document.documentElement;
   var mq = window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
   var FONT_STEPS = [0.9, 1, 1.1, 1.2, 1.32];
-  var THEME_META = { light: '#F5F6FA', sepia: '#F3EBDD', dim: '#232428', dark: '#000000' };
+  var THEME_META = { light: '#FFFFFF', sepia: '#F3EBDD', dim: '#232428', dark: '#000000' };
   var display = store.get('jarvis_display', null) || {};
   if (!display.theme) { try { if (localStorage.getItem('jarvis_theme_v2') === 'dark') display.theme = 'dark'; } catch (e) { } }
   display.theme = display.theme || 'light'; display.font = display.font || 1; display.bright = display.bright || 1;
