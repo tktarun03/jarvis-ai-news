@@ -36,11 +36,10 @@ ICONS = {
     "moon": '<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/>',
 }
 
-# Animated glass orb logo (pure CSS, see .orb in app.css). Static versions live in assets/images/brand/.
-MARK_SVG = ('<span class="mark orb" aria-hidden="true"><span class="orb-swirl"></span><span class="orb-blob"></span>'
-            '<span class="orb-core"></span></span>')
-ORB_LG = ('<span class="orb orb-lg" aria-hidden="true"><span class="orb-swirl"></span><span class="orb-blob"></span>'
-          '<span class="orb-core"></span></span>')
+# Animated liquid-sphere logo (pure CSS, see .orb in app.css). Static versions live in assets/images/brand/.
+MARK_SVG = ('<span class="mark orb" aria-hidden="true"><span class="orb-fluid">'
+            '<i class="ob ob1"></i><i class="ob ob2"></i><i class="ob ob3"></i><i class="ob ob4"></i></span></span>')
+ORB_LG = MARK_SVG.replace('class="mark orb"', 'class="orb orb-lg"')
 
 # Monogram colours for source badges (no publisher logos are used).
 BADGE_COLORS = ["#2F6FEB", "#E5484D", "#12A594", "#F76B15", "#8E4EC6", "#0091FF", "#D6409F", "#3E9B4F", "#AB6400", "#5B5BD6"]

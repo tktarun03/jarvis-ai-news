@@ -1,6 +1,16 @@
 {
-  "current": "1.7.1",
+  "current": "1.7.2",
   "releases": [
+    {
+      "version": "1.7.2",
+      "date": "2026-11-03",
+      "name": "Liquid sphere",
+      "notes": [
+        "New logo: a round liquid colour sphere (magenta, cyan, blue and lavender) that swirls inside a soft edge, with a white top light and a faint lavender halo.",
+        "The colours turn at different speeds on a 5.4-second rhythm; the sphere moves faster while the brief is read aloud and stays still with Reduce Motion.",
+        "Matching still sphere for the browser icon, home-screen icon and share card."
+      ]
+    },
     {
       "version": "1.7.1",
       "date": "2026-11-03",
