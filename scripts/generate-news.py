@@ -19,7 +19,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from jarvis.common import DEFAULT_ROOT, load_config, load_sources, parse_iso, utcnow  # noqa: E402
+from jarvis import claims  # noqa: E402
+from jarvis.common import DEFAULT_ROOT, load_config, load_json, load_sources, parse_iso, tz, utcnow  # noqa: E402
 from jarvis.pipeline import Skip, build_from_curated, refresh_images, rerender_all, run_daily  # noqa: E402
 
 
@@ -44,6 +45,8 @@ def main() -> int:
     ap.add_argument("--curated", type=Path, help="build from a hand-verified curated JSON file")
     ap.add_argument("--rerender", action="store_true", help="re-render every edition page from JSON")
     ap.add_argument("--refresh-images", metavar="DATE", help="look up publisher images for an existing edition")
+    ap.add_argument("--agent", default=os.environ.get("JARVIS_AGENT", "local"),
+                    help="who is running this (claude, chatgpt, github-actions...); recorded in the edition and claim")
     args = ap.parse_args()
 
     root = args.root.resolve()
@@ -62,10 +65,17 @@ def main() -> int:
             print(msg)
             gh_output(published="true" if found else "false", date=args.refresh_images, message=msg)
             return 0
+        os.environ["JARVIS_AGENT"] = args.agent
+        date = (load_json(args.curated) or {}).get("edition_date") if args.curated else now.astimezone(tz(cfg)).date().isoformat()
+        # Coordination: another agent may already have published or be building this edition.
+        st = claims.status(root, date, args.agent, claims.utcnow() if not args.now else now)
+        if st["state"] == "claimed" or (st["state"] == "published" and not args.force):
+            raise Skip(st["message"])
         if args.curated:
             ed = build_from_curated(root, cfg, sources, args.curated, now, force=args.force)
         else:
             ed = run_daily(root, cfg, sources, now, force=args.force, fixtures=args.fixtures)
+        claims.finish(root, ed["edition_date"], args.agent, claims.utcnow())
     except Skip as skip:
         print(f"SKIP: {skip}")
         gh_output(published="false", message=f"Skipped: {skip}")

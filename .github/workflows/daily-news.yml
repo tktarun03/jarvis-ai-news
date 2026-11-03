@@ -67,6 +67,7 @@ jobs:
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          JARVIS_AGENT: github-actions
         run: |
           if [ -n "${{ inputs.refresh_images_date }}" ]; then
             python scripts/generate-news.py --refresh-images "${{ inputs.refresh_images_date }}"

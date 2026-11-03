@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+import os
 from pathlib import Path
 
 from . import select as sel
@@ -310,6 +311,7 @@ def run_daily(root: Path, cfg: dict, sources: dict, now: datetime, force: bool =
         "edition_date": date,
         "edition_number": _edition_number(root, date),
         "edition_type": "daily",
+        "produced_by": {"agent": os.environ.get("JARVIS_AGENT", "unknown"), "method": "daily feeds"},
         "timezone": cfg["schedule"]["timezone"],
         "generated_at": iso(now),
         "window": {"start": iso(now - timedelta(hours=ed_cfg["lookback_hours"])), "end": iso(now)},
@@ -367,6 +369,7 @@ def build_from_curated(root: Path, cfg: dict, sources: dict, curated_path: Path,
         "edition_date": date,
         "edition_number": _edition_number(root, date),
         "edition_type": "launch-sample",
+        "produced_by": {"agent": os.environ.get("JARVIS_AGENT", "unknown"), "method": "hand-verified (curated)"},
         "timezone": cfg["schedule"]["timezone"],
         "generated_at": iso(now),
         "window": cur["window"],
