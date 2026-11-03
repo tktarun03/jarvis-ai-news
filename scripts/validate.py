@@ -18,6 +18,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from jarvis.common import (DATE_RE, DEFAULT_ROOT, domain_allowed, domain_of, load_config, load_json,  # noqa: E402
                            load_sources, normalize_url, parse_iso)
+from jarvis.aiimages import SCENES as ai_scenes, build_prompt as ai_prompt  # noqa: E402
 from jarvis.pipeline import allowed_domains  # noqa: E402
 
 REQ_STORY = ["id", "rank", "headline", "summary", "key_insights", "impact", "category", "source",
@@ -85,7 +86,7 @@ def check(root: Path, cfg: dict, sources: dict, check_cron: bool = True) -> list
                 img = s["image"]
                 kind = img.get("type")
                 fallback = img.get("fallback") or (img["src"] if kind == "generated" else None)
-                if kind not in ("generated", "publisher", "publisher-copy", "stock"):
+                if kind not in ("generated", "publisher", "publisher-copy", "stock", "ai"):
                     errs.append(f"{tag}/{sid}: unknown image type {kind}")
                 if not fallback:
                     errs.append(f"{tag}/{sid}: no generated fallback cover recorded")
@@ -103,6 +104,14 @@ def check(root: Path, cfg: dict, sources: dict, check_cron: bool = True) -> list
                         errs.append(f"{tag}/{sid}: publisher image is not https")
                     if not img.get("credit"):
                         errs.append(f"{tag}/{sid}: publisher image has no credit")
+                if kind == "ai":
+                    if not (root / img["src"]).exists():
+                        errs.append(f"{tag}/{sid}: AI image missing {img['src']}")
+                    if "AI-generated" not in img.get("credit", ""):
+                        errs.append(f"{tag}/{sid}: AI image must be credited 'AI-generated · not from the event'")
+                    concept, variant = img.get("concept"), img.get("variant")
+                    if concept not in ai_scenes or not isinstance(variant, int) or img.get("prompt") != ai_prompt(concept, variant):
+                        errs.append(f"{tag}/{sid}: AI image prompt is not one of the fixed generic scene prompts")
                 if kind == "stock":
                     if not (root / img["src"]).exists():
                         errs.append(f"{tag}/{sid}: stock image missing {img['src']}")

@@ -1,6 +1,7 @@
 """Fetching (live or fixture-backed) and RSS/Atom parsing. Standard library only."""
 from __future__ import annotations
 
+import base64
 import gzip
 import json
 import re
@@ -84,6 +85,18 @@ class Fetcher:
             return None, "", b""
 
 
+    def post_json(self, url: str, body: dict, headers: dict) -> tuple[int | None, dict | None]:
+        req = urllib.request.Request(url, data=json.dumps(body).encode("utf-8"), method="POST",
+                                     headers={"User-Agent": USER_AGENT, "Content-Type": "application/json", **headers})
+        try:
+            with urllib.request.urlopen(req, timeout=120, context=self.ctx) as resp:
+                return resp.status, json.loads(resp.read(20_000_000).decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            return exc.code, None
+        except Exception:
+            return None, None
+
+
 class FixtureFetcher(Fetcher):
     """Serves feeds from fixtures/feeds/<source-id>.xml and articles from fixtures/articles.json."""
 
@@ -109,6 +122,12 @@ class FixtureFetcher(Fetcher):
         if art is None:
             return Response(404, url, error="HTTP 404")
         return Response(art.get("status", 200), url, art.get("html", ""))
+
+    def post_json(self, url: str, body: dict, headers: dict):
+        if url.startswith("https://api.cloudflare.com/") and "/ai/run/" in url:
+            # A tiny valid JPEG header is enough for the pipeline's format check.
+            return 200, {"success": True, "result": {"image": base64.b64encode(b"\xff\xd8\xff\xe0 fixture ai jpeg").decode()}}
+        return 404, None
 
     def get_bytes(self, url: str, max_bytes: int):
         if url.startswith("https://cdn.pixabay.com/"):

@@ -49,6 +49,23 @@
       "reuse_after_days": 3,
       "max_requests_per_run": 40,
       "note": "Royalty-free illustrative photos, downloaded into the repo as Pixabay's API requires. role=fallback: used when no publisher image is found; role=primary: used for every story instead of hotlinked publisher images. Needs the PIXABAY_API_KEY Actions secret; without it this is skipped."
+    },
+    "fallback_order": [
+      "ai",
+      "stock"
+    ],
+    "ai": {
+      "enabled": true,
+      "provider": "cloudflare",
+      "model": "@cf/black-forest-labs/flux-1-schnell",
+      "steps": 4,
+      "env_account": "CLOUDFLARE_ACCOUNT_ID",
+      "env_token": "CLOUDFLARE_API_TOKEN",
+      "folder": "assets/images/ai",
+      "max_variants_per_concept": 6,
+      "reuse_after_days": 3,
+      "max_generations_per_run": 12,
+      "note": "AI-generated photorealistic scenes from fixed generic prompts (scripts/jarvis/aiimages.py), labelled 'AI-generated · not from the event'. Used when no publisher image is found, before Pixabay (see fallback_order). Images are reused per concept to keep the repo small. Needs CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN Actions secrets; skipped without them."
     }
   },
   "categories": {

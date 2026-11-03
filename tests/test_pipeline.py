@@ -22,7 +22,8 @@ NOW = parse_iso("2026-11-03T04:30:00Z")  # 07:30 in Doha
 class PipelineTest(unittest.TestCase):
     def setUp(self):
         os.environ.pop("ANTHROPIC_API_KEY", None)
-        os.environ.pop("PIXABAY_API_KEY", None)
+        for k in ("PIXABAY_API_KEY", "CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"):
+            os.environ.pop(k, None)
         self.root = Path(tempfile.mkdtemp(prefix="jarvis-test-"))
         for sub in ("assets/css", "assets/js", "assets/images/brand"):
             shutil.copytree(REPO / sub, self.root / sub)
@@ -154,6 +155,62 @@ class StockImageTest(unittest.TestCase):
         finally:
             os.environ.pop("PIXABAY_API_KEY", None)
             shutil.rmtree(root, ignore_errors=True)
+
+
+class AIImageTest(unittest.TestCase):
+    def setUp(self):
+        self.root = Path(tempfile.mkdtemp(prefix="jarvis-ai-"))
+        for sub in ("assets/css", "assets/js", "assets/images/brand"):
+            shutil.copytree(REPO / sub, self.root / sub)
+        shutil.copy(REPO / "manifest.webmanifest", self.root / "manifest.webmanifest")
+        os.environ.update({"CLOUDFLARE_ACCOUNT_ID": "acct-test", "CLOUDFLARE_API_TOKEN": "token-test", "PIXABAY_API_KEY": "pix-test"})
+
+    def tearDown(self):
+        for k in ("PIXABAY_API_KEY", "CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN"):
+            os.environ.pop(k, None)
+        shutil.rmtree(self.root, ignore_errors=True)
+
+    def test_ai_images_fill_gaps_before_stock_and_are_reused(self):
+        from jarvis.aiimages import AIImagePicker, SCENES, build_prompt
+        cfg, sources = load_config(REPO), load_sources(REPO)
+        ed = run_daily(self.root, cfg, sources, NOW, fixtures=FIXTURES, log_fn=lambda *_: None)
+        stories = ed["stories"]["global"] + ed["stories"]["india"]
+        acme = [s for s in stories if "acme" in s["source"]["url"]][0]
+        self.assertEqual(acme["image"]["type"], "publisher")         # real publisher photo still wins
+        ai = [s for s in stories if s["image"]["type"] == "ai"]
+        self.assertEqual(len(ai), len(stories) - 1)                  # AI fills every gap before Pixabay
+        files = [s["image"]["src"] for s in ai]
+        self.assertEqual(len(files), len(set(files)))                # no image repeated in one edition
+        for s in ai:
+            im = s["image"]
+            self.assertIn(im["concept"], SCENES)
+            self.assertEqual(im["prompt"], build_prompt(im["concept"], im["variant"]))
+            self.assertIn("No people", im["prompt"])
+            self.assertNotIn(s["source"]["name"], im["prompt"])
+            self.assertIn("AI-generated", im["credit"])
+            self.assertTrue((self.root / im["src"]).exists())
+        blob = json.dumps(ed) + (self.root / "data" / "ai-image-library.json").read_text()
+        self.assertNotIn("token-test", blob)
+        self.assertNotIn("acct-test", blob)
+        self.assertEqual(validate.check(self.root, cfg, sources, check_cron=False), [])
+
+        # A week later the same concept reuses the stored image instead of generating a new one.
+        later = AIImagePicker(self.root, cfg, None, "2026-11-10", [])
+        story = ai[0]
+        got = later.pick(story, story["image"]["fallback"])
+        self.assertEqual(got["src"], story["image"]["src"])
+        self.assertEqual(later.budget, cfg["images"]["ai"]["max_generations_per_run"])
+
+    def test_validator_rejects_free_form_prompt(self):
+        cfg, sources = load_config(REPO), load_sources(REPO)
+        run_daily(self.root, cfg, sources, NOW, fixtures=FIXTURES, log_fn=lambda *_: None)
+        path = self.root / "data" / "2026-11-03.json"
+        ed = json.loads(path.read_text())
+        s = next(x for x in ed["stories"]["global"] + ed["stories"]["india"] if x["image"]["type"] == "ai")
+        s["image"]["prompt"] = "photo of a named CEO announcing a deal"
+        path.write_text(json.dumps(ed))
+        errs = validate.check(self.root, cfg, sources, check_cron=False)
+        self.assertTrue(any("fixed generic scene prompts" in e for e in errs))
 
 
 class GroundingTest(unittest.TestCase):

@@ -39,7 +39,8 @@ Every edition's JSON keeps a `rejected` list with the reason for each story that
 
 1. **Enable Pages:** repo **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 2. **Add the summariser key (recommended):** **Settings → Secrets and variables → Actions → New repository secret**, name `ANTHROPIC_API_KEY`. Optional repository *variable* `JARVIS_MODEL` overrides the model in `scripts/config.json`.
-   **Add the image key (recommended):** create a free Pixabay account, copy your key from pixabay.com/api/docs, and add it as the secret `PIXABAY_API_KEY`. Without it, stories without a publisher image show JARVIS covers.
+   **Add AI images (recommended):** in a free Cloudflare account, open **AI → Workers AI → Use REST API**. Create an API token with *Workers AI* permission and copy your Account ID. Add both as secrets: `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN`. Stories without a publisher photo then get a photorealistic generic scene, labelled *AI-generated · not from the event*, generated on Cloudflare's free daily allowance and reused across days.
+   **Add the stock-photo key (optional backup):** create a free Pixabay account, copy your key from pixabay.com/api/docs, and add it as the secret `PIXABAY_API_KEY`. Without it, stories without a publisher image show JARVIS covers.
    Without the key the site still publishes daily, using each publisher's own summary, with insights and impact marked unavailable.
 3. **Run it once now:** **Actions → Daily AI News → Run workflow**.
 4. **Optional, to add images to an existing edition (publisher photos, or Pixabay illustrative photos once `PIXABAY_API_KEY` is set):** **Run workflow** with `refresh_images_date` = that date, e.g. `2026-11-02`.
@@ -126,6 +127,7 @@ jarvis-ai-news/
 - **Sources:** add a feed to `scripts/sources.json` (`region`: `global` or `india`, `trust`: 1–3, `ai_only` for AI-only feeds). A broken feed is logged and skipped; it never fails the run.
 - **Counts and window:** `scripts/config.json` → `edition`.
 - **Signature:** `scripts/config.json` → `site`. Run `--rerender` to apply it to past pages.
+- **AI images:** `images.ai` and `images.fallback_order` (default `["ai", "stock"]`). Prompts come only from the fixed generic scene table in `scripts/jarvis/aiimages.py`.
 - **Illustrative stock photos:** `images.stock.role` = `fallback` (default: only when no publisher image) or `primary` (every story). Photos are reused across editions to keep the repo small.
 - **Images:** `images.mode` = `publisher-hotlink` (default), `generated`, or `publisher-download`. Download mode copies copyrighted photos into a public repo, so enable it only if you hold the rights. To add images to an existing edition, run `python scripts/generate-news.py --refresh-images DATE`, or use **Run workflow** with `refresh_images_date`.
 - **Version history:** `assets/releases.json` is shown in the app's About sheet. Add an entry for every release.

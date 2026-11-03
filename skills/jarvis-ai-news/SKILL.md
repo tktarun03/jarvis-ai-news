@@ -152,6 +152,11 @@ To find broken feeds, look at `feeds.failed` in the latest `data/DATE.json`. Eac
    - `role: primary`: used for every story.
 
    They need the `PIXABAY_API_KEY` Actions secret. Photos are downloaded to `assets/images/stock/pixabay-<id>.jpg` and reused across editions; queries are cached for 24 hours in `data/stock-library.json`. `--refresh-images DATE` also fills stock photos. Never change the queries to include company, product or person names, and never remove the "Illustrative" credit.
+6. **AI-generated images** are set in `config.json` → `images.ai`, and tried first by default (`images.fallback_order`: `["ai", "stock"]`). They need the `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` Actions secrets, and run on Cloudflare's free daily allowance.
+   - To add a scene, add an entry to `SCENES` in `scripts/jarvis/aiimages.py`: a generic place or object, with no people and no brands. The concept key must match a query produced by `stock.queries_for`.
+   - Never pass story text or names into a prompt; the validator will reject it.
+   - Images are reused per concept (up to `max_variants_per_concept`), so most days generate nothing new.
+   - `--refresh-images DATE` also fills AI images for an existing edition.
 
 ## Procedure 9: Ship an app release
 

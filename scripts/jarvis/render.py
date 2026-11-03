@@ -278,7 +278,7 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
         <p class="empty" id="mine-empty" hidden>None of today’s stories match your topics. Edit them in Profile.</p>
 
         <footer class="sig">{signature}
-          <p class="fine">Summaries are written only from each publisher's own text and checked against it; open the source before relying on a story. Images are the publisher's own (credited), or royalty-free photos from Pixabay marked “Illustrative”, which are not of the event; JARVIS covers stand in otherwise.</p>
+          <p class="fine">Summaries are written only from each publisher's own text and checked against it; open the source before relying on a story. Images are the publisher's own (credited); otherwise an AI-generated generic scene or a Pixabay photo, each labelled as not from the event; JARVIS covers stand in when neither is available.</p>
           <p class="fine mono-line">v{ASSET_VERSION} · Generated {escape(gen_local)} Doha · {escape(", ".join(f"{v} {k}" for k, v in sorted(mode_counts.items())) or "no stories")}</p>
         </footer>
       </div>

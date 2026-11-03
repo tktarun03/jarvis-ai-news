@@ -1,6 +1,16 @@
 {
-  "current": "1.5.0",
+  "current": "1.5.1",
   "releases": [
+    {
+      "version": "1.5.1",
+      "date": "2026-11-03",
+      "name": "AI scenes",
+      "notes": [
+        "Stories without a publisher photo now get an AI-generated photorealistic scene (no people, logos or text), labelled “AI-generated · not from the event”.",
+        "Scenes come from a fixed table of generic prompts and are reused across days to keep the site small; Pixabay photos remain the backup.",
+        "Needs the CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN secrets; free Cloudflare Workers AI allowance."
+      ]
+    },
     {
       "version": "1.5.0",
       "date": "2026-11-03",
