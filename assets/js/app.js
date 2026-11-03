@@ -44,25 +44,6 @@
   }
   function fmtDuration(mins) { var h = Math.floor(mins / 60), m = mins % 60; return (h ? h + 'h ' : '') + m + 'm'; }
 
-  /* ---------- initialising screen ---------- */
-  (function boot() {
-    var el = $('#boot');
-    if (!el) return;
-    if (document.documentElement.classList.contains('booted') || reduced) { el.remove(); return; }
-    var lines = $$('#boot-log li'), i = 0, done = false;
-    function finish() {
-      if (done) return; done = true;
-      try { sessionStorage.setItem('jarvis_booted', '1'); } catch (e) { }
-      el.classList.add('out'); setTimeout(function () { el.remove(); }, 520);
-    }
-    var tick = setInterval(function () {
-      if (i < lines.length) { lines[i].classList.add('on'); i++; }
-      else { clearInterval(tick); setTimeout(finish, 260); }
-    }, 300);
-    el.addEventListener('click', finish);
-    setTimeout(finish, 4000); // never stick
-  })();
-
   /* ---------- toast ---------- */
   var toastEl = $('#toast'), toastT;
   function toast(msg, action) {
@@ -75,22 +56,21 @@
   /* ---------- header: condense on scroll, greeting ---------- */
   var scroller = $('#scroller'), top = $('#top');
   scroller.addEventListener('scroll', function () { top.classList.toggle('condensed', scroller.scrollTop > 24); }, { passive: true });
-  (function greet() {
-    var g = $('#greet'); if (!g || !ED.edition_date) return;
-    var latest = DATA.latest === ED.edition_date;
-    var h = zoneParts(new Date()).h;
-    var hello = h < 5 ? 'Good night' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-    if (latest) g.textContent = hello + ' · ' + g.textContent;
-  })();
-
-  /* ---------- theme: auto -> light -> dark ---------- */
-  var root = document.documentElement;
-  $('#theme-btn').addEventListener('click', function () {
-    var cur = root.getAttribute('data-theme') || 'auto';
-    var next = cur === 'auto' ? 'light' : cur === 'light' ? 'dark' : 'auto';
-    if (next === 'auto') { root.removeAttribute('data-theme'); try { localStorage.removeItem('jarvis_theme'); } catch (e) { } }
-    else { root.setAttribute('data-theme', next); try { localStorage.setItem('jarvis_theme', next); } catch (e) { } }
-    toast('Theme: ' + (next === 'auto' ? 'match device' : next === 'light' ? 'light' : 'dark'));
+  /* Light by default; dark is an explicit, remembered choice. */
+  var root = document.documentElement, themeBtn = $('#theme-btn');
+  function syncTheme() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    themeBtn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    themeBtn.title = dark ? 'Switch to light theme' : 'Switch to dark theme';
+    document.querySelector('meta[name="theme-color"]').content = dark ? '#111211' : '#F8F9F6';
+  }
+  syncTheme();
+  themeBtn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('jarvis_theme_v2', next); } catch (e) { }
+    syncTheme();
+    toast('Theme: ' + next);
   });
 
   /* ---------- relative times (fresh editions, last 24h only) ---------- */

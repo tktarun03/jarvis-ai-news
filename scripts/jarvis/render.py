@@ -157,19 +157,18 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
     num = f"{edition['edition_number']:03d}"
 
     return f"""<!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{escape(title)}</title>
+<meta name="theme-color" content="#F8F9F6">
 <meta name="description" content="{escape(desc)}">
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{escape(title)}">
 <meta property="og:description" content="{escape(desc)}">
 <meta property="og:image" content="{site['base_url']}assets/images/brand/og.png">
-<meta name="theme-color" content="#FAFAF8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111211" media="(prefers-color-scheme: dark)">
 <meta name="generator" content="JARVIS AI NEWS {ASSET_VERSION}">
 <meta name="author" content="{escape(site['publisher'])}">
 <link rel="icon" href="{base}assets/images/brand/favicon.svg" type="image/svg+xml">
@@ -178,22 +177,9 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&amp;family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="{base}assets/css/app.css?v={ASSET_VERSION}">
-<script>try{{var t=localStorage.getItem('jarvis_theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);if(sessionStorage.getItem('jarvis_booted')==='1')document.documentElement.classList.add('booted');}}catch(e){{}}</script>
+<script>try{{var t=localStorage.getItem('jarvis_theme_v2');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');}}catch(e){{}}</script>
 </head>
 <body>
-<div class="boot" id="boot" role="status" aria-label="Initialising JARVIS">
-  <div class="boot-in">
-    <div class="boot-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-track" cx="60" cy="60" r="54"/><circle class="ring-fill" cx="60" cy="60" r="54"/></svg>{MARK_SVG}</div>
-    <p class="boot-name">JARVIS</p>
-    <p class="boot-sub">AI NEWS · Nº {num}</p>
-    <ol class="boot-log" id="boot-log">
-      <li>Initialising JARVIS v{ASSET_VERSION}</li>
-      <li>Loading edition Nº {num} · {escape(long_date(date))}</li>
-      <li>{total} stories · {checked} source checks passed</li>
-      <li>Ready</li>
-    </ol>
-  </div>
-</div>
 <div class="app" id="app">
   <div class="scroller" id="scroller">
     <header class="top" id="top">
@@ -207,16 +193,15 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
     </header>
     <main class="col">
       <section class="masthead" data-pane="news">
-        <p class="eyebrow" id="greet">Nº {num} · {escape(long_date(date))}</p>
-        <h1 class="mast-logo">JARVIS<span class="edition-dot" aria-hidden="true">.</span><span class="sr-only"> AI News</span></h1>
-        <div class="mast-deck"><p>Artificial intelligence.<br class="mobile-break"> A clearer perspective.</p><span class="edition-label">THE DAILY AI EDITION</span></div>
+        <p class="eyebrow">Nº {num} · {escape(long_date(date))}</p>
+        <h1 class="mast-logo">A little clarity.<br><em>A world of AI.</em></h1>
+        <div class="mast-deck"><p>Your daily perspective on artificial intelligence, from around the world and India.</p></div>
         <div class="stats">
           <div class="stat"><span class="num">{total}</span><span class="stat-lbl">verified stories</span></div>
           <div class="stat"><span class="num">{len(g)}</span><span class="stat-lbl">Global</span></div>
           <div class="stat"><span class="num">{len(i)}</span><span class="stat-lbl">India</span></div>
         </div>
         <p class="fine window-note"><span class="live-dot"></span>{escape(window_note)}</p>
-        {sample_note}
       </section>
 
       <nav class="chips" id="chips" aria-label="Filter by category" data-pane="news">{''.join(chips)}</nav>
