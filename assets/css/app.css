@@ -1,7 +1,7 @@
 /* JARVIS AI NEWS · v1.2 Editorial. Newspaper-inspired hierarchy, paper surfaces,
    bold masthead, hairline rules and a restrained vermilion accent. */
 :root {
-  --bg: #F8F9F6;
+  --bg: #F0F4FC;
   --bg-glow: rgba(176, 138, 72, 0.10);
   --surface: #FFFFFF;
   --surface-2: #F0F0EC;
@@ -11,9 +11,9 @@
   --faint: #8B9088;
   --line: #E1E3DD;
   --line-strong: #C3C7BE;
-  --accent: #496554;
-  --accent-2: #496554;
-  --accent-soft: #EAF0E8;
+  --accent: #194BDD;
+  --accent-2: #194BDD;
+  --accent-soft: #DEE8FF;
   --on-ink: #FFFFFF;
   --good: #2E7D57;
   --glass: rgba(250, 247, 242, 0.84);
@@ -21,7 +21,7 @@
   --scrim: rgba(18, 14, 9, 0.42);
   --shadow: 0 24px 60px rgba(40, 30, 15, 0.16);
   --shadow-soft: 0 10px 30px rgba(40, 30, 15, 0.08);
-  --f-display: 'Fraunces', Georgia, serif;
+  --f-display: 'Hanken Grotesk', Arial, sans-serif;
   --f-body: 'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
   --f-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
   --colmax: 640px;
@@ -299,7 +299,7 @@ em { font-style: italic; }
 }
 
 
-/* Quiet editorial layout */
+/* Pearl Glass layout */
 body { background: var(--bg); }
 .top, .top.condensed { background: var(--bg); border-bottom: 1px solid var(--line); }
 .top { min-height: 72px; }
@@ -386,3 +386,53 @@ body { background: var(--bg); }
   .thumb { width: 100px; height: 100px; }
   .sheet { border-radius: 24px; }
 }
+
+/* Translucent pearl surfaces and briefing controls. */
+:root { --glass: rgba(255,255,255,.65); --glass-line: rgba(255,255,255,.95); --ink: #101D3C; --ink-2: #344766; --muted: #53627C; --line: #D4DDED; --shadow-soft: 0 12px 36px #2E508114; }
+:root[data-theme="dark"] { --glass: rgba(23,34,57,.82); --glass-line: #41516C; --ink: #EEF3FF; --ink-2: #CEDAF0; --muted: #A4B4CF; --line: #354660; --accent: #A9C2FF; --accent-soft: #263C65; --bg: #0C1425; --surface: #142039; --surface-2: #223450; }
+body { background: radial-gradient(ellipse at 80% 10%, #9ACFFF66, transparent 48%), radial-gradient(ellipse at 5% 80%, #BDC9FF55, transparent 50%), var(--bg); }
+.top, .top.condensed { background: var(--glass); border-color: var(--glass-line); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+.brand-sub { display: block; font-size: 8px; letter-spacing: .22em; color: var(--muted); }
+.brand-name { gap: 2px; flex-direction: column; line-height: 1.2; }
+.col { padding-top: 24px; gap: 22px; }
+.masthead { gap: 10px; }
+.mast-logo { font: 650 30px/1.12 var(--f-body); letter-spacing: -.045em; }
+.mast-deck { font-size: 14px; }
+.brief-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.brief-button, .region-switch button { min-height: 44px; padding: 0 16px; border: 1px solid var(--glass-line); border-radius: 24px; background: var(--glass); color: var(--ink); font-size: 13px; font-weight: 600; cursor: pointer; }
+.brief-button.primary { background: #194BDD; color: white; border-color: #3768F5; }
+.brief-button:disabled { opacity: .6; cursor: default; }
+.brief-status { font-size: 12px; color: var(--muted); }
+.update-banner { background: var(--glass); padding: 14px 18px; border-radius: 18px; border: 1px solid var(--glass-line); font-size: 13px; }
+.update-banner a { font-weight: 700; color: var(--accent); margin-left: 8px; }
+.region-switch { display: flex; align-self: center; padding: 4px; border: 1px solid var(--glass-line); background: var(--glass); border-radius: 32px; gap: 4px; }
+.region-switch button { min-width: 88px; border: 0; background: transparent; }
+.region-switch button[aria-pressed="true"] { background: linear-gradient(135deg,#497AFF,#0A3DED); color: white; box-shadow: inset 0 1px 2px #FFFFFF80,0 4px 12px #194BDD30; }
+.chip { background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(16px); }
+.chip[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--glass-line); }
+.stories { gap: 14px; }
+.story.hero, .story.row { background: var(--glass); border: 1px solid var(--glass-line); box-shadow: var(--shadow-soft); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 26px; }
+.story.hero { padding: 10px; margin-bottom: 0; }
+.hero-media { border-radius: 18px; }
+.story.hero .hero-body { padding: 18px 10px 14px; gap: 12px; }
+.hero-title { font: 650 clamp(25px,6.5vw,34px)/1.15 var(--f-body); letter-spacing: -.04em; }
+.hero-sum { -webkit-line-clamp: 2; }
+.story.row { padding: 14px; grid-template-columns: 86px minmax(0,1fr); gap: 14px; }
+.row-text { grid-column: 2; grid-row: 1; }
+.thumb { grid-column: 1; grid-row: 1; width: 86px; height: 100px; border-radius: 16px; }
+.story-title { font: 650 18px/1.25 var(--f-body); letter-spacing: -.025em; }
+.story-sum { display: none; }
+.sec-title { font: 600 20px var(--f-body); }
+.tabbar { background: linear-gradient(transparent,var(--bg)); }
+.tabbar-inner { background: var(--glass); border: 1px solid var(--glass-line); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); box-shadow: var(--shadow-soft); border-radius: 32px; }
+.tab { border-radius: 26px; }
+.tab[aria-pressed="true"] { background: var(--accent-soft); }
+.push-settings { background: var(--glass); border: 1px solid var(--glass-line); border-radius: 20px; padding: 16px; }
+.push-settings summary { min-height: 40px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.push-settings p { font-size: 12px; margin-bottom: 12px; color: var(--muted); }
+.sheet-title { font-weight: 600; }
+@media(min-width:760px) { .col { padding-top: 32px; gap: 26px; } .mast-logo { font-size: 36px; } .region-switch { align-self: flex-start; } .story.row { grid-template-columns: 100px minmax(0,1fr); } .thumb { width: 100px; height: 100px; } }
+@supports not (backdrop-filter: blur(1px)) { .story.hero,.story.row,.top,.tabbar-inner { background: var(--surface); } }
+
+.tab[data-tab="global"], .tab[data-tab="india"] { display: none; }
+.tabbar-inner { grid-template-columns: repeat(3,1fr); }

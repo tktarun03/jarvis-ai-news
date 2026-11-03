@@ -25,6 +25,7 @@ class PipelineTest(unittest.TestCase):
         self.root = Path(tempfile.mkdtemp(prefix="jarvis-test-"))
         for sub in ("assets/css", "assets/js", "assets/images/brand"):
             shutil.copytree(REPO / sub, self.root / sub)
+        shutil.copy(REPO / "manifest.webmanifest", self.root / "manifest.webmanifest")
         save_json(self.root / "data" / "seen.json", {
             "urls": {"https://medianama.com/2026/11/223-telcos-third-party-trais-anthropic": "2026-11-02"}, "titles": {}})
         self.cfg, self.sources = load_config(REPO), load_sources(REPO)
@@ -107,6 +108,7 @@ class ImageModeTest(unittest.TestCase):
         try:
             for sub in ("assets/css", "assets/js", "assets/images/brand"):
                 shutil.copytree(REPO / sub, root / sub)
+            shutil.copy(REPO / "manifest.webmanifest", root / "manifest.webmanifest")
             cfg = json.loads(json.dumps(load_config(REPO)))
             cfg["images"]["mode"] = "publisher-download"
             ed = run_daily(root, cfg, load_sources(REPO), NOW, fixtures=FIXTURES, log_fn=lambda *_: None)
@@ -138,3 +140,4 @@ class GroundingTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

@@ -62,7 +62,7 @@
     var dark = root.getAttribute('data-theme') === 'dark';
     themeBtn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
     themeBtn.title = dark ? 'Switch to light theme' : 'Switch to dark theme';
-    document.querySelector('meta[name="theme-color"]').content = dark ? '#111211' : '#F8F9F6';
+    document.querySelector('meta[name="theme-color"]').content = dark ? '#111211' : '#F0F4FC';
   }
   syncTheme();
   themeBtn.addEventListener('click', function () {
@@ -86,32 +86,20 @@
   }
   relTimes();
 
-  /* ---------- refresh: look for a newer edition ---------- */
+  /* Refresh reloads the interface and latest news, even when the edition is unchanged. */
   var refreshBtn = $('#refresh-btn');
   refreshBtn.addEventListener('click', function () {
-    if (refreshBtn.classList.contains('spin')) return;
-    refreshBtn.classList.add('spin');
-    var started = Date.now();
-    fetch(BASE + 'data/index.json?t=' + started, { cache: 'no-store' })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (idx) {
-        var latest = idx.latest, onHome = !/\/news\/\d{4}-\d{2}-\d{2}\.html$/.test(location.pathname);
-        var wait = Math.max(0, 650 - (Date.now() - started));
-        setTimeout(function () {
-          refreshBtn.classList.remove('spin');
-          renderArchive(idx);
-          relTimes();
-          if (latest && latest > ED.edition_date) {
-            if (onHome) { toast('New edition found. Loading…'); setTimeout(function () { location.replace(location.pathname + '?v=' + latest); }, 700); }
-            else toast('A newer edition is out (' + latest + ')', { label: 'Open', href: BASE + 'news/' + latest + '.html' });
-          } else if (latest === ED.edition_date) {
-            toast('Up to date. Next edition in ' + fmtDuration(minutesToNextEdition()) + ' (' + (SCHED.local_time || '07:30') + ' Doha)');
-          } else {
-            toast('This is an archived edition', { label: 'Latest', href: BASE + 'index.html' });
-          }
-        }, wait);
+    if (refreshBtn.disabled) return;
+    refreshBtn.disabled = true; refreshBtn.classList.add('spin');
+    fetch(BASE + 'data/index.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error('offline'); return r.json(); })
+      .then(function () {
+        try { sessionStorage.removeItem('jarvis_tab'); } catch (e) { }
+        var target = new URL(BASE + 'index.html', location.href);
+        target.searchParams.set('refresh', Date.now());
+        location.replace(target.href);
       })
-      .catch(function () { refreshBtn.classList.remove('spin'); toast('Offline. Showing the edition saved in this page.'); });
+      .catch(function () { refreshBtn.disabled = false; refreshBtn.classList.remove('spin'); toast('Could not refresh. Check your connection and try again.'); });
   });
 
   /* ---------- tabs and category filter ---------- */
@@ -140,12 +128,14 @@
     b.addEventListener('click', function () {
       state.tab = b.getAttribute('data-tab');
       $$('.tab').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      $$('[data-region-tab]').forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.regionTab === state.tab)); });
       if (state.tab === 'saved') renderSaved();
       applyFilter();
       scroller.scrollTo({ top: 0 });
       try { sessionStorage.setItem('jarvis_tab', state.tab); } catch (e) { }
     });
   });
+  $$('[data-region-tab]').forEach(function (b) { b.addEventListener('click', function () { $('.tab[data-tab="' + b.dataset.regionTab + '"]').click(); }); });
   $$('.chip').forEach(function (c) {
     c.addEventListener('click', function () {
       state.cat = c.getAttribute('data-cat');

@@ -162,7 +162,9 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{escape(title)}</title>
-<meta name="theme-color" content="#F8F9F6">
+<meta name="theme-color" content="#F0F4FC">
+<link rel="manifest" href="{base}manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="description" content="{escape(desc)}">
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="website">
@@ -186,7 +188,7 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
       <a class="brand" href="{base}index.html" aria-label="{escape(site['name'])} home">{MARK_SVG}<span class="brand-name">JARVIS<span class="brand-sub">AI NEWS</span></span></a>
       <span class="top-date" aria-hidden="true">Nº {num} · {datetime.strptime(date, "%Y-%m-%d").strftime("%d %b")}</span>
       <div class="head-actions">
-        <button class="icon-btn" type="button" id="refresh-btn" aria-label="Check for a newer edition" title="Refresh">{icon('refresh')}</button>
+        <button class="icon-btn" type="button" id="refresh-btn" aria-label="Refresh page and news" title="Refresh page and news">{icon('refresh')}</button>
         <button class="icon-btn" type="button" id="about-btn" aria-label="About and version history" title="About">{icon('about')}</button>
         <button class="icon-btn" type="button" id="theme-btn" aria-label="Change theme" title="Theme">{icon('theme')}</button>
       </div>
@@ -194,8 +196,14 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
     <main class="col">
       <section class="masthead" data-pane="news">
         <p class="eyebrow">Nº {num} · {escape(long_date(date))}</p>
-        <h1 class="mast-logo">A little clarity.<br><em>A world of AI.</em></h1>
-        <div class="mast-deck"><p>Your daily perspective on artificial intelligence, from around the world and India.</p></div>
+        <h1 class="mast-logo" id="brief-title">Your AI brief</h1>
+        <div class="mast-deck"><p id="brief-greeting">Here’s your verified AI update for {escape(long_date(date))}.</p></div>
+        <div class="brief-actions">
+          <button class="brief-button primary" id="listen-btn" type="button" disabled>Listen to brief</button>
+          <button class="brief-button" id="pause-btn" type="button" hidden>Pause</button>
+          <button class="brief-button" id="stop-btn" type="button" hidden>Stop</button>
+        </div>
+        <p class="brief-status" id="voice-status" role="status">Enable JavaScript to listen.</p>
         <div class="stats">
           <div class="stat"><span class="num">{total}</span><span class="stat-lbl">verified stories</span></div>
           <div class="stat"><span class="num">{len(g)}</span><span class="stat-lbl">Global</span></div>
@@ -204,6 +212,12 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
         <p class="fine window-note"><span class="live-dot"></span>{escape(window_note)}</p>
       </section>
 
+      <aside class="update-banner" id="news-update" role="status" hidden></aside>
+      <nav class="region-switch" aria-label="News region" data-pane="news">
+        <button type="button" data-region-tab="today" aria-pressed="true">All</button>
+        <button type="button" data-region-tab="global" aria-pressed="false">Global</button>
+        <button type="button" data-region-tab="india" aria-pressed="false">India</button>
+      </nav>
       <nav class="chips" id="chips" aria-label="Filter by category" data-pane="news">{''.join(chips)}</nav>
 
       <div class="regions" data-pane="news">
@@ -224,6 +238,12 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
         <div class="card tight archive" id="archive-list">{archive_rows}</div>
       </section>
 
+      <details class="push-settings" id="push-settings">
+        <summary>News notifications</summary>
+        <p id="push-status" role="status">Notification setup is being checked.</p>
+        <p>On iPhone or iPad, add JARVIS to your Home Screen, open it there, then enable notifications. Alerts are delivered by OneSignal after you opt in.</p>
+        <button class="brief-button" id="push-btn" type="button" disabled>Enable notifications</button>
+      </details>
       <footer class="sig">
         <div class="footer-wordmark" aria-hidden="true">JARVIS<span>.</span></div>
         <p class="sig-line">{escape(site['signature'])}</p>
@@ -240,6 +260,7 @@ def render_edition(edition: dict, editions_index: list[dict], cfg: dict, zone, b
 <noscript><style>.boot{{display:none}}</style></noscript>
 <script type="application/json" id="edition-data">{data_json}</script>
 <script src="{base}assets/js/app.js?v={ASSET_VERSION}" defer></script>
+<script src="{base}assets/js/brief.js?v={ASSET_VERSION}" defer></script>
 </body>
 </html>
 """

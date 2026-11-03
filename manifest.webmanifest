@@ -1,0 +1,11 @@
+{
+  "id": "./",
+  "name": "JARVIS AI NEWS",
+  "short_name": "JARVIS",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F0F4FC",
+  "theme_color": "#F0F4FC",
+  "icons": [{"src":"assets/images/brand/apple-touch-icon.png","sizes":"180x180","type":"image/png","purpose":"any"}]
+}
