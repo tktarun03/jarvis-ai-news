@@ -1,8 +1,20 @@
 {
   "schema_version": 1,
-  "latest": "2026-11-03",
-  "updated_at": "2026-11-03T05:00:19Z",
+  "latest": "2026-11-04",
+  "updated_at": "2026-11-04T04:34:55Z",
   "editions": [
+    {
+      "date": "2026-11-04",
+      "number": 3,
+      "counts": {
+        "global": 2,
+        "india": 1
+      },
+      "top_headline": "OpenAI staff raised security concerns for years, Reuters reports",
+      "html": "news/2026-11-04.html",
+      "json": "data/2026-11-04.json",
+      "generated_at": "2026-11-04T04:34:55Z"
+    },
     {
       "date": "2026-11-03",
       "number": 2,

@@ -1,0 +1,165 @@
+{
+  "edition_date": "2026-11-04",
+  "edition_type": "curated",
+  "window": {
+    "start": "2026-11-03T04:30:00Z",
+    "end": "2026-11-04T04:30:00Z"
+  },
+  "stories": {
+    "global": [
+      {
+        "headline": "OpenAI staff raised security concerns for years, Reuters reports",
+        "source_title": "OpenAI employees warned about operational security lapses for years, sources say",
+        "source_name": "Reuters",
+        "url": "https://www.reuters.com/business/openai-employees-warned-about-operational-security-lapses-years-sources-say-2026-11-03/",
+        "published_at": "2026-11-03T18:56:00Z",
+        "category": "safety",
+        "summary": "Reuters reports that employees repeatedly warned OpenAI leaders about internal security weaknesses, citing people familiar with the concerns. OpenAI says it invests heavily in protection, restricts sensitive work and now regularly reviews internal tools.",
+        "tags": [
+          "openai",
+          "security"
+        ],
+        "checks": [
+          "publisher page opened and read",
+          "publication timestamp confirmed on Reuters page: November 3, 2026 6:56 PM UTC",
+          "allegations attributed to Reuters sources; company response included"
+        ],
+        "published_precision": "time",
+        "trust": 3,
+        "key_insights": [],
+        "impact": null,
+        "corroboration": []
+      },
+      {
+        "headline": "EU court adviser questions Gemini's reuse of news articles",
+        "source_title": "Setback for Google as EU court adviser warns AI chatbot may breach copyright rules",
+        "source_name": "Reuters",
+        "url": "https://www.reuters.com/world/googles-use-press-by-ai-chatbot-may-infringe-copyright-rules-eu-court-adviser-2026-11-03/",
+        "published_at": "2026-11-03T09:19:00Z",
+        "category": "policy",
+        "summary": "An EU court adviser said Gemini may infringe publishers' rights when its answers recognisably reuse their expression. The opinion is non-binding, with a judgment still pending; Google highlighted the adviser's support for the text-and-data-mining exception.",
+        "tags": [
+          "google",
+          "copyright"
+        ],
+        "checks": [
+          "publisher page opened and read",
+          "publication timestamp confirmed on Reuters page: November 3, 2026 9:19 AM UTC",
+          "non-binding opinion distinguished from final court judgment"
+        ],
+        "published_precision": "time",
+        "trust": 3,
+        "key_insights": [],
+        "impact": null,
+        "corroboration": []
+      }
+    ],
+    "india": [
+      {
+        "headline": "Soket Labs and ZenteiQ unveil models under IndiaAI Mission",
+        "source_title": "Soket Labs, ZenteiQ launch indigenous foundation models under IndiaAI Mission",
+        "source_name": "The Economic Times",
+        "url": "https://economictimes.indiatimes.com/ai/ai-insights/soket-labs-zenteiq-launch-indigenous-foundation-models-under-indiaai-mission/articleshow/135502992.cms",
+        "published_at": "2026-11-03T14:30:00Z",
+        "category": "products",
+        "summary": "Soket Labs and ZenteiQ launched foundation models under the IndiaAI Mission. The models unveiled include Soket's EKA-1 and ZenteiQ's Dhir 2B and Dhir 5B, at an event attended by MeitY Secretary S Krishnan.",
+        "tags": [
+          "indiaai",
+          "models"
+        ],
+        "checks": [
+          "publisher page opened and read",
+          "publisher HTML datePublished verified as 2026-11-03T20:00:00+05:30; page updated at 23:08 IST",
+          "model names and launch participants confirmed in article body"
+        ],
+        "published_precision": "time",
+        "trust": 3,
+        "key_insights": [],
+        "impact": null,
+        "corroboration": []
+      }
+    ]
+  },
+  "rejected": [
+    {
+      "title": "Anthropic FlashProve identity system",
+      "reason": "Duplicate: underlying announcement already covered in the 2026-11-03 edition."
+    },
+    {
+      "title": "Anthropic is still grappling with the economics of compute",
+      "reason": "Duplicate: analysis of financial results already covered in the 2026-11-02 edition."
+    },
+    {
+      "title": "Anthropic warns it is close to recursive self-improvement",
+      "reason": "Stale: November 2 publication predates the window."
+    },
+    {
+      "title": "Google expands Dreambeans to India",
+      "reason": "Duplicate: India launch already covered in the 2026-11-03 edition; AI Insider is also outside configured trusted domains."
+    },
+    {
+      "title": "AI Report model-launch claims",
+      "reason": "Unverifiable: aggregator claims not confirmed on a trusted publisher's own article."
+    },
+    {
+      "title": "The Neuron daily AI roundup",
+      "reason": "Unverifiable: aggregator and mismatched date/URL; underlying claims not independently confirmed."
+    },
+    {
+      "title": "Saudi Aramco takes 49% stake in Humain",
+      "reason": "Stale: ET page dated November 1, 2026."
+    },
+    {
+      "title": "AI malware warning for UK infrastructure",
+      "reason": "Stale: Guardian first publication November 3 at 00:01 GMT, before window start."
+    },
+    {
+      "title": "AI investment is becoming overly concentrated, Chinese official says",
+      "reason": "Stale: Reuters publication November 3 at 02:28 UTC, before window start."
+    },
+    {
+      "title": "Nvidia orders data-centre clients to reduce China exposure",
+      "reason": "Unverifiable: Reuters attributes report to FT and says it could not independently verify it; original report not verified."
+    },
+    {
+      "title": "ADNOC, G42 and OpenAI partnership",
+      "reason": "Duplicate and stale: covered in the 2026-11-02 edition."
+    },
+    {
+      "title": "India becomes ChatGPT's largest market",
+      "reason": "Duplicate: covered in the 2026-11-03 edition."
+    },
+    {
+      "title": "30 startups to watch in October 2026",
+      "reason": "Stale: retrospective October roundup, not a verified new development in this window."
+    },
+    {
+      "title": "Designing responsible AI for learning",
+      "reason": "Inaccessible: Google publisher page could not be opened; date-only November 3 cannot establish inclusion under the configured date-precision rule."
+    },
+    {
+      "title": "Google adds school AI controls — Guardian coverage",
+      "reason": "Verification incomplete: original Google page inaccessible; omitted rather than relying on limited secondary access."
+    },
+    {
+      "title": "AI transforms semiconductor fabs",
+      "reason": "Date unverifiable within window: NVIDIA date-only November 3 gives no confirmed publication time; explanatory content rather than verified new announcement."
+    },
+    {
+      "title": "Cert-In gets Mythos access, being careful with testing",
+      "reason": "Verification incomplete: accessible ET text is truncated; metadata modification time is beyond the edition cutoff, so the pre-cutoff article version could not be confirmed."
+    },
+    {
+      "title": "TRAI allows AI agents in telecom customer support",
+      "reason": "Unverifiable: found through aggregator; original MediaNama page and publication time not verified."
+    },
+    {
+      "title": "Drax, Brookfield and Radiant AI data-centre partnership",
+      "reason": "Verification incomplete: no fully verified trusted-source article with sufficient accessible text selected; syndicated and date-only alternatives excluded."
+    },
+    {
+      "title": "AI timelines, education-benefits and AI workforce reports from other search results",
+      "reason": "Unverified candidates outside configured trusted sources; no original trusted publisher verification completed."
+    }
+  ]
+}
