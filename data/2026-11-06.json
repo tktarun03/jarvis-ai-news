@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "edition_date": "2026-11-06",
+  "edition_number": 5,
+  "edition_type": "curated",
+  "produced_by": {
+    "agent": "chatgpt",
+    "method": "hand-verified (curated)"
+  },
+  "timezone": "Asia/Qatar",
+  "generated_at": "2026-11-06T04:32:59Z",
+  "window": {
+    "start": "2026-11-05T04:30:00Z",
+    "end": "2026-11-06T04:30:00Z"
+  },
+  "publisher": {
+    "name": "Arunkumar Thamilarasu",
+    "signature": "Published by Arunkumar Thamilarasu",
+    "agent_credit": "JARVIS is an AI agent created by Arunkumar Thamilarasu."
+  },
+  "summarizer": {
+    "enabled": false,
+    "model": null
+  },
+  "counts": {
+    "global": 3,
+    "india": 1
+  },
+  "stories": {
+    "global": [
+      {
+        "id": "d7e9e3e89ee7",
+        "rank": 1,
+        "headline": "Google launches Gemini Omni 1.2 Flash with 15-second video generation",
+        "source_title": "Gemini Omni 1.2 Flash: Fast and cost-effective with longer clips",
+        "summary": "Google made Gemini Omni 1.2 Flash generally available through the Gemini API and Gemini for business, adding native video creation up to 15 seconds and conversational editing. Google says 720p generation now costs $0.07 per second, a 30% reduction from Omni 1.1.",
+        "key_insights": [],
+        "impact": null,
+        "category": "products",
+        "tags": [
+          "google",
+          "video"
+        ],
+        "source": {
+          "name": "Google",
+          "domain": "blog.google",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/",
+          "feed": null,
+          "trust": 3
+        },
+        "published_at": "2026-11-05T17:00:00Z",
+        "published_precision": "time",
+        "corroboration": [],
+        "summary_mode": "editor-verified",
+        "verification": {
+          "link_status": null,
+          "date_source": "editor",
+          "checks": [
+            "publisher page opened and read",
+            "publication timestamp confirmed: 2026-11-05T17:00:00Z",
+            "all stated facts and figures checked against publisher text",
+            "trusted domain and prior editions checked; no duplicate",
+            "publisher HTML datePublished is 2026-11-05T17:00:00+00:00; visible date November 5",
+            "publisher og:image copied directly from page metadata"
+          ]
+        },
+        "score": null,
+        "image": {
+          "type": "publisher",
+          "src": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-omni-1.2_FZLql41.width-1300.png",
+          "alt": "Image from Google for: Google launches Gemini Omni 1.2 Flash with 15-second video generation",
+          "credit": "Image: Google",
+          "credit_url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/",
+          "fallback": "assets/images/covers/2026-11-06/d7e9e3e89ee7.svg",
+          "original_url": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-omni-1.2_FZLql41.width-1300.png"
+        },
+        "region": "global"
+      },
+      {
+        "id": "714ba884ac09",
+        "rank": 2,
+        "headline": "METR estimates faster Anthropic model progress, with substantial uncertainty",
+        "source_title": "Anthropic's models improving nearly twice as fast with help from AI, study finds",
+        "summary": "METR estimates Anthropic's benchmark capabilities have improved about 1.9 times faster since October 2025 as AI contributes to development. The assessment carries high uncertainty and says AI cannot yet make major, fully autonomous contributions to the most important training stages.",
+        "key_insights": [],
+        "impact": null,
+        "category": "research",
+        "tags": [
+          "anthropic",
+          "evaluation"
+        ],
+        "source": {
+          "name": "Reuters",
+          "domain": "reuters.com",
+          "url": "https://www.reuters.com/technology/anthropics-models-improving-nearly-twice-fast-with-help-ai-study-finds-2026-11-05/",
+          "feed": null,
+          "trust": 3
+        },
+        "published_at": "2026-11-05T18:02:00Z",
+        "published_precision": "time",
+        "corroboration": [],
+        "summary_mode": "editor-verified",
+        "verification": {
+          "link_status": null,
+          "date_source": "editor",
+          "checks": [
+            "publisher page opened and read",
+            "publication timestamp confirmed: 2026-11-05T18:02:00Z",
+            "all stated facts and figures checked against publisher text",
+            "trusted domain and prior editions checked; no duplicate",
+            "new November 5 independent assessment, distinct from earlier Anthropic financial results"
+          ]
+        },
+        "score": null,
+        "image": {
+          "type": "generated",
+          "src": "assets/images/covers/2026-11-06/714ba884ac09.svg",
+          "alt": "Abstract models & research cover for: METR estimates faster Anthropic model progress, with substantial uncertainty",
+          "credit": "Original cover generated by JARVIS",
+          "fallback": "assets/images/covers/2026-11-06/714ba884ac09.svg"
+        },
+        "region": "global"
+      },
+      {
+        "id": "25f105c32c75",
+        "rank": 3,
+        "headline": "IREN delays Microsoft infrastructure deliveries and plans further spending",
+        "source_title": "AI data center firm IREN delays Microsoft AI deliveries, plans $15 billion spending push",
+        "summary": "IREN delayed some Microsoft infrastructure deliveries, saying customer-requested network changes meant no financial penalties. It also estimated about $15 billion in capital expenditure over the rest of its fiscal year as it expands its AI cloud business.",
+        "key_insights": [],
+        "impact": null,
+        "category": "infrastructure",
+        "tags": [
+          "iren",
+          "data-centres"
+        ],
+        "source": {
+          "name": "Reuters",
+          "domain": "reuters.com",
+          "url": "https://www.reuters.com/technology/neocloud-firm-iren-tops-quarterly-revenue-estimates-shares-jump-2026-11-05/",
+          "feed": null,
+          "trust": 3
+        },
+        "published_at": "2026-11-05T21:35:00Z",
+        "published_precision": "time",
+        "corroboration": [],
+        "summary_mode": "editor-verified",
+        "verification": {
+          "link_status": null,
+          "date_source": "editor",
+          "checks": [
+            "publisher page opened and read",
+            "publication timestamp confirmed: 2026-11-05T21:35:00Z",
+            "all stated facts and figures checked against publisher text",
+            "trusted domain and prior editions checked; no duplicate"
+          ]
+        },
+        "score": null,
+        "image": {
+          "type": "generated",
+          "src": "assets/images/covers/2026-11-06/25f105c32c75.svg",
+          "alt": "Abstract chips & infrastructure cover for: IREN delays Microsoft infrastructure deliveries and plans further spending",
+          "credit": "Original cover generated by JARVIS",
+          "fallback": "assets/images/covers/2026-11-06/25f105c32c75.svg"
+        },
+        "region": "global"
+      }
+    ],
+    "india": [
+      {
+        "id": "3800c517fa7d",
+        "rank": 1,
+        "headline": "Quess reports rising share of AI, data and security hiring in India's GCCs",
+        "source_title": "AI, data, cybersecurity lead tech hiring with 30.3% share in September quarter",
+        "summary": "A Quess report puts AI, data and cybersecurity at 30.3% of Indian global capability centres' technology hiring demand in July–September, up from 25.8% in the preceding quarter. It reports approximately 14% growth in demand for AI, data and analytics professionals, even as overall GCC tech hiring demand fell 3.5%.",
+        "key_insights": [],
+        "impact": null,
+        "category": "business",
+        "tags": [
+          "india",
+          "hiring"
+        ],
+        "source": {
+          "name": "The Economic Times",
+          "domain": "economictimes.indiatimes.com",
+          "url": "https://economictimes.indiatimes.com/jobs/fresher/ai-data-cybersecurity-lead-tech-hiring-with-30-3-share-in-september-quarter/articleshow/135569720.cms",
+          "feed": null,
+          "trust": 3
+        },
+        "published_at": "2026-11-05T10:38:00Z",
+        "published_precision": "time",
+        "corroboration": [],
+        "summary_mode": "editor-verified",
+        "verification": {
+          "link_status": null,
+          "date_source": "editor",
+          "checks": [
+            "publisher page opened and read",
+            "publication timestamp confirmed: 2026-11-05T10:38:00Z",
+            "all stated facts and figures checked against publisher text",
+            "trusted domain and prior editions checked; no duplicate",
+            "publisher AMP metadata datePublished and dateModified both 2026-11-05T16:08:00+05:30",
+            "desktop publisher page also opened; report statistics attributed to Quess rather than independently measured"
+          ]
+        },
+        "score": null,
+        "image": {
+          "type": "publisher",
+          "src": "https://img.etimg.com/thumb/msid-135569762,width-1200,height-900,imgsize-109722,overlay-etcareers/articleshow.jpg",
+          "alt": "Image from The Economic Times for: Quess reports rising share of AI, data and security hiring in India's GCCs",
+          "credit": "Image: The Economic Times",
+          "credit_url": "https://economictimes.indiatimes.com/jobs/fresher/ai-data-cybersecurity-lead-tech-hiring-with-30-3-share-in-september-quarter/articleshow/135569720.cms",
+          "fallback": "assets/images/covers/2026-11-06/3800c517fa7d.svg",
+          "original_url": "https://img.etimg.com/thumb/msid-135569762,width-1200,height-900,imgsize-109722,overlay-etcareers/articleshow.jpg"
+        },
+        "region": "india"
+      }
+    ]
+  },
+  "rejected": [
+    {
+      "title": "TeamLease AI placements report",
+      "reason": "Unverifiable: aggregator outside configured trusted sources; underlying report and figures not verified on an approved publisher page.",
+      "url": "https://www.multibagg.ai/market-pulse/articles/teamlease-ai-talent-shortfall-ppt-cmw3lz6ff00d5jk2rzy590jcf"
+    },
+    {
+      "title": "Tracxn launches AI tools and plans token upsells",
+      "reason": "Unverifiable: untrusted aggregator summarises a quarterly call; original announcement timing and claims not verified.",
+      "url": "https://www.multibagg.ai/market-pulse/articles/tracxn-ai-token-upsells-concall-cmw3kvln6006b2kqqsm8qxalw"
+    },
+    {
+      "title": "India flags Chinese-linked AI tools in attacks on financial firms",
+      "reason": "Overlapping follow-up to the financial-sector attack advisory covered November 5. Original CERT-In advisory timing and new attribution details were not independently verified; omitted to avoid repeating the incident.",
+      "url": "https://economictimes.indiatimes.com/tech/artificial-intelligence/india-flags-chinese-linked-ai-tools-in-hacking-campaign-against-financial-firms/articleshow/135566096.cms?from=mdr"
+    },
+    {
+      "title": "Entry norms for GPU bidders eased",
+      "reason": "Inaccessible/incomplete: publisher view truncates article and does not expose a publication timestamp; cannot establish window or verify full terms.",
+      "url": "https://economictimes.indiatimes.com/tech/artificial-intelligence/entry-norms-for-gpu-bidders-eased-but-price-pain-remains/articleshow/135547004.cms"
+    },
+    {
+      "title": "Formally verifying agent-written web apps with PDD Kit",
+      "reason": "Not eligible: exact publisher host is outside configured trusted domains; date-only November 5 also lacks a verified in-window timestamp.",
+      "url": "https://www.microsoft.com/en-us/research/blog/formally-verifying-agent-written-full-stack-web-apps-with-pdd-kit/"
+    },
+    {
+      "title": "NVIDIA Vera throughput and agent performance",
+      "reason": "Date unverifiable within window: date-only November 5 cannot establish inclusion under the repository's midnight-Doha rule; no publication time verified.",
+      "url": "https://blogs.nvidia.com/blog/vera-cpu-highest-throughput-fastest-agents/"
+    },
+    {
+      "title": "Detecting hypertension using wearable sensors",
+      "reason": "Not eligible: publisher host is outside configured trusted domains and no in-window publication timestamp verified.",
+      "url": "https://research.google/blog/detecting-signs-of-hypertension-using-wearable-sensors/"
+    },
+    {
+      "title": "Gemini Omni 1.2 Flash coverage on Shattered",
+      "reason": "Untrusted secondary domain; replaced with verified Google original, not a separate story.",
+      "url": "https://shattered.io/gemini-omni-1-2-flash-ga-15-second-video-0-07-per-second-2026/"
+    },
+    {
+      "title": "Gemini Omni 1.2 Flash coverage on Jetstream",
+      "reason": "Untrusted secondary domain; replaced with verified Google original, not a separate story.",
+      "url": "https://jetstream.blog/en/gemini-omni-1-2-flash/"
+    },
+    {
+      "title": "Gemini turns sketches into Canvas web apps",
+      "reason": "Unverifiable: secondary domain not configured trusted; no original dated announcement verified.",
+      "url": "https://jetstream.blog/en/gemini-sketch-to-web-app-canvas/"
+    },
+    {
+      "title": "Gemini insights in Google Forms",
+      "reason": "Stale rollout: page says Rapid Release began November 2; original post timestamp not verified, and host outside configured trusted domains.",
+      "url": "https://workspaceupdates.googleblog.com/"
+    },
+    {
+      "title": "Ripik.ai funding talks",
+      "reason": "Unconfirmed transaction: ET listing describes talks to raise funds, not a completed funding deal; no completed announcement verified."
+    },
+    {
+      "title": "ElevenMusic output publishing to SoundCloud",
+      "reason": "Unverifiable: only aggregator roundup inspected; original publisher article and date not verified.",
+      "url": "https://getyourbrief.com/ai"
+    }
+  ],
+  "feeds": {
+    "ok": [],
+    "failed": [],
+    "note": "hand-curated launch edition"
+  }
+}

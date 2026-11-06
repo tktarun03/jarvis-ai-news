@@ -1,8 +1,20 @@
 {
   "schema_version": 1,
-  "latest": "2026-11-05",
-  "updated_at": "2026-11-05T04:35:21Z",
+  "latest": "2026-11-06",
+  "updated_at": "2026-11-06T04:32:59Z",
   "editions": [
+    {
+      "date": "2026-11-06",
+      "number": 5,
+      "counts": {
+        "global": 3,
+        "india": 1
+      },
+      "top_headline": "Google launches Gemini Omni 1.2 Flash with 15-second video generation",
+      "html": "news/2026-11-06.html",
+      "json": "data/2026-11-06.json",
+      "generated_at": "2026-11-06T04:32:59Z"
+    },
     {
       "date": "2026-11-05",
       "number": 4,
